@@ -1,17 +1,78 @@
 -- phpMyAdmin SQL Dump
--- version 3.3.9
+-- version 4.0.4
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 08, 2014 at 09:07 AM
--- Server version: 5.5.8
--- PHP Version: 5.3.5
+-- Generation Time: Oct 08, 2014 at 10:50 AM
+-- Server version: 5.6.12-log
+-- PHP Version: 5.4.16
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `lead_generation`
 --
+CREATE DATABASE IF NOT EXISTS `lead_generation` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `lead_generation`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `email_list`
+--
+
+CREATE TABLE IF NOT EXISTS `email_list` (
+  `id` int(7) NOT NULL AUTO_INCREMENT,
+  `configuration_id` varchar(500) NOT NULL,
+  `email` varchar(250) NOT NULL,
+  `status` enum('0','1') NOT NULL DEFAULT '1' COMMENT '''0'' - deleted, ''1'' - active',
+  `selected_status` enum('0','1') NOT NULL DEFAULT '0' COMMENT '''0'' - notselected , ''1'' - selected',
+  `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `field_values`
+--
+
+CREATE TABLE IF NOT EXISTS `field_values` (
+  `id` int(7) NOT NULL AUTO_INCREMENT,
+  `field_id` int(7) NOT NULL,
+  `field_value_name` int(11) NOT NULL,
+  `value` varchar(50) NOT NULL,
+  `status` enum('0','1','2') NOT NULL DEFAULT '1' COMMENT '''0'' - inactive, ''1'' - active, ''2'' - deleted',
+  `selected_status` enum('0','1') NOT NULL DEFAULT '0' COMMENT '''0'' - not selected, ''1'' - selected',
+  `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `email_list`
+--
+
+CREATE TABLE IF NOT EXISTS `keyword` (
+  `id` int(7) NOT NULL AUTO_INCREMENT,
+  `configuration_id` varchar(500) NOT NULL,
+  `keyword` varchar(250) NOT NULL,
+  `status` enum('0','1') NOT NULL DEFAULT '1' COMMENT '''0'' - deleted, ''1'' - active',
+  `selected_status` enum('0','1') NOT NULL DEFAULT '0' COMMENT '''0'' - notselected , ''1'' - selected',
+  `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -23,13 +84,54 @@ CREATE TABLE IF NOT EXISTS `user` (
   `id` int(50) NOT NULL AUTO_INCREMENT,
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `email`, `password`) VALUES
-(1, 'himanshuarora.manit@gmail.com', 'e10adc3949ba59abbe56e057f20f883e');
+INSERT INTO `user` (`id`, `email`, `password`, `created_date`, `updated_date`) VALUES
+(1, 'himanshuarora.manit@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '2014-10-08 15:53:09', '2014-10-08 15:53:09'),
+(2, 'sai.rajesh@sourcebits.com', 'e10adc3949ba59abbe56e057f20f883e', '2014-10-08 15:53:09', '2014-10-08 15:53:09');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `webconfiguration`
+--
+
+CREATE TABLE IF NOT EXISTS `webconfiguration` (
+  `id` int(7) NOT NULL AUTO_INCREMENT,
+  `configuration_name` varchar(200) NOT NULL,
+  `configuration_url` varchar(250) NOT NULL,
+  `status` enum('0','1','2') NOT NULL DEFAULT '1' COMMENT '''0''-inactive, ''1'' - active, ''2'' - deleted',
+  `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `web_fields`
+--
+
+CREATE TABLE IF NOT EXISTS `web_fields` (
+  `id` int(7) NOT NULL AUTO_INCREMENT,
+  `configuration_id` int(7) NOT NULL,
+  `field_name` varchar(100) NOT NULL,
+  `field_type` enum('0','1','2') NOT NULL COMMENT '''0'' - input field, ''1'' - dropdown, ''2'' - checkbox',
+  `field_status` enum('0','1','2') NOT NULL COMMENT '''0'' - inactive, ''1'' - active, ''2'' - deleted',
+  `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
