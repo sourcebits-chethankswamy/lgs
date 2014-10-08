@@ -8,9 +8,9 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <link href="<?php echo site_url('/css/style.css');?>" rel="stylesheet">
-    <link href="<?php echo site_url('/css/bootstrap.min.css');?>" rel="stylesheet">
-    <link href="<?php echo site_url('/css/bootstrap-responsive.min.css');?>" rel="stylesheet">
+    <link href="<?php echo site_url('/assets/css/style.css');?>" rel="stylesheet">
+    <link href="<?php echo site_url('/assets/css/bootstrap.min.css');?>" rel="stylesheet">
+    <link href="<?php echo site_url('/assets/css/bootstrap-responsive.min.css');?>" rel="stylesheet">
     </head>
 <body>
 	

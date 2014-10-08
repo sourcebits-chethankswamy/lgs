@@ -146,3 +146,14 @@ RENAME TABLE `lead_generation`.`site` TO `lead_generation`.`sites_list`;
 RENAME TABLE `lead_generation`.`fields` TO `lead_generation`.`fields_list`;
 ALTER TABLE `field_list_values` CHANGE `field_value_name` `field_value_name` VARCHAR(200) NULL DEFAULT NULL;
 RENAME TABLE `lead_generation`.`field_list_values` TO `lead_generation`.`field_list_values`;
+
+
+CREATE TABLE IF NOT EXISTS  `ci_sessions` (
+	session_id varchar(40) DEFAULT '0' NOT NULL,
+	ip_address varchar(45) DEFAULT '0' NOT NULL,
+	user_agent varchar(120) NOT NULL,
+	last_activity int(10) unsigned DEFAULT 0 NOT NULL,
+	user_data text NOT NULL,
+	PRIMARY KEY (session_id),
+	KEY `last_activity_idx` (`last_activity`)
+);

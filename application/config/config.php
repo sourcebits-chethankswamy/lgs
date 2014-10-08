@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= '/';
+$config['base_url']	= '';
 
 /*
 |--------------------------------------------------------------------------
@@ -224,7 +224,7 @@ $config['cache_path'] = '';
 | MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = 'himanshu5544332211';
+$config['encryption_key'] = 'sourcebits5544332211';
 
 /*
 |--------------------------------------------------------------------------
@@ -244,11 +244,11 @@ $config['encryption_key'] = 'himanshu5544332211';
 | 'sess_time_to_update'		= how many seconds between CI refreshing Session Information
 |
 */
-$config['sess_cookie_name']		= 'ci_session';
+$config['sess_cookie_name']		= 'ci_sessions';
 $config['sess_expiration']		= 7200;
 $config['sess_expire_on_close']	= FALSE;
 $config['sess_encrypt_cookie']	= FALSE;
-$config['sess_use_database']	= FALSE;
+$config['sess_use_database']	= TRUE;
 $config['sess_table_name']		= 'ci_sessions';
 $config['sess_match_ip']		= FALSE;
 $config['sess_match_useragent']	= TRUE;
@@ -357,13 +357,21 @@ $config['rewrite_short_tags'] = FALSE;
 */
 $config['proxy_ips'] = '';
 
-/* ----Email configuration settings---- */
-$config['global_url'] = "http://www.globaltenders.com/search.php";
-$config['records_per_page_tests'] = 30;
-$config['email_host'] = 'ssl://smtp.googlemail.com';
-$config['email_port'] = 465;
-$config['email_username'] = '';
-$config['email_password'] = '';
-
+/*
+| -------------------------------------------------------------------
+|  Native Auto-load
+| -------------------------------------------------------------------
+| 
+| Nothing to do with cnfig/autoload.php, this allows PHP autoload to work
+| for base controllers and some third-party libraries.
+|
+*/
+function __autoload($class)
+{
+ if(strpos($class, 'CI_') !== 0)
+ {
+  @include_once( APPPATH . 'core/'. $class . EXT );
+ }
+}
 /* End of file config.php */
 /* Location: ./application/config/config.php */

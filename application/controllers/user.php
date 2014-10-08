@@ -23,26 +23,15 @@ class User extends CI_Controller {
      * @Param		:	none
      */
     public function index($error = '') {
-        $data['title'] = 'Home';
-        $data['error'] = $error;
-        $this->load->view('header');
-        $this->load->view("login.php", $data);
-        $this->load->view('footer');
-    }
-
-    /**
-     * @Access		:	public
-     * @Function	:	welcome
-     * @Description	:	Welcome page display
-     * @Param		:	none
-     */
-    public function welcome() {
-        $data['title'] = 'Home';
-        $this->load->view('header');
-        $this->load->view('navigation_header');
-        $this->load->view("dashboard.php", $data);
-        $this->load->view('navigation_footer');
-        $this->load->view('footer');
+        if ($this->session->userdata('logged_in') == 1) {
+            redirect('dashboard');
+        } else {
+            $data['title'] = 'Home';
+            $data['error'] = $error;
+            $this->load->view('header');
+            $this->load->view("login", $data);
+            $this->load->view('footer');
+        }
     }
 
     /**

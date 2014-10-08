@@ -9,7 +9,7 @@ if (!defined('BASEPATH'))
  * @Description: This class file holds the operations of user settings, configurations etc.
  * Created By: Himanshu Arora
  */
-class Email extends CI_Controller {
+class Email extends MY_Controller {
 
     public function __construct() {
         parent::__construct();
