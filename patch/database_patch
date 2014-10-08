@@ -1,0 +1,35 @@
+-- phpMyAdmin SQL Dump
+-- version 3.3.9
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Oct 08, 2014 at 09:07 AM
+-- Server version: 5.5.8
+-- PHP Version: 5.3.5
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+--
+-- Database: `lead_generation`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` int(50) NOT NULL AUTO_INCREMENT,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `email`, `password`) VALUES
+(1, 'himanshuarora.manit@gmail.com', 'e10adc3949ba59abbe56e057f20f883e');
+
