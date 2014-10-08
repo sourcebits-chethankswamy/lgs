@@ -135,3 +135,14 @@ CREATE TABLE IF NOT EXISTS `web_fields` (
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+
+RENAME TABLE `lead_generation`.`webconfiguration` TO `lead_generation`.`site`;
+RENAME TABLE `lead_generation`.`web_fields` TO `lead_generation`.`fields`;
+RENAME TABLE `lead_generation`.`keyword` TO `lead_generation`.`keywords_list`;
+RENAME TABLE `lead_generation`.`email_list` TO `lead_generation`.`emails_list`;
+RENAME TABLE `lead_generation`.`site` TO `lead_generation`.`sites_list`;
+RENAME TABLE `lead_generation`.`fields` TO `lead_generation`.`fields_list`;
+ALTER TABLE `field_list_values` CHANGE `field_value_name` `field_value_name` VARCHAR(200) NULL DEFAULT NULL;
+RENAME TABLE `lead_generation`.`field_list_values` TO `lead_generation`.`field_list_values`;

@@ -1,4 +1,8 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+
 /**
  * @File : keywords_model Model
  * @Class : Keywords
@@ -6,11 +10,11 @@
  * @Created By: Himanshu Arora
  */
 class Keywords_model extends CI_Model {
-    
-    public function __construct()
-    {
+
+    public function __construct() {
         parent::__construct();
     }
-	
+
 }
+
 ?>
