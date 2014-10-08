@@ -14,8 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost/lgs/';
-
+$config['base_url']	= '/';
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +26,7 @@ $config['base_url']	= 'http://localhost/lgs/';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = '';
+$config['index_page'] = 'index.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -358,6 +357,13 @@ $config['rewrite_short_tags'] = FALSE;
 */
 $config['proxy_ips'] = '';
 
+/* ----Email configuration settings---- */
+$config['global_url'] = "http://www.globaltenders.com/search.php";
+$config['records_per_page_tests'] = 30;
+$config['email_host'] = 'ssl://smtp.googlemail.com';
+$config['email_port'] = 465;
+$config['email_username'] = '';
+$config['email_password'] = '';
 
 /* End of file config.php */
 /* Location: ./application/config/config.php */
