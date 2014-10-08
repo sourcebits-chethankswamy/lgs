@@ -1,0 +1,32 @@
+@charset "utf-8";
+/* CSS Document */
+body{
+	background-color:#FFF;
+	font-family:Monaco,Consolas,'Lucida Grande','Lucida Console';
+	font-size:16px;
+	text-shadow:rgba(0,0,0,0.01) 0 0 0;
+}
+.container{
+	width:960px;
+	margin:5px;
+	float:left;
+}
+.login_fields{height:30px !important;width:97%;}
+.btn-primary.btn-lg.btn-block{height:42px !important;}
+.margin-top-12{margin-top:12px;}
+.margin-bottom-12{margin-bottom:12px;}
+.margin-left-12{margin-left:12px !important;}
+#loginModal{ left: 0;margin: 0 auto !important;position: relative;top: 200px;width: 420px;}
+.red{background: none repeat scroll 0 0 #FFD5CD !important;border-radius: 6px;border: 1px solid #EC907F !important;padding-top:2px;padding-bottom:3px;text-align:center;color: #A75546 !important;}
+.left{float:left !important;}
+.right{float:right !important;}
+.welcome{color:#ffffff;margin-top:10px;}
+.logout{background-image: url("/lgs/images/logout.png");
+background-position: 0 7px;
+background-repeat: no-repeat;
+background-size: 24px 24px;
+float: right;
+height: 40px;
+margin: 0 4px 0 12px;
+width: 24px;
+}
