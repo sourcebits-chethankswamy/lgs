@@ -21,7 +21,7 @@ body{
 .left{float:left !important;}
 .right{float:right !important;}
 .welcome{color:#ffffff;margin-top:10px;}
-.logout{background-image: url("/lgs/images/logout.png");
+.logout{background-image: url("/images/logout.png");
 background-position: 0 7px;
 background-repeat: no-repeat;
 background-size: 24px 24px;

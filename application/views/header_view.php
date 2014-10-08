@@ -8,9 +8,9 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <link href="/lgs/css/style.css" rel="stylesheet">
-    <link href="/lgs/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/lgs/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="<?php echo SITEURL.'/css/style.css'; ?>" rel="stylesheet">
+    <link href="<?php echo SITEURL.'/css/bootstrap.min.css'; ?>" rel="stylesheet">
+    <link href="<?php echo SITEURL.'/css/bootstrap-responsive.min.css'; ?>" rel="stylesheet">
     
     <style type="text/css">
       body {
