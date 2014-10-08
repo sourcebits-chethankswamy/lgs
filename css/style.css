@@ -1,16 +1,12 @@
 @charset "utf-8";
 /* CSS Document */
 body{
-	background-color:#FFF;
-	font-family:Monaco,Consolas,'Lucida Grande','Lucida Console';
-	font-size:16px;
-	text-shadow:rgba(0,0,0,0.01) 0 0 0;
+background-color:#FFF;
+font-family:Monaco,Consolas,'Lucida Grande','Lucida Console';
+font-size:16px;
+text-shadow:rgba(0,0,0,0.01) 0 0 0;
 }
-.container{
-	width:960px;
-	margin:5px;
-	float:left;
-}
+.container{width:960px;margin:5px;float:left;}
 .login_fields{height:30px !important;width:97%;}
 .btn-primary.btn-lg.btn-block{height:42px !important;}
 .margin-top-12{margin-top:12px;}
@@ -21,12 +17,18 @@ body{
 .left{float:left !important;}
 .right{float:right !important;}
 .welcome{color:#ffffff;margin-top:10px;}
-.logout{background-image: url("/images/logout.png");
-background-position: 0 7px;
-background-repeat: no-repeat;
-background-size: 24px 24px;
-float: right;
-height: 40px;
-margin: 0 4px 0 12px;
-width: 24px;
-}
+.logout{background-image: url("../images/logout.png");background-position: 0 7px;background-repeat: no-repeat;background-size: 24px 24px;float: right;height: 40px;margin: 0 4px 0 12px;width: 24px;}
+.content{padding-top:42px;}
+.pad10{padding:10px !important; margin:10px !important;}
+.well.sidebar-nav{border-radius:0;margin-top:-1px;margin-bottom:0;}
+.navigation{width:308px;}
+.main_content{width:67.5%;width: -webkit-calc(100% - 308px);width: -moz-calc(100% - 308px);width: calc(100% - 308px);float:left;overflow:hidden;}
+.outer_tab label{font-size:14px;color:#797979;float:left;width:240px;line-height:52px;margin-bottom: 0;padding-right:10px;text-align:right; border-right: 1px solid #d8d8d8;background:#fafafa;}
+.outer_tab select{color:#515151;float:left;margin-bottom:0;width:360px;height:34px;margin-left:10px;margin-top:8px;}
+.content_settings{padding: 1% 30% 0;text-align: center;}
+.outer_tab{height:52px;border:1px solid #d4d4d4;border-bottom:none;}
+.content_settings h1{font-size:30px;}
+.outer_tab:last-child{border-left:none;border-right:none;padding-top:14px;}
+.width-100{width:100px !important;}
+.btn.width-100{margin-left:12px;padding:6px;}
+

@@ -4,8 +4,8 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /**
- * @File : user_model.php Model
- * @Class : User_model
+ * @File : user_model Model
+ * @Class : User
  * @Description: This class file holds all the user related operations.
  * @Created By: Himanshu Arora
  */

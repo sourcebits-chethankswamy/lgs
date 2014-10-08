@@ -159,7 +159,7 @@ if (defined('ENVIRONMENT'))
  *  Now that we know the path, set the main path constants
  * -------------------------------------------------------------------
  */
-	define('SITEURL', "http://".$_SERVER['HTTP_HOST']);
+	//define('SITEURL', "http://".$_SERVER['HTTP_HOST'].'/lgs');
 	// The name of THIS file
 	define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
 
