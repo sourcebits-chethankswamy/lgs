@@ -26,7 +26,7 @@ class Email extends MY_Controller {
         $data['title'] = 'Home';
         $this->load->view('header');
         $this->load->view('navigation_header');
-        //$this->load->view("email.php",$data);
+        $this->load->view("email_list.php",$data);
         $this->load->view('navigation_footer');
         $this->load->view('footer');
     }

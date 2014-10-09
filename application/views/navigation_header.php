@@ -18,9 +18,9 @@
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
               <li class="nav-header pad8">Search Options</li>
-              <li class="active"><a class='pad10' href="<?php echo site_url('/dashboard');?>">Search Settings</a></li>
-              <li><a class='pad10' href="<?php echo site_url('/email');?>">Email List</a></li>
-              <li><a class='pad10' href="<?php echo site_url('/keywords');?>">Keywords List</a></li>
+              <li class="active"><a class='pad10 navigation_sidebar' href="<?php echo site_url('/dashboard');?>">Search Settings</a></li>
+              <li><a class='pad10 navigation_sidebar' href="<?php echo site_url('/email');?>">Email List</a></li>
+              <li><a class='pad10 navigation_sidebar' href="<?php echo site_url('/keywords');?>">Keywords List</a></li>
             </ul>
           </div>
         </div>

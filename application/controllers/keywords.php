@@ -26,7 +26,7 @@ class Keywords extends MY_Controller {
         $data['title'] = 'Home';
         $this->load->view('header');
         $this->load->view('navigation_header');
-        //$this->load->view("keywords.php",$data);
+        $this->load->view("keywords_list.php",$data);
         $this->load->view('navigation_footer');
         $this->load->view('footer');
     }
