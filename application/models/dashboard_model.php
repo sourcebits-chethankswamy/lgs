@@ -31,6 +31,20 @@ class Dashboard_model extends CI_Model {
         return $result_set;
 // echo '<pre>';print_r($result_set);die;
     }
+    
+    public function update_selected_fields($config_id = '1', $field_id, $field_value_id, $value=''){
+        if(empty($value)){
+            $condition = "selected_status ='1'";
+        } else {
+            $condition = "value = ".$value.",selected_status ='1'";
+        }
+        $update_selected_fields_query   =   "UPDATE field_list_values
+                                            SET $condition
+                                            WHERE id = '".$field_value_id."'
+                                            AND field_id='".$field_id."'
+                                            ";
+        $result_set = $this->db->query($update_selected_fields_query);
+    }
 
 }
 

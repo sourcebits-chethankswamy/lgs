@@ -67,7 +67,56 @@ class Dashboard extends MY_Controller {
     }
     
     public function save_configuration () {
-        print_r($_POST);exit;
+        if(!empty($_POST)){
+            $config_id  =   isset($_POST['site_id'])    ?  $_POST['site_id'] : 0;
+            $value = '';
+            if(isset($_POST['set']) && !empty($_POST['set'])){
+                foreach($_POST['set'] as $key => $val){
+                    $value='';
+                    if(!strpos($key, '_')){
+                        $field_id = $key;
+                        if(!is_array($val)){
+                           if(!strpos($val, '_')){
+                               $field_value_id = $val;
+                               $this->dashboard_model->update_selected_fields($config_id , $field_id, $field_value_id);
+                           } else {
+                               $field_value_id   =   substr ($val, 0, strpos($val, '_'));
+                               $value =     substr ($val,  strpos($val, '_'));
+                           }
+                           $this->dashboard_model->update_selected_fields($config_id , $field_id, $field_value_id, $value);
+                        } else {
+                            foreach($val as $index => $value){
+                                $field_value_id   =   $index;
+                                $value = $value;
+                            }
+                            $this->dashboard_model->update_selected_fields($config_id , $field_id, $field_value_id, $value);
+                        }
+                    } else {
+                        $field_id   =   substr ($key, 0, strpos($key, '_'));
+                        if(!is_array($val)){
+                           if(!strpos($val, '_')){
+                               $field_value_id = $val;
+                               $this->dashboard_model->update_selected_fields($config_id , $field_id, $field_value_id);
+                           } else {
+                               $field_value_id   =   substr ($val, 0, strpos($val, '_'));
+                               $value =     substr ($val,  strpos($val, '_'));
+                           }
+                           $this->dashboard_model->update_selected_fields($config_id , $field_id, $field_value_id, $value);
+                        } else {
+                            foreach($val as $index => $value1){
+                                $field_value_id   =   $index;
+                                $value = $value1;
+                            }
+                            $this->dashboard_model->update_selected_fields($config_id , $field_id, $field_value_id, $value);
+                        }
+                    }
+                }
+                die(json_encode(array('error'=>0, 'message'=>'updated successfully')));
+            }
+            
+       } else {
+            die(json_encode(array('error'=> 1, 'message' => 'Invalid post data')));
+        }
     }
     
 }
