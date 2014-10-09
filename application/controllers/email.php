@@ -47,6 +47,7 @@ class Email extends MY_Controller {
     public function delete_email(){
         if(!empty($_POST)){
             $response   =   $this->email_model->delete_email($_POST);
+            echo json_encode(array('error' => 0));die;
         }
     }
 

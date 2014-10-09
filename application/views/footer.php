@@ -36,6 +36,7 @@
 		}
 		
 		function delete_data(type, id){
+                        console.log(type+'--'+id);
 			if(type == 'email'){
 				var url = 'email/delete_email';
 			} else {

@@ -45,8 +45,9 @@ class Keywords extends MY_Controller {
     }
     
     public function delete_keyword(){
-        if(!empyt($_POST)){
+        if(!empty($_POST)){
             $response   =   $this->keywords_model->delete_keyword($_POST);
+            echo json_encode(array('error' => 0));die;
         }
     }
 
