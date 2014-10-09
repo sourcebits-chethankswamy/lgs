@@ -16,8 +16,8 @@ class Keywords_model extends CI_Model {
     }
     
         public function get_keywords($config = '1'){
-        $email_list     =   "SELECT * FROM keywords_list WHERE configuration_id = '".$this->db->escape($config)."'";
-        $result_set     =   $this->db->query($fetch_data)->result_array();
+        $keyword_list     =   "SELECT * FROM keywords_list WHERE configuration_id = ".$this->db->escape($config)."";
+        $result_set     =   $this->db->query($keyword_list)->result_array();
         return $result_set;
     }
     

@@ -16,8 +16,8 @@ class Email_model extends CI_Model {
     }
     
     public function get_emails($config = '1'){
-        $email_list     =   "SELECT * FROM emails_list WHERE configuration_id = '".$this->db->escape($config)."'";
-        $result_set     =   $this->db->query($fetch_data)->result_array();
+        $email_list     =   "SELECT * FROM emails_list WHERE configuration_id = ".$this->db->escape($config)."";
+        $result_set     =   $this->db->query($email_list)->result_array();
         return $result_set;
     }
     
