@@ -25,10 +25,35 @@ text-shadow:rgba(0,0,0,0.01) 0 0 0;
 .main_content{width:67.5%;width: -webkit-calc(100% - 308px);width: -moz-calc(100% - 308px);width: calc(100% - 308px);float:left;overflow:hidden;}
 .outer_tab label{font-size:14px;color:#797979;float:left;width:240px;line-height:52px;margin-bottom: 0;padding-right:10px;text-align:right; border-right: 1px solid #d8d8d8;background:#fafafa;}
 .outer_tab select{color:#515151;float:left;margin-bottom:0;width:360px;height:34px;margin-left:10px;margin-top:8px;}
-.content_settings{padding: 1% 30% 0;text-align: center;}
-.outer_tab{height:52px;border:1px solid #d4d4d4;border-bottom:none;}
+.content_settings{padding: 1% 5% 0;text-align: center;}
+.outer_tab{border:1px solid #d4d4d4;border-bottom:none;float:left;width:100%;padding: 5px 0px;}
 .content_settings h1{font-size:30px;}
 .outer_tab:last-child{border-left:none;border-right:none;padding-top:14px;}
 .width-100{width:100px !important;}
 .btn.width-100{margin-left:12px;padding:6px;}
+
+.config-blk-header {
+    margin-bottom: 2%;
+}
+
+.config-blk-header h1 {
+    display: inline;
+}
+
+.config-blk-settings {
+
+}
+
+.outer_tab-values {
+    display: inline-block;
+    float: left;    
+}
+
+.date-setting select {
+    width: auto;
+}
+.config-blk-settings input{
+    margin: 10px 0px 0px 10px !important;
+    width: 345px;
+}
 
