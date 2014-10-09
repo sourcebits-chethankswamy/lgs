@@ -65,7 +65,11 @@ class Dashboard extends MY_Controller {
         }
         return $prepare_data;
     }
-
+    
+    public function save_configuration () {
+        print_r($_POST);exit;
+    }
+    
 }
 
 ?>
