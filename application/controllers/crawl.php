@@ -22,32 +22,70 @@ class Crawl extends CI_Controller {
      * @Description	:	Logout user
      * @Param		:	none
      */
-    public function send_request($request_url, $post_data) {
-
+    public function send_request($request_url = '', $params = '') {
+        /* Script URL */
         $request_url = 'http://www.globaltenders.com/search.php';
 
-        $curl = curl_init($request_url);
-        $post_data = array(
+        /* $_GET Parameters to Send */
+        $params = array(
             "notice_type_new" => "1,2,3,7,10,11,16,9,4,8",
             "sector" => "0",
             "region_name" => "0",
             "competition" => "2",
-            "day" => "0",
-            "mon" => "0",
-            "year" => "0",
-            "t" => "",
+            "day" => "08",
+            "mon" => "10",
+            "year" => "2014",
+            "t" => "Mobile",
             "deadline" => "select",
-            "mfa" => "0"
         );
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $curl_post_data);
-        $curl_response = curl_exec($curl);
-        curl_close($curl);
-        echo $curl_response;
 
-        //$respose_data = json_decode($curl_response,true);
-        //echo "<pre>";print_r($respose_data);die;
+        /* Update URL to container Query String of Paramaters */
+        $request_url .= '?' . http_build_query($params);
+
+        /* cURL Resource */
+        $ch = curl_init();
+
+        /* Set URL */
+        curl_setopt($ch, CURLOPT_URL, $request_url);
+
+        /* Tell cURL to return the output */
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        /* Tell cURL NOT to return the headers */
+        curl_setopt($ch, CURLOPT_HEADER, false);
+
+        /* Execute cURL, Return Data */
+        $data = curl_exec($ch);
+
+        /* Check HTTP Code */
+        $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        /* Close cURL Resource */
+        curl_close($ch);
+
+        /* 200 Response! */
+        if ($status == 200) {
+            $this->load->helper('phpQuery');
+
+            $doc = phpQuery::newDocument($data);
+
+            // Create array to hold stats
+            $stats = array();
+
+            // Add stats from page to array
+            // Notice the CSS style selector
+            foreach ($doc['.tableC .table1 div.cent'] as $td) {
+                $stats[] = pq($td)->html();
+            }
+
+            if (isset($status[0])) {
+                return $status[0];
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     /**
