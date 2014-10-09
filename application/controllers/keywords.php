@@ -25,10 +25,29 @@ class Keywords extends MY_Controller {
     public function index($error = '') {
         $data['title'] = 'Home';
         $this->load->view('header');
+        $get_keyword_list =   $this->keywords_model->get_keywords();
+        $data['keyword_list'] =   $get_keyword_list;
         $this->load->view('navigation_header');
         $this->load->view("keywords_list.php",$data);
         $this->load->view('navigation_footer');
         $this->load->view('footer');
+    }
+    
+    public function modify_keyword(){
+        if(!empty($_POST)){
+            $response   =   $this->keywords_model->modify_keyword($_POST);
+            if($_POST['id'] =='0'){
+                echo json_encode(array('error' => 0, 'id'=>$response));die;
+            }else{
+                echo json_encode(array('error' => 0));die;
+            }
+        }
+    }
+    
+    public function delete_keyword(){
+        if(!empyt($_POST)){
+            $response   =   $this->keywords_model->delete_keyword($_POST);
+        }
     }
 
 }
