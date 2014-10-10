@@ -21,9 +21,19 @@ class Email_model extends CI_Model {
         return $result_set;
     }
     
+    public function email_check($data, $config='1'){
+    	$email     	=   "SELECT * FROM emails_list WHERE configuration_id = ".$this->db->escape($config)." AND  email=".$this->db->escape($data['email'])."";
+        $result    	=   $this->db->query($email)->result_array();
+        if(isset($result[0]) && !empty($result[0])){
+        	return true;
+        } else {
+        	return false;
+        }
+    }
+    
     public function modify_email($data, $config='1'){
         if($data['id'] == '0'){
-            $insert_email   =   "INSERT INTO emails_list VALUES(NULL,".$this->db->escape($config).",".$this->db->escape($data['email']).",'1','0',NOW(), NOW())";
+        	$insert_email   =   "INSERT INTO emails_list VALUES(NULL,".$this->db->escape($config).",".$this->db->escape($data['email']).",'1','0',NOW(), NOW())";
             $this->db->query($insert_email);
             return array('error'=> $this->db->insert_id(), 'type');
         } else {

@@ -137,7 +137,7 @@ if (isset($keywords_list)) {
                 url: url,
                 data: 'id=' + id,
                 success: function(r) {
-                    location.reload(true);
+					location.reload(true);
                 }
             });
         });
@@ -160,7 +160,12 @@ if (isset($keywords_list)) {
                 url: url,
                 data: data,
                 success: function(r) {
-                    location.reload(true);
+					r = JSON.parse(r);
+					if(r['error'] == '-1'){
+						$('.error_block').show();
+					} else {
+            			location.reload(true);
+					}
                 }
             });
         });

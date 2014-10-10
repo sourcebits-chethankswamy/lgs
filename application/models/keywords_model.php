@@ -15,10 +15,20 @@ class Keywords_model extends CI_Model {
         parent::__construct();
     }
     
-        public function get_keywords($config = '1'){
+    public function get_keywords($config = '1'){
         $keyword_list     =   "SELECT * FROM keywords_list WHERE configuration_id = ".$this->db->escape($config)."";
         $result_set     =   $this->db->query($keyword_list)->result_array();
         return $result_set;
+    }
+    
+	 public function keyword_check($data, $config='1'){
+    	$keywords     	=   "SELECT * FROM keywords_list WHERE configuration_id = ".$this->db->escape($config)." AND  keyword=".$this->db->escape($data['keyword'])."";
+        $result    	=   $this->db->query($keywords)->result_array();
+        if(isset($result[0]) && !empty($result[0])){
+        	return true;
+        } else {
+        	return false;
+        }
     }
     
     public function modify_keyword($data, $config='1'){

@@ -35,7 +35,10 @@ class Email extends MY_Controller {
     
     public function modify_email(){
         if(!empty($_POST)){
-            $response   =   $this->email_model->modify_email($_POST);
+        	if($this->email_model->email_check($_POST)){
+        		echo json_encode(array('error' => -1));die;
+        	}
+            $response   	=   $this->email_model->modify_email($_POST);
             if($_POST['id'] =='0'){
                 echo json_encode(array('error' => 0, 'id'=>$response));die;
             }else{

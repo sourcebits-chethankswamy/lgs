@@ -35,6 +35,9 @@ class Keywords extends MY_Controller {
     
     public function modify_keyword(){
         if(!empty($_POST)){
+        	if($this->keywords_model->keyword_check($_POST)){
+        		echo json_encode(array('error' => -1));die;
+        	}
             $response   =   $this->keywords_model->modify_keyword($_POST);
             if($_POST['id'] =='0'){
                 echo json_encode(array('error' => 0, 'id'=>$response));die;

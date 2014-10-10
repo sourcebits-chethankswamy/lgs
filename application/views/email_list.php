@@ -1,5 +1,6 @@
 <div class="main_content">
 	<div class='content_settings' style='padding:3% 28%;'>
+		<div class='red margin-bottom-12 error_block' style='display:none;'>Email already exist</div>
 		<legend style='border:1px solid #c6c6c6;border-bottom:none;'>
            <h1>Emails Setup</h1>
            <?php if(!isset($email_list) || empty($email_list)) { ?>
