@@ -15,7 +15,7 @@
 			    	</div>
 	    	<?php }}?>
 	    	<div class='keywords_tab last-child'>
-				<input type='text' value='' class='keywords' id='add_keyword' name='' />
+				<input type='text' placeholder='Ex. Mobile' class='keywords' id='add_keyword' name='' />
 	    		<button class="btn btn-primary right edit" data-type='keywords' data-id='0' type="button">Add</button>
 			</div>
 	    </legend>

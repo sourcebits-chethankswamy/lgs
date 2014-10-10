@@ -9,30 +9,18 @@ if (!defined('BASEPATH'))
  * @Description: This class file holds all the user related operations.
  * @Created By: Himanshu Arora
  */
-class Dashboard_model extends CI_Model {
+class Dashboard_model extends MY_Model {
 
     public function __construct() {
         parent::__construct();
     }
-
+    
     public function get_site_lists() {
         $site_list_query = "SELECT * FROM sites_list WHERE status='1'";
         $result_set = $this->db->query($site_list_query)->result_array();
         return $result_set;
     }
 
-    public function get_keyword_lists() {
-        $site_list_query = "SELECT * FROM keywords_list WHERE status='1'";
-        $result_set = $this->db->query($site_list_query)->result_array();
-        return $result_set;
-    }
-    
-    public function get_email_lists() {
-        $site_list_query = "SELECT * FROM emails_list WHERE status='1'";
-        $result_set = $this->db->query($site_list_query)->result_array();
-        return $result_set;
-    }    
-    
     public function fetch_data($config = '1') {
         $fetch_data = "SELECT fl.id as field_id,fl.*, flv.id as field_value_id, flv.* FROM
                         fields_list fl, field_list_values flv

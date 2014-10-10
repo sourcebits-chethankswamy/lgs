@@ -74,9 +74,6 @@ if (isset($field_details)) {
     echo "<input id='emailAutocomplete' class='autocomplete' type='text' name='email' value='' />";
     echo "</div>
         </div>";
-    
-    echo '<input type="hidden" name="sel_emails" id="sel_emails"  />';
-    echo '<input type="hidden" name="sel_keywords" id="sel_keywords"  />';
 }
 ?>
 

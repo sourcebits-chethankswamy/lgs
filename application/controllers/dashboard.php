@@ -14,6 +14,8 @@ class Dashboard extends MY_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('dashboard_model');
+        $this->load->model('keywords_model');
+        $this->load->model('email_model');
     }
 
     /**
@@ -22,22 +24,30 @@ class Dashboard extends MY_Controller {
      * @Description	:	Index page display
      * @Param		:	none
      */
-    public function index($error = '') {
+    public function index($error = '') {        
+        $selected_site = $this->get_site();         
+        $selected_site_page = $selected_site[0]['configuration_page'];
         $data['title'] = 'Home';
         $site_lists = $this->dashboard_model->get_site_lists();
-        $fetch_field_details = $this->dashboard_model->fetch_data();
-        $keywords_list = $this->dashboard_model->get_keyword_lists();
-        $emails_list = $this->dashboard_model->get_email_lists();
+        $fetch_field_details = $this->dashboard_model->fetch_data();        
+        
+        $keywords_list = $this->keywords_model->get_keywords();
+        $emails_list = $this->email_model->get_emails();        
+        $selected_site_keywords = $this->keywords_model->get_keywords($selected_site[0]['id']);
+        $selected_site_emails = $this->email_model->get_emails($selected_site[0]['id']);
 
         if (!empty($fetch_field_details)) {
             $fetch_field_details = $this->format_result_set($fetch_field_details);
         }
         $data['site_lists'] = $site_lists;
+        $data['selected_site_id'] = $selected_site[0]['id'];
         $data['keywords_list'] = $keywords_list;
         $data['emails_list'] = $emails_list;
         $data['field_details'] = $fetch_field_details;
+        $data['selected_site_keywords'] = $selected_site_keywords;
+        $data['selected_site_emails'] = $selected_site_emails;
         
-        $data['site_page'] = $this->load->view('sites/global_tenders', $data, TRUE);
+        $data['site_page'] = $this->load->view('sites/'.$selected_site_page, $data, TRUE);
         
         $this->load->view('header');
         $this->load->view('navigation_header');
@@ -45,7 +55,7 @@ class Dashboard extends MY_Controller {
         $this->load->view('navigation_footer');
         $this->load->view('footer');
     }
-
+    
     public function format_result_set($data) {
         $old_id = -1;
         $new_id = 0;
@@ -74,6 +84,7 @@ class Dashboard extends MY_Controller {
     }
     
     public function save_configuration () {
+        print_r($_POST);exit;
         if(!empty($_POST)){
             $config_id  =   isset($_POST['site_id'])    ?  $_POST['site_id'] : 0;
             $value = '';

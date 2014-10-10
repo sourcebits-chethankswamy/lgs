@@ -7,6 +7,10 @@
 <?php
 $keyword_details = '';
 $email_details = '';
+$email_id_details = '';
+$keyword_id_details = '';
+$sel_emails = '';
+$sel_keywords = '';
 if (isset($emails_list)) {
     $emails = array();
     foreach ($emails_list as $key => $value) {
@@ -23,10 +27,31 @@ if (isset($keywords_list)) {
     }
     $keyword_details = implode(',', $keywords);
 }
+
+if (isset($selected_site_keywords)) {
+    $keyword_ids = array();
+    $sel_keys = array();
+    foreach ($selected_site_keywords as $key => $value) {
+        array_push($keyword_ids, $value['keyword_id']);
+        array_push($sel_keys, $value['keyword']);
+    }
+    $keyword_id_details = implode(',', $keyword_ids);
+    $sel_keywords = implode(',', $sel_keys);
+}
+if (isset($selected_site_emails)) {
+    $email_ids = array();
+    $sel_email = array();
+    foreach ($selected_site_emails as $key => $value) {
+        array_push($email_ids, $value['email_id']);
+        array_push($sel_email, $value['email']);
+    }
+    $email_id_details = implode(',', $email_ids);
+    $sel_emails = implode(',', $sel_email);
+}
 ?>
 <script type='text/javascript'>
     $(function() {
-        var height_of_page = $(document).height() - 82;
+        var height_of_page = $(window).height() - 82;
         $('.well.sidebar-nav').css('height', height_of_page + 'px');
         $('.well.sidebar-nav ul .active').removeClass('active');
         if (location.href.indexOf('dashboard') != -1) {
@@ -36,6 +61,12 @@ if (isset($keywords_list)) {
         } else {
             $('.well.sidebar-nav ul li:nth-child(3)').addClass('active');
         }
+
+        $('#sel_keywords').val('<?php echo $keyword_id_details; ?>');
+        $('#sel_emails').val('<?php echo $email_id_details; ?>');
+
+        $('#keywordAutocomplete').val('<?php echo $sel_keywords; ?>');
+        $('#emailAutocomplete').val('<?php echo $sel_emails; ?>');
 
         var keywordTags = [<?php echo $keyword_details; ?>];
         var emailTags = [<?php echo $email_details; ?>];
@@ -75,11 +106,6 @@ if (isset($keywords_list)) {
                         terms.push("");
                         this.value = terms.join(", ");
 
-                        if ($('#sel_keywords').val() != '') {
-                            $('#sel_keywords').val($('#sel_keywords').val() + "," + ui.item.kdb);
-                        } else {
-                            $('#sel_keywords').val(ui.item.kdb);
-                        }
                         return false;
                     }
                 });
@@ -112,16 +138,9 @@ if (isset($keywords_list)) {
                         terms.push("");
                         this.value = terms.join(", ");
 
-                        if ($('#sel_emails').val() != '') {
-                            $('#sel_emails').val($('#sel_emails').val() + "," + ui.item.edb);
-                        } else {
-                            $('#sel_emails').val(ui.item.kdb);
-                        }
-
                         return false;
                     }
                 });
-
 
         $(document).on("click", ".delete", function() {
             var type = $(this).attr('data-type');
@@ -137,7 +156,7 @@ if (isset($keywords_list)) {
                 url: url,
                 data: 'id=' + id,
                 success: function(r) {
-					location.reload(true);
+                    location.reload(true);
                 }
             });
         });
@@ -160,7 +179,7 @@ if (isset($keywords_list)) {
                 url: url,
                 data: data,
                 success: function(r) {
-					r = JSON.parse(r);
+                    r = JSON.parse(r);
 					if(r['error'] == '-1'){
 						$('.error_block').show();
 					} else {
@@ -169,50 +188,24 @@ if (isset($keywords_list)) {
                 }
             });
         });
-        $(window).resize(function(){
+
+        $(document).on("change", "#site_id", function() {
+            var id = $(this).val();
+            var url = 'dashboard/set_site/' + id;
+            $.ajax({
+                type: 'GET',
+                url: url,
+                success: function(r) {
+                    //console.log(r);
+                    location.reload(true);
+                }
+            });
+        });
+         $(window).resize(function(){
         	var height_of_page = $(document).height() - 82;
         	$('.well.sidebar-nav').css('height', height_of_page + 'px');
         });
     });
-
-    /*
-     function edit_add_data(chk, type, id) {
-     if (type == 'email') {
-     var url = 'email/modify_email';
-     var email = $(chk).parent().find('input').val();
-     var data = 'id=' + id + '&email=' + email;
-     } else {
-     var url = 'keywords/modify_keyword';
-     var keyword = $(chk).parent().find('input').val();
-     var data = 'id=' + id + '&keyword=' + keyword;
-     }
-     $.ajax({
-     type: 'POST',
-     url: url,
-     data: data,
-     success: function (r) {
-     location.reload(true);
-     }
-     });
-     }
-     
-     function delete_data(type, id) {
-     console.log(type + '--' + id);
-     if (type == 'email') {
-     var url = 'email/delete_email';
-     } else {
-     var url = 'keywords/delete_keyword';
-     }
-     $.ajax({
-     type: 'POST',
-     url: url,
-     data: 'id=' + id,
-     success: function (r) {
-     location.reload(true);
-     }
-     });
-     }  
-     */
 </script>
 </body>
 </html>

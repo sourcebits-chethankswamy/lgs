@@ -16,4 +16,16 @@ class MY_Controller extends CI_Controller {
         }
     }
 
+    public function set_site($id) {
+        if ($id) {
+            $this->dashboard_model->set_site($id);
+            return true;
+        }
+        return false;
+    }
+
+    public function get_site() {
+        return $this->dashboard_model->get_site();
+    }
+
 }
