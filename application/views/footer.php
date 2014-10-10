@@ -26,7 +26,7 @@ if (isset($keywords_list)) {
 ?>
 <script type='text/javascript'>
     $(function() {
-        var height_of_page = $(window).height() - 82;
+        var height_of_page = $(document).height() - 82;
         $('.well.sidebar-nav').css('height', height_of_page + 'px');
         $('.well.sidebar-nav ul .active').removeClass('active');
         if (location.href.indexOf('dashboard') != -1) {
@@ -168,6 +168,10 @@ if (isset($keywords_list)) {
 					}
                 }
             });
+        });
+        $(window).resize(function(){
+        	var height_of_page = $(document).height() - 82;
+        	$('.well.sidebar-nav').css('height', height_of_page + 'px');
         });
     });
 
