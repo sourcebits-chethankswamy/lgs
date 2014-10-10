@@ -21,6 +21,18 @@ class Dashboard_model extends CI_Model {
         return $result_set;
     }
 
+    public function get_keyword_lists() {
+        $site_list_query = "SELECT * FROM keywords_list WHERE status='1'";
+        $result_set = $this->db->query($site_list_query)->result_array();
+        return $result_set;
+    }
+    
+    public function get_email_lists() {
+        $site_list_query = "SELECT * FROM emails_list WHERE status='1'";
+        $result_set = $this->db->query($site_list_query)->result_array();
+        return $result_set;
+    }    
+    
     public function fetch_data($config = '1') {
         $fetch_data = "SELECT fl.id as field_id,fl.*, flv.id as field_value_id, flv.* FROM
                         fields_list fl, field_list_values flv

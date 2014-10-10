@@ -26,15 +26,22 @@ class Dashboard extends MY_Controller {
         $data['title'] = 'Home';
         $site_lists = $this->dashboard_model->get_site_lists();
         $fetch_field_details = $this->dashboard_model->fetch_data();
+        $keywords_list = $this->dashboard_model->get_keyword_lists();
+        $emails_list = $this->dashboard_model->get_email_lists();
 
         if (!empty($fetch_field_details)) {
             $fetch_field_details = $this->format_result_set($fetch_field_details);
         }
         $data['site_lists'] = $site_lists;
+        $data['keywords_list'] = $keywords_list;
+        $data['emails_list'] = $emails_list;
         $data['field_details'] = $fetch_field_details;
+        
+        $data['site_page'] = $this->load->view('sites/global_tenders', $data, TRUE);
+        
         $this->load->view('header');
         $this->load->view('navigation_header');
-        $this->load->view("dashboard.php", $data);
+        $this->load->view("dashboard", $data);
         $this->load->view('navigation_footer');
         $this->load->view('footer');
     }
