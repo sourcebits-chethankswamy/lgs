@@ -130,5 +130,35 @@ class Crawl extends CI_Controller {
         }
         $this->send_request();
     }
+    
+    /**
+     * @Access		:	public
+     * @Function	:	sendMail
+     * @Description	:	Sends email to users
+     * @Param		:	$to , $sub, $message
+     */
+    public function sendMail($to , $sub, $message) {
+	    $config = Array(
+	        'protocol' => 'smtp',
+	        'smtp_host' => 'ssl://smtp.googlemail.com',
+	        'smtp_port' => 465,
+	        'smtp_user' => FROM_EMAIL_ADDRESS,
+	        'smtp_pass' => FROM_EMAIL_PASSWORD,
+	        'mailtype' => 'html',
+	        'charset' => 'iso-8859-1',
+	        'wordwrap' => TRUE
+	      );
+        $this->load->library('email', $config);
+        $this->email->set_newline("\r\n");
+        $this->email->from(FROM_EMAIL_ADDRESS);
+        $this->email->to($to);
+        $this->email->subject($sub);
+        $this->email->message($message);
+        if($this->email->send()) {
+            // Do nothing. Email is sent.
+        } else {
+            show_error($this->email->print_debugger());
+        }
+    }
 
 }
