@@ -66,7 +66,7 @@ class User extends CI_Controller {
         );
         $this->session->unset_userdata($newdata);
         $this->session->sess_destroy();
-        $this->index();
+        redirect('/');
     }
 
 }

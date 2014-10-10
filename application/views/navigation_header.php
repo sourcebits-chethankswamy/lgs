@@ -1,6 +1,6 @@
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
-       	<a class="brand margin-left-12" href="#">Lead Generation System</a>
+       	<a class="brand margin-left-12" href="<?php echo site_url();?>">Lead Generation System</a>
 			<?php 
            		$atts = array(
               'class' => 'logout'

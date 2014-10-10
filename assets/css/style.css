@@ -63,7 +63,7 @@ text-shadow:rgba(0,0,0,0.01) 0 0 0;
 .email_tab .email, .keywords_tab .keywords{margin-top:8px;width:60%;}
 .email_tab.last-child , .keywords_tab.last-child{height:42px; background: none repeat scroll 0 0 #fafafa;}
 
-@media all and (max-width: 1200px) {
+@media all and (max-width: 1300px) {
 .content_settings{padding:3% 20% !important;}
 .email_tab .email, .keywords_tab .keywords {width: 50%;}
 }
