@@ -9,13 +9,13 @@
            		foreach($email_list as $email) { ?>
     			<div class='email_tab'>
 		    		<input type='text' value='<?php echo $email['email'];?>' id='' class='email' name='' />
-		    		<button class="btn btn-danger right" onclick="delete_data('email', '<?php echo $email['id']?>');" type="button">Delete</button>
-		    		<button class="btn btn-success right" onclick="edit_add_data(this,'email', '<?php echo $email['id']?>');" type="button">Save</button>
+		    		<button class="btn btn-danger right delete" data-type='email' data-id='<?php echo $email['id']?>' type="button">Delete</button>
+		    		<button class="btn btn-success right edit" data-type='email' data-id='<?php echo $email['id']?>' type="button">Save</button>
 	    		</div>
            	<?php } }?>
            	<div class='email_tab last-child'>
 				<input type='text' value='text@test.com' class='email' id='add_email' name='' />
-	    		<button class="btn btn-primary right" onclick="edit_add_data(this,'email', '0');" type="button">Add</button>
+	    		<button class="btn btn-primary right edit" data-type='email' data-id='0' type="button">Add</button>
 			</div>
 	    </legend>
     </div>

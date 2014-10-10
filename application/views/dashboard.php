@@ -22,7 +22,8 @@
             </legend>
             
             <div class='outer_tab'>
-                <button class="btn right width-100 btn-success" type="submit">Save</button>
+                <button class="btn right width-100 btn-success" type="submit" name='save'>Save</button>
+                <button class="btn right width-100 btn-primary" type="submit" name='search'>Search</button>                
             </div>      
         </form>
     </div>
