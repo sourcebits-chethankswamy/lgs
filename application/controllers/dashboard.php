@@ -163,7 +163,7 @@ class Dashboard extends MY_Controller {
     public function generate_url($post_vars) {
         $url_params = $this->config->item('url_params');
         $post_data = "";
-        
+
         foreach ($post_vars['set'] as $key => $val) {
             $bracket = '';
             if (strpos($key, '_')) {
@@ -173,35 +173,35 @@ class Dashboard extends MY_Controller {
 
                 $config_val = $this->dashboard_model->get_config_values($field_id, $field_value_id);
                 //echo $config_val[0]['field_name'].'--'.$config_val[0]['field_type'].'--'.$config_val[0]['field_value_name'].'--'. $value .'<br />';
-                $post_data .= '&amp;' . $config_val[0]['field_value_name'] . '=' . $value;
+                $post_data .= '&' . $config_val[0]['field_value_name'] . '=' . urlencode($value);
             } else {
-                if($key == 1 || $key == 4) {
+                if ($key == 1 || $key == 4) {
                     $bracket = '[]';
                 }
-                
+
                 if (is_array($val)) {
                     foreach ($val as $multivalue) {
                         $config_val = $this->dashboard_model->get_config_values($key, $multivalue);
-                        $post_data .= '&amp;' . $url_params[$key] . $bracket . '=' . $config_val[0]['value'];
+                        $post_data .= '&' . $url_params[$key] . $bracket . '=' . urlencode($config_val[0]['value']);
                     }
                 } else {
                     $config_val = $this->dashboard_model->get_config_values($key, $val);
-                    $post_data .= '&amp;' . $url_params[$key] . $bracket .'=' . $config_val[0]['value'];
+                    $post_data .= '&' . $url_params[$key] . $bracket . '=' . urlencode($config_val[0]['value']);
                 }
                 //echo $config_val[0]['field_name'].'--'.$config_val[0]['field_type'].'--'.$config_val[0]['field_value_name'].'--'. $config_val[0]['value'] .'<br />';
                 //echo '<hr>';
             }
         }
-        
-        if(isset($post_vars['keywords'])) {
-            $post_data .= '&amp;t=' . $post_vars['keywords'];
+
+        if (isset($post_vars['keywords'])) {
+            $post_data .= '&t=' . urlencode($post_vars['keywords']);
         }
 
-        $params = ltrim($post_data, '&amp;');
-        
+        $params = ltrim($post_data, '&');
+
         $global_url = $this->config->item('global_url');
-        
-        return $global_url.'?'.$params;
+
+        return $global_url . '?' . $params;
 
         /*
           $response = $this->dashboard_model->get_config_params($config);

@@ -42,7 +42,7 @@ class Crawl extends CI_Controller {
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
             /* Tell cURL NOT to return the headers */
-            curl_setopt($ch, CURLOPT_HEADER, false);
+            curl_setopt($ch, CURLOPT_HEADER, TRUE);
 
             /* Execute cURL, Return Data */
             $data = curl_exec($ch);
