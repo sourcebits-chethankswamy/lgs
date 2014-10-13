@@ -14,6 +14,7 @@ class MY_Controller extends CI_Controller {
         if ($this->session->userdata('logged_in') != 1) {
             redirect('/');
         }
+        $this->load->helper('mail');
     }
 
     public function set_site($id) {
@@ -81,7 +82,7 @@ class MY_Controller extends CI_Controller {
             $header['errno'] = $err;
             $header['errmsg'] = $errmsg;
             $header['content'] = $content;
-
+			
             /* 200 Response! */
             if ($status == 200) {
                 $this->load->helper('phpQuery');

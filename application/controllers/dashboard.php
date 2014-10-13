@@ -34,7 +34,7 @@ class Dashboard extends MY_Controller {
      * @Param		:	none
      */
     public function index($error = '') {
-        $selected_site = $this->get_site();
+    	$selected_site = $this->get_site();
         $selected_site_page = $selected_site[0]['configuration_page'];
         $data['title'] = 'Home';
         $site_lists = $this->dashboard_model->get_site_lists();
@@ -92,7 +92,7 @@ class Dashboard extends MY_Controller {
         return $prepare_data;
     }
 
-    public function save_configuration() {
+    public function save() {
         if (!empty($_POST)) {
             $config_id = isset($_POST['site_id']) ? $_POST['site_id'] : 0;
             $value = '';
@@ -149,17 +149,87 @@ class Dashboard extends MY_Controller {
                         }
                     }
                 }
+                $selected_site = $this->get_site();
+		        $selected_site_page = $selected_site[0]['configuration_page'];
+		        $data['title'] = 'Home';
+		        $data['save'] = '1';
+		        $site_lists = $this->dashboard_model->get_site_lists();
+		        $fetch_field_details = $this->dashboard_model->fetch_data();
+		
+		        $keywords_list = $this->keywords_model->get_keywords();
+		        $emails_list = $this->email_model->get_emails();
+		        $selected_site_keywords = $this->keywords_model->get_keywords($selected_site[0]['id']);
+		        $selected_site_emails = $this->email_model->get_emails($selected_site[0]['id']);
+		
+		        if (!empty($fetch_field_details)) {
+		            $fetch_field_details = $this->format_result_set($fetch_field_details);
+		        }
+		        $data['site_lists'] = $site_lists;
+		        $data['selected_site_id'] = $selected_site[0]['id'];
+		        $data['keywords_list'] = $keywords_list;
+		        $data['emails_list'] = $emails_list;
+		        $data['field_details'] = $fetch_field_details;
+		        $data['selected_site_keywords'] = $selected_site_keywords;
+		        $data['selected_site_emails'] = $selected_site_emails;
+		
+		        $data['site_page'] = $this->load->view('sites/' . $selected_site_page, $data, TRUE);
+		
+		        $this->load->view('header');
+		        $this->load->view('navigation_header');
+		        $this->load->view("dashboard", $data);
+		        $this->load->view('navigation_footer');
+		        $this->load->view('footer');
             }
-
-            if (isset($_POST['search'])) {
-                $request_url = $this->generate_url($_POST);
-                $result = $this->send_request($request_url);
-                print_r($result);
-            }
-            die(json_encode(array('error' => 0, 'message' => 'success')));
         }
     }
 
+    	public function search() {
+    		$helper_email = new Mail();
+    		if (isset($_POST['search'])) {
+                $request_url = $this->generate_url($_POST);
+                $result = $this->send_request($request_url);
+            }
+    		$selected_site = $this->get_site();
+	        $selected_site_page = $selected_site[0]['configuration_page'];
+	        $data['title'] = 'Home';
+	        if(isset($result)){
+	        	$data['search_view'] = $result;
+	        }
+	        $site_lists = $this->dashboard_model->get_site_lists();
+	        $fetch_field_details = $this->dashboard_model->fetch_data();
+	
+	        $keywords_list = $this->keywords_model->get_keywords();
+	        $emails_list = $this->email_model->get_emails();
+	        $selected_site_keywords = $this->keywords_model->get_keywords($selected_site[0]['id']);
+	        $selected_site_emails = $this->email_model->get_emails($selected_site[0]['id']);
+	        if (!empty($fetch_field_details)) {
+	            $fetch_field_details = $this->format_result_set($fetch_field_details);
+	        }
+	        $data['site_lists'] = $site_lists;
+	        $data['selected_site_id'] = $selected_site[0]['id'];
+	        $data['keywords_list'] = $keywords_list;
+	        $data['emails_list'] = $emails_list;
+	        $data['field_details'] = $fetch_field_details;
+	        $data['selected_site_keywords'] = $selected_site_keywords;
+	        $data['selected_site_emails'] = $selected_site_emails;
+	        $data['site_page'] = $this->load->view('sites/' . $selected_site_page, $data, TRUE);
+	        if(isset($selected_site_emails)) {
+	        	$to_email = '';
+	        	foreach($selected_site_emails as $email){
+	        		$to_email .= $email['email'].',';
+	        	}
+	        	$to_email	= substr_replace($to_email, "", -1);
+	        	$subject	= 'Search results for'.$selected_site_page;
+	        	$helper_email->sendMail($to_email, $subject, $result);
+	        }
+	        $this->load->view('header');
+	        $this->load->view('navigation_header');
+	        $this->load->view("dashboard", $data);
+	        $this->load->view('navigation_footer');
+	        $this->load->view('footer');
+	        
+    	}
+    
     public function generate_url($post_vars) {
         $url_params = $this->config->item('url_params');
         $post_data = "";

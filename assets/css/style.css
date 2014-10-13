@@ -133,3 +133,16 @@ text-shadow:rgba(0,0,0,0.01) 0 0 0;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
+.green{
+background: none repeat scroll 0 0 #CCEBCC;
+border: 1px solid #71C671;
+border-radius: 6px;
+color: #008A2E;
+padding-top:2px;
+padding-bottom:3px;
+margin-bottom:20px;
+}
+.clear{clear:both;}
+.search_results{
+margin-top:30px;
+}
