@@ -159,15 +159,13 @@ if (defined('ENVIRONMENT'))
  *  Now that we know the path, set the main path constants
  * -------------------------------------------------------------------
  */
-
-	// define('SITEURL', "http://".$_SERVER['HTTP_HOST'].'/lgs');
-
 	// The name of THIS file
 	define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
-	
+
 	/**Email Configurations**/
 	define('FROM_EMAIL_ADDRESS','lgs.noreply@gmail.com');
-	define('FROM_EMAIL_PASSWORD','welcome_');
+	define('FROM_EMAIL_PASSWORD','welcome_');    
+    
 	// The PHP file extension
 	// this global constant is deprecated.
 	define('EXT', '.php');

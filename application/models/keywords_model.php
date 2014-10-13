@@ -66,6 +66,25 @@ class Keywords_model extends MY_Model {
             return false;
         }
     }
-}
+    
+    public function keyword_list($list){
+        $new_list = str_replace(',', "','",$list);
+        $new_list = "'".$new_list."'";
+        $update_query   =    "SELECT * from keywords_list where keyword IN (".$new_list.")";
+        $result =   $this->db->query($update_query)->result_array();
+        return $result;
+    }
 
+    public function update_keyword_configuration($activation_list, $config_id) {
+        $delete_existing_keyword_configs = "DELETE FROM selected_keywords_list
+                                            WHERE configuration_id = " . $this->db->escape($config_id) . "";
+        $this->db->query($delete_existing_keyword_configs);
+
+        foreach ($activation_list as $each) {
+            $update_keyword_query = "INSERT INTO selected_keywords_list
+                                     VALUES(NULL," . $this->db->escape($each['id']) . ", " . $this->db->escape($config_id) . ", NOW(), NOW())";
+            $this->db->query($update_keyword_query);
+        }
+    }
+}
 ?>

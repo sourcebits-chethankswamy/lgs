@@ -45,8 +45,11 @@ class User_model extends CI_Model {
      * @Param		:	$email and $password 
      */
     public function get_config_params($config = '1') {
-        $fetch_config_params_query = "";
-
+        $fetch_config_params_query = "SELECT  fl.id as field_id, fvl.id as field_value_id, fl.*, fvl.* FROM field_list fl, field_value_list fvl
+                                      WHERE fl.id=fvl.configuration_id
+                                      AND fvl.selected_status = '1'
+                                      ORDER BY fl.id, fvl.id";
+        
         $q = $this->db->query($fetch_config_params_query);
     }
 

@@ -15,7 +15,7 @@ if (isset($field_details)) {
                     $day_sel_val = $each_field['result_set'][0]['value'];
                     for ($i = 1; $i <= 31; $i++) {
                         $day_sel = ($day_sel_val == $i) ? 'selected' : '';
-                        echo '<option value="' . $each_field['result_set'][0]['field_value_id'] . '_' . $i . '" ' . $day_sel . '>' . $i . '</option>';
+                        echo '<option value="' . $each_field['result_set'][0]['field_value_id'] . '_' . sprintf("%02d", $i) . '" ' . $day_sel . '>' . sprintf("%02d", $i) . '</option>';
                     }
                     echo "</select>";
                 }
@@ -46,8 +46,14 @@ if (isset($field_details)) {
                 }
             } else {
                 $multiselect = ($each_field['field_type'] == '3') ? "multiple='' size='5'" : "";
-
-                echo "<select name='set[" . $key . "]' $multiselect>";
+                
+                if($multiselect) {
+                    $name = "set[" . $key . "][]";
+                } else {
+                    $name = "set[" . $key . "]";
+                }
+                
+                echo "<select name='".$name."' $multiselect>";
                 foreach ($each_field['result_set'] as $each_value) {
                     $selected = ($each_value['selected_status'] == '1') ? "selected" : "";
                     echo "<option value='" . $each_value['field_value_id'] . "' " . $selected . ">" . $each_value['field_value_name'] . "</option>";
@@ -60,7 +66,7 @@ if (isset($field_details)) {
             $selected_checkbox = ($each_field['result_set'][0]['selected_status'] == '1') ? "checked" : "";
             echo "<input class='ignore' type='checkbox' " . $selected_checkbox . " name='set[" . $key . "]' value='" . $each_field['result_set'][0]['field_value_id'] . "' />";
         } else if ($each_field['field_type'] == '0') {
-            echo "<input id='keywordAutocomplete' class='autocomplete' type='text' name='set[" . $key . "][" . $each_field['result_set'][0]['field_value_id'] . "]' value='" . $each_field['result_set'][0]['value'] . "' />";
+            echo "<input id='keywordAutocomplete' class='autocomplete' type='text' name='keywords' value='" . $each_field['result_set'][0]['value'] . "' />";
         }
         
         echo "</div>
@@ -71,7 +77,7 @@ if (isset($field_details)) {
     echo "<div class='outer_tab'>
                 <label>Recipient's Email:</label>
                 <div class='outer_tab-values'>";
-    echo "<input id='emailAutocomplete' class='autocomplete' type='text' name='email' value='' />";
+    echo "<input id='emailAutocomplete' class='autocomplete' type='text' name='emails' value='' />";
     echo "</div>
         </div>";
 }

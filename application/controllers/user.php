@@ -13,6 +13,7 @@ class User extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
+        $this->load->library('session');
         $this->load->model('user_model');
     }
 
@@ -68,7 +69,26 @@ class User extends CI_Controller {
         $this->session->sess_destroy();
         redirect('/');
     }
-
+    
+    public function generate_configuration_url(){
+        $response   =   $this->user_model->get_config_params();
+        $old_id = -1;$new_id;
+        foreach($response as $each){
+            if($old_id != $each['field_id']){
+                $old_id =   $each['field_id'];
+                
+            } else{
+                
+            }
+        }
+        switch($each['$field_id']){
+                    
+        }
+        if(!empty($response)){
+            
+        } else {
+            return array('error' => 0, 'message' => 'url not found');
+        }
+    }
 }
-
 ?>

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:8889
--- Generation Time: Oct 10, 2014 at 10:39 AM
+-- Generation Time: Oct 10, 2014 at 03:52 PM
 -- Server version: 5.5.34
 -- PHP Version: 5.5.10
 
@@ -39,8 +39,17 @@ CREATE TABLE `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('96bee46a97d8da072bd42f66b8d0f3a4', '::1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:32.0) Gecko/20100101 Firefox/32.0', 1412928247, 'a:4:{s:9:"user_data";s:0:"";s:7:"user_id";s:1:"1";s:10:"user_email";s:29:"himanshuarora.manit@gmail.com";s:9:"logged_in";b:1;}'),
-('a9ef296e6b7689af362a043a21cdaead', '::1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:32.0) Gecko/20100101 Firefox/32.0', 1412929442, 'a:4:{s:9:"user_data";s:0:"";s:7:"user_id";s:1:"1";s:10:"user_email";s:29:"himanshuarora.manit@gmail.com";s:9:"logged_in";b:1;}');
+('236078554a710f5a127da273218298bd', '0.0.0.0', '0', 1412947261, ''),
+('258c938447518e1a98b43f152134164b', '0.0.0.0', '0', 1412947102, ''),
+('2a66abee8952cc6da18d8596bb0f0f61', '0.0.0.0', '0', 1412947174, ''),
+('435f911a773bde80ec363a56b21b1904', '0.0.0.0', '0', 1412946813, ''),
+('58ab540f82111ad4f9ea37a264cbe8e1', '0.0.0.0', '0', 1412946751, ''),
+('6d118678cc13663a9ee5f7287c19f2cb', '::1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36', 1412945697, ''),
+('899cea891da0e034335eb5af64d35993', '0.0.0.0', '0', 1412947046, ''),
+('93d08585e7c924db12c85782c4ae976f', '0.0.0.0', '0', 1412947137, ''),
+('9d3ce129b8f790858d6c2662414d8e05', '0.0.0.0', '0', 1412946764, ''),
+('ab6ea2b3e03e41fc737ced0f6a25eb25', '::1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:32.0) Gecko/20100101 Firefox/32.0', 1412944984, 'a:4:{s:9:"user_data";s:0:"";s:7:"user_id";s:1:"1";s:10:"user_email";s:29:"himanshuarora.manit@gmail.com";s:9:"logged_in";b:1;}'),
+('d7e25d57ed905ac7f24d902d8c4b1fe9', '0.0.0.0', '0', 1412947133, '');
 
 -- --------------------------------------------------------
 
@@ -579,9 +588,9 @@ CREATE TABLE `sites_list` (
 --
 
 INSERT INTO `sites_list` (`id`, `configuration_name`, `configuration_url`, `configuration_page`, `status`, `selected_status`, `created_date`, `updated_date`) VALUES
-(1, 'global trends', '', 'global_tenders', '1', '1', '2014-10-08 00:00:00', '2014-10-10 13:53:28'),
+(1, 'global trends', '', 'global_tenders', '1', '1', '2014-10-08 00:00:00', '2014-10-10 15:04:54'),
 (2, 'ABC Tenders', '', 'abc_tenders', '1', '0', '2014-10-10 00:00:00', '2014-10-10 13:53:16'),
-(3, 'XYZ Tenders', '', 'xyz_tenders', '1', '0', '2014-10-10 00:00:00', '2014-10-10 13:53:21');
+(3, 'XYZ Tenders', '', 'xyz_tenders', '1', '0', '2014-10-10 00:00:00', '2014-10-10 15:04:45');
 
 -- --------------------------------------------------------
 
