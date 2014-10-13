@@ -13,18 +13,79 @@ class Dashboard extends MY_Controller {
 
     public function __construct() {
         parent::__construct();
+        $this->load->library('session');
+
         $this->load->model('dashboard_model');
         $this->load->model('keywords_model');
         $this->load->model('email_model');
     }
 
-    function setcron() {
-        $output = shell_exec('/usr/bin/crontab -l');
+    function removecron($config_id) {
+        if ($config_id) {
+            $cron_details = $this->dashboard_model->get_cron_details($config_id);
 
-        file_put_contents('/tmp/crontab.txt', $output . '*/5 * * * * http://localhost/lgs/crawl/checkcron >> /Users/chethan/lgs.log' . PHP_EOL);
-        echo exec('crontab /tmp/crontab.txt', $output);
+            if (!empty($cron_details)) {
+                $min = ($cron_details[0]['minute'] == 'NULL') ? '*' : $cron_details[0]['minute'];
+                $hour = ($cron_details[0]['hour'] == 'NULL') ? '*' : $cron_details[0]['hour'];
+                $day = ($cron_details[0]['day-of-month'] == 'NULL') ? '*' : $cron_details[0]['day-of-month'];
+                $month = ($cron_details[0]['month'] == 'NULL') ? '*' : $cron_details[0]['month'];
+                $week = ($cron_details[0]['day-of-week'] == 'NULL') ? '*' : $cron_details[0]['day-of-week'];
 
-        exit;
+                $output = shell_exec('/usr/bin/crontab -l');
+
+                $remove_cron = str_replace("$min $hour $day $month $week /Applications/MAMP/bin/php/php5.5.10/bin/php /Applications/MAMP/htdocs/lgs/index.php crawl/checkcron > /Users/chethan/lgsnew.log", "", $output);
+
+                file_put_contents('/tmp/crontab.txt', $remove_cron);
+                echo exec('/usr/bin/crontab /tmp/crontab.txt', $output);
+
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    function setcron($config_id) {
+        if ($config_id) {
+            $cron_details = $this->dashboard_model->get_cron_details($config_id);
+
+            if (!empty($cron_details)) {
+                $min = ($cron_details[0]['minute'] == 'NULL') ? '*' : $cron_details[0]['minute'];
+                $hour = ($cron_details[0]['hour'] == 'NULL') ? '*' : $cron_details[0]['hour'];
+                $day = ($cron_details[0]['day-of-month'] == 'NULL') ? '*' : $cron_details[0]['day-of-month'];
+                $month = ($cron_details[0]['month'] == 'NULL') ? '*' : $cron_details[0]['month'];
+                $week = ($cron_details[0]['day-of-week'] == 'NULL') ? '*' : $cron_details[0]['day-of-week'];
+
+                //echo exec('crontab -r');
+                $output = shell_exec('/usr/bin/crontab -l');
+
+                //print_r($output);
+
+                /*
+                  $strchunk = explode('\n', $output);
+                  echo '<br /><br />';
+                  print_r($strchunk);
+                  exit;
+                 */
+
+                //$remove_cron = str_replace("01 01 * * * /Applications/MAMP/bin/php/php5.5.10/bin/php /Applications/MAMP/htdocs/lgs/index.php crawl/checkcron > /Users/chethan/lgsnew.log\n", "", $output);
+                //file_put_contents('/tmp/lgscrontab.txt', $remove_cron.PHP_EOL);
+                //echo exec('/usr/bin/crontab /tmp/lgscrontab.txt', $output);
+                //echo '<br /><br />';
+                //exit;
+
+
+                file_put_contents('/tmp/crontab.txt', $output . "$min $hour $day $month $week /Applications/MAMP/bin/php/php5.5.10/bin/php /Applications/MAMP/htdocs/lgs/index.php crawl/checkcron > /Users/chethan/lgsnew.log" . PHP_EOL);
+
+                echo exec('/usr/bin/crontab /tmp/crontab.txt', $output);
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -34,7 +95,7 @@ class Dashboard extends MY_Controller {
      * @Param		:	none
      */
     public function index($error = '') {
-    	$selected_site = $this->get_site();
+        $selected_site = $this->get_site();
         $selected_site_page = $selected_site[0]['configuration_page'];
         $data['title'] = 'Home';
         $site_lists = $this->dashboard_model->get_site_lists();
@@ -44,6 +105,7 @@ class Dashboard extends MY_Controller {
         $emails_list = $this->email_model->get_emails();
         $selected_site_keywords = $this->keywords_model->get_keywords($selected_site[0]['id']);
         $selected_site_emails = $this->email_model->get_emails($selected_site[0]['id']);
+        $cronjob_settings = $this->dashboard_model->get_cronjob_settings($selected_site[0]['id']);
 
         if (!empty($fetch_field_details)) {
             $fetch_field_details = $this->format_result_set($fetch_field_details);
@@ -55,6 +117,7 @@ class Dashboard extends MY_Controller {
         $data['field_details'] = $fetch_field_details;
         $data['selected_site_keywords'] = $selected_site_keywords;
         $data['selected_site_emails'] = $selected_site_emails;
+        $data['cronjob_settings'] = $cronjob_settings;
 
         $data['site_page'] = $this->load->view('sites/' . $selected_site_page, $data, TRUE);
 
@@ -98,6 +161,17 @@ class Dashboard extends MY_Controller {
             $value = '';
 
             if (isset($_POST['save'])) {
+                if (isset($_POST['cronjob']) && !empty($_POST['cronjob'])) {
+                    $this->removecron($config_id);
+                    $cronjob = $this->dashboard_model->get_cronjob_settings($config_id);
+                    if (empty($cronjob)) {
+                        $this->dashboard_model->set_cronjob_settings($_POST['cronjob'], $config_id);
+                    } else {
+                        $this->dashboard_model->update_cronjob_settings($_POST['cronjob'], $config_id);
+                    }
+                    $this->setcron($config_id);
+                }
+
                 //print_r($_POST);
                 $this->dashboard_model->reset_selected_status($config_id);
 
@@ -142,94 +216,104 @@ class Dashboard extends MY_Controller {
                                 } else {
                                     $field_value_id = substr($val, 0, strpos($val, '_'));
                                     $value = substr($val, strpos($val, '_') + 1);
-                                    //                               echo $field_value_id.'$$$'.$value;die;
+                                    //echo $field_value_id.'$$$'.$value.'<br />';
                                     $this->dashboard_model->update_selected_fields($config_id, $field_id, $field_value_id, $value);
                                 }
                             }
                         }
                     }
                 }
-                $selected_site = $this->get_site();
-		        $selected_site_page = $selected_site[0]['configuration_page'];
-		        $data['title'] = 'Home';
-		        $data['save'] = '1';
-		        $site_lists = $this->dashboard_model->get_site_lists();
-		        $fetch_field_details = $this->dashboard_model->fetch_data();
-		
-		        $keywords_list = $this->keywords_model->get_keywords();
-		        $emails_list = $this->email_model->get_emails();
-		        $selected_site_keywords = $this->keywords_model->get_keywords($selected_site[0]['id']);
-		        $selected_site_emails = $this->email_model->get_emails($selected_site[0]['id']);
-		
-		        if (!empty($fetch_field_details)) {
-		            $fetch_field_details = $this->format_result_set($fetch_field_details);
-		        }
-		        $data['site_lists'] = $site_lists;
-		        $data['selected_site_id'] = $selected_site[0]['id'];
-		        $data['keywords_list'] = $keywords_list;
-		        $data['emails_list'] = $emails_list;
-		        $data['field_details'] = $fetch_field_details;
-		        $data['selected_site_keywords'] = $selected_site_keywords;
-		        $data['selected_site_emails'] = $selected_site_emails;
-		
-		        $data['site_page'] = $this->load->view('sites/' . $selected_site_page, $data, TRUE);
-		
-		        $this->load->view('header');
-		        $this->load->view('navigation_header');
-		        $this->load->view("dashboard", $data);
-		        $this->load->view('navigation_footer');
-		        $this->load->view('footer');
+
+                redirect('/dashboard');
+
+                /*
+                  $selected_site = $this->get_site();
+                  $selected_site_page = $selected_site[0]['configuration_page'];
+                  $data['title'] = 'Home';
+                  $data['save'] = '1';
+                  $site_lists = $this->dashboard_model->get_site_lists();
+                  $fetch_field_details = $this->dashboard_model->fetch_data();
+
+                  $keywords_list = $this->keywords_model->get_keywords();
+                  $emails_list = $this->email_model->get_emails();
+                  $selected_site_keywords = $this->keywords_model->get_keywords($selected_site[0]['id']);
+                  $selected_site_emails = $this->email_model->get_emails($selected_site[0]['id']);
+
+                  if (!empty($fetch_field_details)) {
+                  $fetch_field_details = $this->format_result_set($fetch_field_details);
+                  }
+                  $data['site_lists'] = $site_lists;
+                  $data['selected_site_id'] = $selected_site[0]['id'];
+                  $data['keywords_list'] = $keywords_list;
+                  $data['emails_list'] = $emails_list;
+                  $data['field_details'] = $fetch_field_details;
+                  $data['selected_site_keywords'] = $selected_site_keywords;
+                  $data['selected_site_emails'] = $selected_site_emails;
+
+                  $data['site_page'] = $this->load->view('sites/' . $selected_site_page, $data, TRUE);
+
+                  $this->load->view('header');
+                  $this->load->view('navigation_header');
+                  $this->load->view("dashboard", $data);
+                  $this->load->view('navigation_footer');
+                  $this->load->view('footer');
+                 * 
+                 */
             }
+        } else {
+            redirect('/dashboard');
         }
     }
 
-    	public function search() {
-    		$helper_email = new Mail();
-    		if (isset($_POST['search'])) {
-                $request_url = $this->generate_url($_POST);
-                $result = $this->send_request($request_url);
+    public function search() {
+        if (isset($_POST['search'])) {
+            $request_url = $this->generate_url($_POST);
+            $result = $this->send_request($request_url);
+        } else {
+            redirect('/dashboard');
+        }
+
+        $selected_site = $this->get_site();
+        $selected_site_page = $selected_site[0]['configuration_page'];
+        $data['title'] = 'Home';
+        if (isset($result) && $result != '') {
+            if (isset($_POST['emails'])) {
+                if ($_POST['emails'] != '') {
+                    $to_email = $_POST['emails'];
+                    $subject = 'Search results for ' . strtoupper($selected_site[0]['configuration_name']);
+                    $this->sendMail($to_email, $subject, $result);
+                }
             }
-    		$selected_site = $this->get_site();
-	        $selected_site_page = $selected_site[0]['configuration_page'];
-	        $data['title'] = 'Home';
-	        if(isset($result)){
-	        	$data['search_view'] = $result;
-	        }
-	        $site_lists = $this->dashboard_model->get_site_lists();
-	        $fetch_field_details = $this->dashboard_model->fetch_data();
-	
-	        $keywords_list = $this->keywords_model->get_keywords();
-	        $emails_list = $this->email_model->get_emails();
-	        $selected_site_keywords = $this->keywords_model->get_keywords($selected_site[0]['id']);
-	        $selected_site_emails = $this->email_model->get_emails($selected_site[0]['id']);
-	        if (!empty($fetch_field_details)) {
-	            $fetch_field_details = $this->format_result_set($fetch_field_details);
-	        }
-	        $data['site_lists'] = $site_lists;
-	        $data['selected_site_id'] = $selected_site[0]['id'];
-	        $data['keywords_list'] = $keywords_list;
-	        $data['emails_list'] = $emails_list;
-	        $data['field_details'] = $fetch_field_details;
-	        $data['selected_site_keywords'] = $selected_site_keywords;
-	        $data['selected_site_emails'] = $selected_site_emails;
-	        $data['site_page'] = $this->load->view('sites/' . $selected_site_page, $data, TRUE);
-	        if(isset($selected_site_emails)) {
-	        	$to_email = '';
-	        	foreach($selected_site_emails as $email){
-	        		$to_email .= $email['email'].',';
-	        	}
-	        	$to_email	= substr_replace($to_email, "", -1);
-	        	$subject	= 'Search results for'.$selected_site_page;
-	        	$helper_email->sendMail($to_email, $subject, $result);
-	        }
-	        $this->load->view('header');
-	        $this->load->view('navigation_header');
-	        $this->load->view("dashboard", $data);
-	        $this->load->view('navigation_footer');
-	        $this->load->view('footer');
-	        
-    	}
-    
+            $data['search_view'] = $result;
+        } else {
+            $data['search_view'] = "Sorry, No Record matches your request.";
+        }
+        $site_lists = $this->dashboard_model->get_site_lists();
+        $fetch_field_details = $this->dashboard_model->fetch_data();
+
+        $keywords_list = $this->keywords_model->get_keywords();
+        $emails_list = $this->email_model->get_emails();
+        $selected_site_keywords = $this->keywords_model->get_keywords($selected_site[0]['id']);
+        $selected_site_emails = $this->email_model->get_emails($selected_site[0]['id']);
+        if (!empty($fetch_field_details)) {
+            $fetch_field_details = $this->format_result_set($fetch_field_details);
+        }
+        $data['site_lists'] = $site_lists;
+        $data['selected_site_id'] = $selected_site[0]['id'];
+        $data['keywords_list'] = $keywords_list;
+        $data['emails_list'] = $emails_list;
+        $data['field_details'] = $fetch_field_details;
+        $data['selected_site_keywords'] = $selected_site_keywords;
+        $data['selected_site_emails'] = $selected_site_emails;
+        $data['site_page'] = $this->load->view('sites/' . $selected_site_page, $data, TRUE);
+
+        $this->load->view('header');
+        $this->load->view('navigation_header');
+        $this->load->view("dashboard", $data);
+        $this->load->view('navigation_footer');
+        $this->load->view('footer');
+    }
+
     public function generate_url($post_vars) {
         $url_params = $this->config->item('url_params');
         $post_data = "";
@@ -267,11 +351,12 @@ class Dashboard extends MY_Controller {
             $post_data .= '&t=' . urlencode($post_vars['keywords']);
         }
 
-        $params = ltrim($post_data, '&');
+        //$params = ltrim($post_data, '&');
+        $params = $post_data;
 
         $global_url = $this->config->item('global_url');
 
-        return $global_url . '?' . $params;
+        return $global_url . '?limit=100' . $params;
 
         /*
           $response = $this->dashboard_model->get_config_params($config);

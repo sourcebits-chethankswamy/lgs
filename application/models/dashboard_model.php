@@ -32,7 +32,7 @@ class Dashboard_model extends MY_Model {
 // echo '<pre>';print_r($result_set);die;
     }
 
-    public function reset_selected_status ($config_id) {
+    public function reset_selected_status($config_id) {
         $fields_list_sql = $this->db->query('select id from fields_list where configuration_id = "' . $config_id . '"')->result_array();
         foreach ($fields_list_sql as $filedvalue) {
             $this->db->query('update field_list_values set selected_status="0" where field_id="' . $filedvalue['id'] . '"');
@@ -40,9 +40,8 @@ class Dashboard_model extends MY_Model {
         return true;
     }
 
-
     public function update_selected_fields($config_id = '1', $field_id, $field_value_id, $value = '') {
-         
+
         if (empty($value)) {
             $condition = "selected_status ='1', updated_date=NOW()";
         } else {
@@ -53,11 +52,11 @@ class Dashboard_model extends MY_Model {
                                             WHERE id = '" . $field_value_id . "'
                                             AND field_id='" . $field_id . "'
                                             ";
-        
+
         //echo $update_selected_fields_query.'<br />';
-        
+
         $result_set = $this->db->query($update_selected_fields_query);
-         
+
         return true;
     }
 
@@ -83,6 +82,45 @@ class Dashboard_model extends MY_Model {
                 join field_list_values flv on flv.field_id = fl.id
                 WHERE fl.id = '" . $feild_id . "' and flv.id='" . $field_value_id . "'";
 
+        $result = $this->db->query($sql)->result_array();
+
+        return $result;
+    }
+
+    public function get_cronjob_settings($config) {
+        $sql = 'Select * from cronjob_settings where configuration_id = "' . $config . '"';
+        $result = $this->db->query($sql)->result_array();
+
+        return $result;
+    }
+
+    public function set_cronjob_settings($settings, $config) {
+        if (($settings['min'] != '') || ($settings['hour'] != '') || ($settings['day'] != '') || ($settings['month'] != '') || ($settings['week'] != '')) {
+            $sql = 'insert into cronjob_settings (`configuration_id`, `minute`, `hour`, `day-of-month`, `month`, `day-of-week`, `created_date`) values 
+                    ("' . $config . '", "' . $settings['min'] . '", "' . $settings['hour'] . '", "' . $settings['day'] . '", "' . $settings['month'] . '", "' . $settings['week'] . '", NOW())';
+
+            $result_set = $this->db->query($sql);
+        }
+        return true;
+    }
+
+    public function update_cronjob_settings($settings, $config) {
+        $sql = 'update cronjob_settings set 
+                `minute` = "' . $settings['min'] . '",
+                `hour` = "' . $settings['hour'] . '",
+                `day-of-month` = "' . $settings['day'] . '",
+                `month` = "' . $settings['month'] . '",
+                `day-of-week` = "' . $settings['week'] . '",
+                `modified_date` = NOW()
+                where 
+                `configuration_id` = "' . $config . '"';
+
+        $result_set = $this->db->query($sql);
+        return true;
+    }
+
+    public function get_cron_details($config_id) {
+        $sql = 'select * from cronjob_settings where configuration_id = "' . $config_id . '"';
         $result = $this->db->query($sql)->result_array();
 
         return $result;

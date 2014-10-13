@@ -1,10 +1,10 @@
 @charset "utf-8";
 /* CSS Document */
 body{
-background-color:#FFF;
-font-family:Monaco,Consolas,'Lucida Grande','Lucida Console';
-font-size:16px;
-text-shadow:rgba(0,0,0,0.01) 0 0 0;
+    background-color:#FFF;
+    font-family:Monaco,Consolas,'Lucida Grande','Lucida Console';
+    font-size:16px;
+    text-shadow:rgba(0,0,0,0.01) 0 0 0;
 }
 .container{width:960px;margin:5px;float:left;}
 .login_fields{height:30px !important;width:97%;}
@@ -64,14 +64,14 @@ text-shadow:rgba(0,0,0,0.01) 0 0 0;
 .email_tab.last-child , .keywords_tab.last-child{height:42px; background: none repeat scroll 0 0 #fafafa;}
 
 @media all and (max-width: 1300px) {
-.content_settings{padding:3% 20% !important;}
-.email_tab .email, .keywords_tab .keywords {width: 50%;}
+    .content_settings{padding:3% 20% !important;}
+    .email_tab .email, .keywords_tab .keywords {width: 50%;}
 }
 
 .autocomplete {
     width: 100%;
 }
- 
+
 *::-moz-selection {
     background: none repeat scroll 0 0 #b3d4fc;
     text-shadow: none;
@@ -134,15 +134,19 @@ text-shadow:rgba(0,0,0,0.01) 0 0 0;
     border-top-right-radius: 0;
 }
 .green{
-background: none repeat scroll 0 0 #CCEBCC;
-border: 1px solid #71C671;
-border-radius: 6px;
-color: #008A2E;
-padding-top:2px;
-padding-bottom:3px;
-margin-bottom:20px;
+    background: none repeat scroll 0 0 #CCEBCC;
+    border: 1px solid #71C671;
+    border-radius: 6px;
+    color: #008A2E;
+    padding-top:2px;
+    padding-bottom:3px;
+    margin-bottom:20px;
 }
 .clear{clear:both;}
 .search_results{
-margin-top:30px;
+    margin-top:30px;
+    font-size: 14px;
+}
+.config-blk-header select {
+    text-transform: uppercase;
 }

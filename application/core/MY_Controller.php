@@ -14,7 +14,6 @@ class MY_Controller extends CI_Controller {
         if ($this->session->userdata('logged_in') != 1) {
             redirect('/');
         }
-        $this->load->helper('mail');
     }
 
     public function set_site($id) {
@@ -82,7 +81,7 @@ class MY_Controller extends CI_Controller {
             $header['errno'] = $err;
             $header['errmsg'] = $errmsg;
             $header['content'] = $content;
-			
+
             /* 200 Response! */
             if ($status == 200) {
                 $this->load->helper('phpQuery');
@@ -92,9 +91,18 @@ class MY_Controller extends CI_Controller {
                 // Create array to hold stats
                 $stats = array();
 
+                $doc['.tableC .table1 div.cent']->find('table tr:last')->remove();
+
                 // Add stats from page to array
                 // Notice the CSS style selector
                 foreach ($doc['.tableC .table1 div.cent'] as $td) {
+                    $href = pq($td)->find('a');
+                    if (isset($href) && $href != '') {
+                        foreach ($href as $a) {
+                            $newhref = 'http://www.globaltenders.com/' . pq($a)->attr('href');
+                            pq($a)->attr('href', $newhref);
+                        }
+                    }
                     $stats[] = pq($td)->html();
                 }
 
@@ -108,6 +116,36 @@ class MY_Controller extends CI_Controller {
             }
         } else {
             return false;
+        }
+    }
+
+    /**
+     * @Access		:	public
+     * @Function	:	sendMail
+     * @Description	:	Sends email to users
+     * @Param		:	$to , $sub, $message
+     */
+    public function sendMail($to, $sub, $message) {
+        $config = Array(
+            'protocol' => 'smtp',
+            'smtp_host' => 'ssl://smtp.googlemail.com',
+            'smtp_port' => 465,
+            'smtp_user' => FROM_EMAIL_ADDRESS,
+            'smtp_pass' => FROM_EMAIL_PASSWORD,
+            'mailtype' => 'html',
+            'charset' => 'iso-8859-1',
+            'wordwrap' => TRUE
+        );
+        $this->load->library('email', $config);
+        $this->email->set_newline("\r\n");
+        $this->email->from(FROM_EMAIL_ADDRESS);
+        $this->email->to($to);
+        $this->email->subject($sub);
+        $this->email->message($message);
+        if ($this->email->send()) {
+            // Do nothing. Email is sent.
+        } else {
+            show_error($this->email->print_debugger());
         }
     }
 

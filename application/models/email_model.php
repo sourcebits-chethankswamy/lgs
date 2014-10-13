@@ -68,10 +68,11 @@ class Email_model extends MY_Model {
     }
     
     public function email_list($list){
-        $new_list = str_replace(',', "','",$list);
+        $new_list = str_replace(', ',"','",$list);
         $new_list = "'".$new_list."'";
         $update_query   =    "SELECT * from emails_list where email IN (".$new_list.")";
         $result =   $this->db->query($update_query)->result_array();
+
         return $result;
     }
     

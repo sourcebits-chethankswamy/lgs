@@ -68,7 +68,7 @@ class Keywords_model extends MY_Model {
     }
     
     public function keyword_list($list){
-        $new_list = str_replace(',', "','",$list);
+        $new_list = str_replace(', ', "','",$list);
         $new_list = "'".$new_list."'";
         $update_query   =    "SELECT * from keywords_list where keyword IN (".$new_list.")";
         $result =   $this->db->query($update_query)->result_array();
