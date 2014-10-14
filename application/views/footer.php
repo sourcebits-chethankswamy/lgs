@@ -32,6 +32,7 @@
             $keyword_id_details = implode(',', $keyword_ids);
             $sel_keywords = implode(',', $sel_keys);
         }
+
         if (isset($selected_site_emails)) {
             $email_ids = array();
             $sel_email = array();

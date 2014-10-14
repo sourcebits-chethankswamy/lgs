@@ -152,11 +152,11 @@ body{
     text-transform: uppercase;
 }
 .add_anchor{
-float: left;
-font-size: 14px;
-margin-left: 12px;
-margin-top: 7px;
-text-decoration: underline;
+    float: left;
+    font-size: 14px;
+    margin-left: 12px;
+    margin-top: 7px;
+    text-decoration: underline;
 }
 /*--- Flash message Styles---*/
 .message {
@@ -179,3 +179,50 @@ text-decoration: underline;
 }
 
 /*--- Flash message END---*/
+
+.site-config {
+    display: inline-block;
+    float: left;
+    line-height: 20px;
+    text-align: left;    
+}
+
+.site-config .outer_tab-values ul {
+    list-style: none;
+}
+.site-config .outer_tab-values {
+    width: 70%; 
+}
+.site-config .outer_tab-values ul li {
+    background: #f1f1f1;
+    border-right: 2px solid red;
+    display: inline;
+    font-size: 14px;
+    font-weight: normal;
+    margin-right: 5px;
+    padding: 2px 3px;
+    text-align: left;
+}
+
+.config-edit-block {
+    display: inline-block;
+    font-size: 14px;
+    margin-top: 5px;
+    text-align: right;
+    width: 100%;
+}
+.config-edit-block a:hover {
+    text-decoration: underline;
+}
+
+.left {
+    float: left;
+}
+
+.right{ 
+    float: right;
+}
+
+.config-blk-settings form {
+    margin: 0px;
+}

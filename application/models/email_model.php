@@ -17,13 +17,15 @@ class Email_model extends MY_Model {
 
     public function get_emails($id = '') {
         if ($id != '') {
-            $email_list = "SELECT el.email, el.id as email_id, sel.id as sel_email_id  FROM selected_emails_list sel
+            $email_list = "SELECT el.email, el.id as email_id, sel.id as sel_email_id  
+                            FROM selected_emails_list sel
                             join emails_list el on el.id = sel.email_id
                             WHERE 
-                            el.status = '1' and sel.configuration_id = '" . $id . "'";
+                            el.status = '1'";
         } else {
             $email_list = "SELECT * FROM emails_list WHERE status = '1'";
         }
+
         $result_set = $this->db->query($email_list)->result_array();
         return $result_set;
     }
@@ -76,14 +78,13 @@ class Email_model extends MY_Model {
         return $result;
     }
 
-    public function update_email_configuration($activation_list, $config_id) {
-        $delete_existing_email_configs = "DELETE FROM selected_emails_list
-                                            WHERE configuration_id = " . $this->db->escape($config_id) . "";
+    public function update_email_configuration($activation_list) {
+        $delete_existing_email_configs = "DELETE FROM selected_emails_list WHERE active = '1'";
         $this->db->query($delete_existing_email_configs);
 
         foreach ($activation_list as $each) {
-            $update_email_query = "INSERT INTO selected_emails_list
-                                     VALUES(NULL," . $this->db->escape($each['id']) . ", " . $this->db->escape($config_id) . ", NOW(), NOW())";
+            $update_email_query = "INSERT INTO selected_emails_list (email_id, active, created_date)
+                                    VALUES(" . $this->db->escape($each['id']) . ", '1', NOW())";
             $this->db->query($update_email_query);
         }
     }

@@ -20,7 +20,7 @@ class Keywords_model extends MY_Model {
             $keyword_list = "SELECT kl.keyword, kl.id as keyword_id, skl.id as sel_keyword_id  FROM selected_keywords_list skl
                             join keywords_list kl on kl.id = skl.keyword_id
                             WHERE 
-                            kl.status = '1' and skl.configuration_id = '".$id."'";
+                            kl.status = '1' and skl.configuration_id = '" . $id . "'";
         } else {
             $keyword_list = "SELECT * FROM keywords_list WHERE status = '1'";
         }
@@ -76,15 +76,18 @@ class Keywords_model extends MY_Model {
     }
 
     public function update_keyword_configuration($activation_list, $config_id) {
-        $delete_existing_keyword_configs = "DELETE FROM selected_keywords_list
+        if ($config_id != 0) {
+            $delete_existing_keyword_configs = "DELETE FROM selected_keywords_list
                                             WHERE configuration_id = " . $this->db->escape($config_id) . "";
-        $this->db->query($delete_existing_keyword_configs);
+            $this->db->query($delete_existing_keyword_configs);
 
-        foreach ($activation_list as $each) {
-            $update_keyword_query = "INSERT INTO selected_keywords_list
+            foreach ($activation_list as $each) {
+                $update_keyword_query = "INSERT INTO selected_keywords_list
                                      VALUES(NULL," . $this->db->escape($each['id']) . ", " . $this->db->escape($config_id) . ", NOW(), NOW())";
-            $this->db->query($update_keyword_query);
+                $this->db->query($update_keyword_query);
+            }
         }
+        return true;
     }
 
 }

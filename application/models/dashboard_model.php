@@ -27,44 +27,88 @@ class Dashboard_model extends MY_Model {
                         WHERE fl.configuration_id = " . $this->db->escape($config) . "
                         AND fl.id = flv.field_id
                         ORDER BY fl.id,flv.id";
+
         $result_set = $this->db->query($fetch_data)->result_array();
         return $result_set;
-// echo '<pre>';print_r($result_set);die;
+    }
+
+    public function get_site_configuration_lists($site_id) {
+        $sql = 'SELECT * from site_configurations
+                WHERE 
+                site_id = "' . $site_id . '"';
+
+        $result_set = $this->db->query($sql)->result_array();
+        return $result_set;
+    }
+
+    public function get_site_configurations($config_id, $status = 0) {
+        $selected_cond = ($status == 0) ? 'and sfl.selected_status = "1"' : "";
+
+        $sql = 'SELECT sc.id as site_id, sc.configuration_name, fl.id as field_id, fl.field_name, fl.field_type, flv.field_value_name, flv.id as field_value_id, flv.value as field_value, sfl.selected_status
+                FROM site_configurations sc 
+                JOIN fields_list fl on fl.configuration_id = sc.site_id
+                JOIN field_list_values flv on flv.field_id = fl.id
+                LEFT JOIN selected_fields_list sfl on sfl.field_list_values_id = flv.id
+                WHERE 
+                sc.site_id = "' . $config_id . '" ' . $selected_cond;
+        //echo $sql; exit;
+        $result_set = $this->db->query($sql)->result_array();
+        return $result_set;
     }
 
     public function reset_selected_status($config_id) {
-        $fields_list_sql = $this->db->query('select id from fields_list where configuration_id = "' . $config_id . '"')->result_array();
-        foreach ($fields_list_sql as $filedvalue) {
-            $this->db->query('update field_list_values set selected_status="0" where field_id="' . $filedvalue['id'] . '"');
+        /*
+          $fields_list_sql = $this->db->query('select id from fields_list where configuration_id = "' . $config_id . '"')->result_array();
+          foreach ($fields_list_sql as $filedvalue) {
+          $this->db->query('update field_list_values set selected_status="0" where field_id="' . $filedvalue['id'] . '"');
+          }
+         */
+        if ($config_id != 0) {
+            $delete_existing_configs = "DELETE FROM selected_fields_list WHERE configuration_id = " . $this->db->escape($config_id) . "";
+            $this->db->query($delete_existing_configs);
+
+            //$delete_existing_email_configs = "DELETE FROM selected_emails_list WHERE active = '1'";
+            //$this->db->query($delete_existing_email_configs);
+
+            $delete_existing_keyword_configs = "DELETE FROM selected_keywords_list WHERE configuration_id = " . $this->db->escape($config_id) . "";
+            $this->db->query($delete_existing_keyword_configs);
         }
-
-        $delete_existing_email_configs = "DELETE FROM selected_emails_list WHERE configuration_id = " . $this->db->escape($config_id) . "";
-        $this->db->query($delete_existing_email_configs);
-        
-        $delete_existing_keyword_configs = "DELETE FROM selected_keywords_list WHERE configuration_id = " . $this->db->escape($config_id) . "";
-        $this->db->query($delete_existing_keyword_configs);
-
         return true;
     }
 
-    public function update_selected_fields($config_id = '1', $field_id, $field_value_id, $value = '') {
+    public function create_site_configuration($site_id, $config_name) {
+        $sql = 'INSERT into site_configurations (site_id, configuration_name, status, created_date) values
+                ("' . $site_id . '", "' . $config_name . '", "1", NOW())';
+        $result_set = $this->db->query($sql);
+        return $this->db->insert_id();
+    }
 
+    public function update_selected_fields($config_id, $field_value_id, $value = '') {
         if (empty($value)) {
-            $condition = "selected_status ='1', updated_date=NOW()";
-        } else {
-            $condition = "value = " . $value . ",selected_status ='1',updated_date=NOW()";
+            $value = "NULL";
         }
-        $update_selected_fields_query = "UPDATE field_list_values
-                                            SET $condition
-                                            WHERE id = '" . $field_value_id . "'
-                                            AND field_id='" . $field_id . "'
-                                            ";
 
-        //echo $update_selected_fields_query.'<br />';
+        $sql = 'INSERT into selected_fields_list (field_list_values_id, configuration_id, value, selected_status, created_date) values 
+                ("' . $field_value_id . '", "' . $config_id . '", "' . $value . '", "1", NOW())';
 
-        $result_set = $this->db->query($update_selected_fields_query);
+        //echo $sql . '<br />';
 
+        $result_set = $this->db->query($sql);
         return true;
+        /*
+
+          $update_selected_fields_query = "UPDATE field_list_values
+          SET $condition
+          WHERE id = '" . $field_value_id . "'
+          AND field_id='" . $field_id . "'
+          ";
+
+          //echo $update_selected_fields_query.'<br />';
+
+          $result_set = $this->db->query($update_selected_fields_query);
+
+          return true;
+         */
     }
 
     /**
@@ -95,7 +139,7 @@ class Dashboard_model extends MY_Model {
     }
 
     public function get_cronjob_settings($config) {
-        $sql = 'Select * from cronjob_settings where configuration_id = "' . $config . '"';
+        $sql = 'Select * from cronjob_settings where site_id = "' . $config . '"';
         $result = $this->db->query($sql)->result_array();
 
         return $result;
@@ -103,7 +147,7 @@ class Dashboard_model extends MY_Model {
 
     public function set_cronjob_settings($settings, $config) {
         if (($settings['min'] != '') || ($settings['hour'] != '') || ($settings['day'] != '') || ($settings['month'] != '') || ($settings['week'] != '')) {
-            $sql = 'insert into cronjob_settings (`configuration_id`, `minute`, `hour`, `day-of-month`, `month`, `day-of-week`, `created_date`) values 
+            $sql = 'insert into cronjob_settings (`site_id`, `minute`, `hour`, `day-of-month`, `month`, `day-of-week`, `created_date`) values 
                     ("' . $config . '", "' . $settings['min'] . '", "' . $settings['hour'] . '", "' . $settings['day'] . '", "' . $settings['month'] . '", "' . $settings['week'] . '", NOW())';
 
             $result_set = $this->db->query($sql);
@@ -120,14 +164,14 @@ class Dashboard_model extends MY_Model {
                 `day-of-week` = "' . $settings['week'] . '",
                 `modified_date` = NOW()
                 where 
-                `configuration_id` = "' . $config . '"';
+                `site_id` = "' . $config . '"';
 
         $result_set = $this->db->query($sql);
         return true;
     }
 
     public function get_cron_details($config_id) {
-        $sql = 'select * from cronjob_settings where configuration_id = "' . $config_id . '"';
+        $sql = 'select * from cronjob_settings where site_id = "' . $config_id . '"';
         $result = $this->db->query($sql)->result_array();
 
         return $result;
