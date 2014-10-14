@@ -14,12 +14,14 @@ $(function() {
     var height_of_page = $(document).height() - 82;
     $('.well.sidebar-nav').css('height', height_of_page + 'px');
     $('.well.sidebar-nav ul .active').removeClass('active');
-    if (location.href.indexOf('dashboard') != -1) {
+    if (location.href.indexOf('configsettings') != -1) {
         $('.well.sidebar-nav ul li:nth-child(2)').addClass('active');
-    } else if (location.href.indexOf('keywords') != -1) {
-        $('.well.sidebar-nav ul li:nth-child(4)').addClass('active');
-    } else {
+    } else if (location.href.indexOf('dashboard') != -1) {
         $('.well.sidebar-nav ul li:nth-child(3)').addClass('active');
+    } else if (location.href.indexOf('keywords') != -1) {
+        $('.well.sidebar-nav ul li:nth-child(5)').addClass('active');
+    } else {
+        $('.well.sidebar-nav ul li:nth-child(4)').addClass('active');
     }
 
     $('#sel_keywords').val(keywords);

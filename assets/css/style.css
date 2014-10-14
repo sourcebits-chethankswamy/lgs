@@ -151,7 +151,13 @@ body{
 .config-blk-header select {
     text-transform: uppercase;
 }
-
+.add_anchor{
+float: left;
+font-size: 14px;
+margin-left: 12px;
+margin-top: 7px;
+text-decoration: underline;
+}
 /*--- Flash message Styles---*/
 .message {
     background: none repeat scroll 0 0 #ffe4b5;
