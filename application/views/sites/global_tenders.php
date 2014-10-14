@@ -79,7 +79,7 @@ if (isset($field_details)) {
                 <label>Recipient's Email:</label>
                 <div class='outer_tab-values'>";
     echo "<input id='emailAutocomplete' class='autocomplete' type='text' name='emails' value='' />";
-    echo "</div>";
+    echo "</div></div>";
 
     echo "<div class='outer_tab'>
             <label>AUTO run setting:</label>
