@@ -160,11 +160,7 @@ if (defined('ENVIRONMENT'))
  * -------------------------------------------------------------------
  */
 	// The name of THIS file
-	define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
-
-	/**Email Configurations**/
-	define('FROM_EMAIL_ADDRESS','lgs.noreply@gmail.com');
-	define('FROM_EMAIL_PASSWORD','welcome_');    
+	define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));   
     
 	// The PHP file extension
 	// this global constant is deprecated.

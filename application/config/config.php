@@ -373,5 +373,9 @@ function __autoload($class)
   @include_once( APPPATH . 'core/'. $class . EXT );
  }
 }
+
+$config['FROM_EMAIL_ADDRESS'] = 'lgs.noreply@gmail.com';
+$config['FROM_EMAIL_PASSWORD'] = 'welcome_';
+
 /* End of file config.php */
 /* Location: ./application/config/config.php */

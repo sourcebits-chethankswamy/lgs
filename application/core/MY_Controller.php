@@ -130,15 +130,15 @@ class MY_Controller extends CI_Controller {
             'protocol' => 'smtp',
             'smtp_host' => 'ssl://smtp.googlemail.com',
             'smtp_port' => 465,
-            'smtp_user' => FROM_EMAIL_ADDRESS,
-            'smtp_pass' => FROM_EMAIL_PASSWORD,
+            'smtp_user' => $this->config->item('FROM_EMAIL_ADDRESS'),
+            'smtp_pass' => $this->config->item('FROM_EMAIL_PASSWORD'),
             'mailtype' => 'html',
             'charset' => 'iso-8859-1',
             'wordwrap' => TRUE
         );
         $this->load->library('email', $config);
-        $this->email->set_newline("\r\n");
-        $this->email->from(FROM_EMAIL_ADDRESS);
+        //$this->email->set_newline("\r\n");
+        $this->email->from($this->config->item('FROM_EMAIL_ADDRESS'));
         $this->email->to($to);
         $this->email->subject($sub);
         $this->email->message($message);

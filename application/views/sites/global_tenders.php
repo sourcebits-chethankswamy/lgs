@@ -97,8 +97,10 @@ if (isset($field_details)) {
 
     echo "<select name='cronjob[hour]' style='width:auto' title='Hour'>";
     $cjhour_sel_val = (isset($cronjob_settings[0]['hour'])) ? $cronjob_settings[0]['hour'] : '';
+    $cjhour_sel_all = (($cjhour_sel_val != '') && ($cjhour_sel_val == '*')) ? 'selected' : '';
     $cjhour_sel_none = (($cjhour_sel_val != '') && ($cjhour_sel_val == 'NULL')) ? 'selected' : '';
-    echo "<option value='NULL' $cjhour_sel_none>Hour</option>";    
+    echo "<option value='NULL' $cjhour_sel_none>Hour</option>";  
+    echo "<option value='*' $cjhour_sel_all>Every Hour</option>";
     for ($ck = 0; $ck <= 23; $ck++) {
         $cjhour_sel = (($cjhour_sel_val != '') && ($cjhour_sel_val === sprintf("%02d", $ck))) ? 'selected' : '';
         echo '<option value="' . sprintf("%02d", $ck) . '" ' . $cjhour_sel . '>' . sprintf("%02d", $ck) . '</option>';

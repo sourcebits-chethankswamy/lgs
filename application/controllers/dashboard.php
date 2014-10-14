@@ -33,7 +33,7 @@ class Dashboard extends MY_Controller {
 
                 $output = shell_exec('/usr/bin/crontab -l');
 
-                $remove_cron = str_replace("$min $hour $day $month $week /Applications/MAMP/bin/php/php5.5.10/bin/php /Applications/MAMP/htdocs/lgs/index.php crawl/checkcron > /Users/chethan/lgsnew.log", "", $output);
+                $remove_cron = str_replace("$min $hour $day $month $week /Applications/MAMP/bin/php/php5.5.10/bin/php /Applications/MAMP/htdocs/lgs/index.php crawl/testruncronjob > /Users/chethan/lgscronlogs.log", "", $output);
 
                 file_put_contents('/tmp/crontab.txt', $remove_cron);
                 echo exec('/usr/bin/crontab /tmp/crontab.txt', $output);
@@ -77,7 +77,7 @@ class Dashboard extends MY_Controller {
                 //exit;
 
 
-                file_put_contents('/tmp/crontab.txt', $output . "$min $hour $day $month $week /Applications/MAMP/bin/php/php5.5.10/bin/php /Applications/MAMP/htdocs/lgs/index.php crawl/checkcron > /Users/chethan/lgsnew.log" . PHP_EOL);
+                file_put_contents('/tmp/crontab.txt', $output . "$min $hour $day $month $week /Applications/MAMP/bin/php/php5.5.10/bin/php /Applications/MAMP/htdocs/lgs/index.php crawl/testruncronjob > /Users/chethan/lgscronlogs.log" . PHP_EOL);
 
                 echo exec('/usr/bin/crontab /tmp/crontab.txt', $output);
             } else {
