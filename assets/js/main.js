@@ -1,4 +1,13 @@
+function closeMessage() {
+    $('.message').slideUp('slow');
+    $('.message span').html("");
+}
 $(function() {
+    if ($('.message span').text().length) {
+        $('.message').slideDown('slow', function() {
+            window.setTimeout('closeMessage()', 2000);
+        });
+    }
     var height_of_page = $(document).height() - 82;
     $('.well.sidebar-nav').css('height', height_of_page + 'px');
     $('.well.sidebar-nav ul .active').removeClass('active');

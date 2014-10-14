@@ -20,7 +20,7 @@ class Keywords_model extends MY_Model {
             $keyword_list = "SELECT kl.keyword, kl.id as keyword_id, skl.id as sel_keyword_id  FROM selected_keywords_list skl
                             join keywords_list kl on kl.id = skl.keyword_id
                             WHERE 
-                            kl.status = '1' and skl.configuration_id = '1'";
+                            kl.status = '1' and skl.configuration_id = '".$id."'";
         } else {
             $keyword_list = "SELECT * FROM keywords_list WHERE status = '1'";
         }
@@ -58,7 +58,7 @@ class Keywords_model extends MY_Model {
     }
 
     public function keyword_check($data, $config = '1') {
-        $keywords = "SELECT * FROM keywords_list WHERE configuration_id = " . $this->db->escape($config) . " AND  keyword=" . $this->db->escape($data['keyword']) . "";
+        $keywords = "SELECT * FROM keywords_list WHERE keyword=" . $this->db->escape($data['keyword']) . "";
         $result = $this->db->query($keywords)->result_array();
         if (isset($result[0]) && !empty($result[0])) {
             return true;
@@ -66,12 +66,12 @@ class Keywords_model extends MY_Model {
             return false;
         }
     }
-    
-    public function keyword_list($list){
-        $new_list = str_replace(', ', "','",$list);
-        $new_list = "'".$new_list."'";
-        $update_query   =    "SELECT * from keywords_list where keyword IN (".$new_list.")";
-        $result =   $this->db->query($update_query)->result_array();
+
+    public function keyword_list($list) {
+        $new_list = str_replace(', ', "','", $list);
+        $new_list = "'" . $new_list . "'";
+        $update_query = "SELECT * from keywords_list where keyword IN (" . $new_list . ")";
+        $result = $this->db->query($update_query)->result_array();
         return $result;
     }
 
@@ -86,5 +86,7 @@ class Keywords_model extends MY_Model {
             $this->db->query($update_keyword_query);
         }
     }
+
 }
+
 ?>

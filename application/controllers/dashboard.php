@@ -223,7 +223,9 @@ class Dashboard extends MY_Controller {
                         }
                     }
                 }
-
+                $message = 'Settings successfully changed!!!';
+                $this->session->set_flashdata ( "message", $message );
+                
                 redirect('/dashboard');
 
                 /*

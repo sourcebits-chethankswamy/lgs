@@ -14,4 +14,7 @@
         <link href="<?php echo site_url('/assets/css/jquery-ui.css');?>" rel="stylesheet" type="text/css" />    
     </head>
 <body>
+    <div class="message">
+        <span><?php	if($this->session->flashdata('message') != '') { echo $this->session->flashdata('message'); } ?></span>
+    </div>
 	

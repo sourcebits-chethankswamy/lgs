@@ -14,10 +14,91 @@ class Crawl extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('crawl_model');
+        $this->load->model('dashboard_model');
+        $this->load->model('keywords_model');
+        $this->load->model('email_model');
     }
 
     public function checkcron() {
         echo "Hello, World 123" . PHP_EOL;
+
+        $url_params = $this->config->item('url_params');
+        $config = '1';
+        $response = $this->dashboard_model->get_config_params($config);
+        $post_data = "";
+
+        //echo "<pre>";print_r($response);
+        //$old_id = -1; $date = array();
+
+        foreach ($response as $key => $each) {
+            $bracket = '';
+
+            if ($each['field_id'] == '1' || $each['field_id'] == '4') {
+                $bracket = '[]';
+            }
+
+            if ($each['field_id'] == '6') {
+                $post_data .= '&' . $each['field_value_name'] . $bracket . '=' . urlencode(sprintf("%02d", $each['value']));
+            } else {
+                $post_data .= '&' . $url_params[$each['field_id']] . $bracket . '=' . urlencode($each['value']);
+            }
+
+            /*
+              if ($each['field_id'] == '6') {
+              $date[] = $each;
+              continue;
+              }
+
+              if ($each['field_id'] == '1' || $each['field_id'] == '4') {
+              $bracket = '[]';
+              }
+
+              if ($old_id != $each['field_id']) {
+              $old_id = $each['field_id'];
+
+              if ($old_id != '1') {
+              $post_data .= '&' . $config_file[$old_id] . '=';
+              } else {
+              $post_data .= $config_file[$old_id] . '=';
+              }
+              $post_data .= $each['value'];
+              } else {
+              $post_data .= ',' . $each['value'];
+              }
+             * 
+             */
+        }
+        /*
+          if (!empty($date)) {
+          $id = 9;
+          foreach ($date as $item) {
+          $post_data .= '&' . $config_file[$id++] . '=';
+          $post_data .= $item['value'];
+          }
+          }
+         * 
+         */
+
+        $selected_site_keywords = $this->keywords_model->get_keywords($config);
+
+        if (isset($selected_site_keywords) && !empty($selected_site_keywords)) {
+            $key_arr = array();
+            foreach ($selected_site_keywords as $keys) {
+                array_push($key_arr, $keys['keyword']);
+            }
+            $post_data .= '&t=' . urlencode(implode(',', $key_arr));
+        }
+
+        //$params = ltrim($post_data, '&');
+        $params = $post_data;
+
+        $global_url = $this->config->item('global_url');
+
+        $request_url = $global_url . '?limit=100' . $params;
+        
+        echo $request_url;
+        
+        //return urlencode($post_data);
     }
 
     public function send_request($request_url) {

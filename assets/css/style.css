@@ -150,3 +150,25 @@ body{
 .config-blk-header select {
     text-transform: uppercase;
 }
+
+/*--- Flash message Styles---*/
+.message {
+    background: none repeat scroll 0 0 #ffe4b5;
+    display: none;
+    font-weight: bold;
+    position: absolute;
+    text-align: center;
+    top: 40px;
+    width: 100%;
+    z-index: 2;
+}
+
+.message span {
+    color: #000;
+    display: inline-block;
+    font-size: 30px;
+    font-weight: normal;
+    padding: 20px;
+}
+
+/*--- Flash message END---*/
