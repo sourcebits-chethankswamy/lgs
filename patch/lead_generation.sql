@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:8889
--- Generation Time: Oct 14, 2014 at 11:20 AM
+-- Generation Time: Oct 10, 2014 at 03:52 PM
 -- Server version: 5.5.34
 -- PHP Version: 5.5.10
 
@@ -39,34 +39,17 @@ CREATE TABLE `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('013eecb08149a6910580ec4ba2a111a9', '::1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:32.0) Gecko/20100101 Firefox/32.0', 1413212893, 'a:4:{s:9:"user_data";s:0:"";s:7:"user_id";s:1:"1";s:10:"user_email";s:29:"himanshuarora.manit@gmail.com";s:9:"logged_in";b:1;}'),
-('5f671464bb60ce97969b5042a4d3a4e1', '::1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:32.0) Gecko/20100101 Firefox/32.0', 1413205949, ''),
-('ed4421c6c036a4d77c22c6c03c7c0ad0', '::1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:32.0) Gecko/20100101 Firefox/32.0', 1413278126, 'a:5:{s:9:"user_data";s:0:"";s:7:"user_id";s:1:"1";s:10:"user_email";s:29:"himanshuarora.manit@gmail.com";s:9:"logged_in";b:1;s:17:"flash:old:message";s:32:"Settings successfully changed!!!";}');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `cronjob_settings`
---
-
-CREATE TABLE `cronjob_settings` (
-`id` int(11) NOT NULL,
-  `configuration_id` int(11) DEFAULT NULL,
-  `minute` varchar(5) DEFAULT NULL,
-  `hour` varchar(5) DEFAULT NULL,
-  `day-of-month` varchar(5) DEFAULT NULL,
-  `month` varchar(5) DEFAULT NULL,
-  `day-of-week` varchar(5) DEFAULT NULL,
-  `created_date` datetime DEFAULT NULL,
-  `modified_date` datetime DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `cronjob_settings`
---
-
-INSERT INTO `cronjob_settings` (`id`, `configuration_id`, `minute`, `hour`, `day-of-month`, `month`, `day-of-week`, `created_date`, `modified_date`) VALUES
-(1, 1, '01', '*', '*', '*', '*', '2014-10-13 13:39:20', '2014-10-14 14:45:29');
+('236078554a710f5a127da273218298bd', '0.0.0.0', '0', 1412947261, ''),
+('258c938447518e1a98b43f152134164b', '0.0.0.0', '0', 1412947102, ''),
+('2a66abee8952cc6da18d8596bb0f0f61', '0.0.0.0', '0', 1412947174, ''),
+('435f911a773bde80ec363a56b21b1904', '0.0.0.0', '0', 1412946813, ''),
+('58ab540f82111ad4f9ea37a264cbe8e1', '0.0.0.0', '0', 1412946751, ''),
+('6d118678cc13663a9ee5f7287c19f2cb', '::1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36', 1412945697, ''),
+('899cea891da0e034335eb5af64d35993', '0.0.0.0', '0', 1412947046, ''),
+('93d08585e7c924db12c85782c4ae976f', '0.0.0.0', '0', 1412947137, ''),
+('9d3ce129b8f790858d6c2662414d8e05', '0.0.0.0', '0', 1412946764, ''),
+('ab6ea2b3e03e41fc737ced0f6a25eb25', '::1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:32.0) Gecko/20100101 Firefox/32.0', 1412944984, 'a:4:{s:9:"user_data";s:0:"";s:7:"user_id";s:1:"1";s:10:"user_email";s:29:"himanshuarora.manit@gmail.com";s:9:"logged_in";b:1;}'),
+('d7e25d57ed905ac7f24d902d8c4b1fe9', '0.0.0.0', '0', 1412947133, '');
 
 -- --------------------------------------------------------
 
@@ -87,7 +70,7 @@ CREATE TABLE `emails_list` (
 --
 
 INSERT INTO `emails_list` (`id`, `email`, `status`, `created_date`, `updated_date`) VALUES
-(1, 'himashu.arora@sourcebits.com', '1', '2014-10-10 11:08:32', '2014-10-14 12:23:15'),
+(1, 'text@test.com', '1', '2014-10-10 11:08:32', '2014-10-10 11:08:32'),
 (2, 'chethan.krishnaswamy@sourcebits.com', '1', '2014-10-10 11:08:44', '2014-10-10 11:08:44'),
 (3, 'sai.rajesh@sourcebits.com', '1', '2014-10-10 13:39:57', '2014-10-10 13:39:57');
 
@@ -144,12 +127,12 @@ CREATE TABLE `field_list_values` (
 
 INSERT INTO `field_list_values` (`id`, `field_id`, `field_value_name`, `value`, `status`, `selected_status`, `created_date`, `updated_date`) VALUES
 (7, 1, 'Tenders, RFPs & Prequalification', '1,2,3,7,10,11,16', '1', '0', '2014-10-08 17:42:25', NULL),
-(8, 2, 'mfa', '1', '1', '0', '2014-10-08 17:42:25', NULL),
+(8, 2, 'mfa', '1', '1', '1', '2014-10-08 17:42:25', NULL),
 (9, 1, 'Projects', '9', '1', '0', '2014-10-08 17:42:25', NULL),
-(10, 1, 'Procurement News', '4,8', '1', '0', '2014-10-08 17:42:25', NULL),
+(10, 1, 'Procurement News', '4,8', '1', '1', '2014-10-08 17:42:25', NULL),
 (11, 1, 'Contract Awards', '5', '1', '0', '2014-10-08 17:42:25', NULL),
-(12, 1, 'All', '1,2,3,7,10,11,16,9,4,8', '1', '1', '2014-10-08 17:42:25', '2014-10-14 14:45:29'),
-(13, 3, 'All Sector', '0', '1', '1', '2014-10-08 17:47:19', '2014-10-14 14:45:29'),
+(12, 1, 'All', '1,2,3,7,10,11,16,9,4,8', '1', '0', '2014-10-08 17:42:25', NULL),
+(13, 3, 'All Sector', '0', '1', '0', '2014-10-08 17:47:19', NULL),
 (14, 3, 'Agriculture and Related Services', '01', '1', '0', '2014-10-08 17:47:19', NULL),
 (15, 3, 'Industry', '02', '1', '0', '2014-10-08 17:47:19', NULL),
 (16, 3, 'Industry - Automobiles', '0202', '1', '0', '2014-10-08 17:47:19', NULL),
@@ -176,7 +159,7 @@ INSERT INTO `field_list_values` (`id`, `field_id`, `field_value_name`, `value`, 
 (37, 3, 'Telecommunications', '17', '1', '0', '2014-10-08 17:47:19', NULL),
 (38, 3, 'Healthcare and Medical', '18', '1', '0', '2014-10-08 17:47:19', NULL),
 (39, 3, 'Energy, Power and Electrical', '19', '1', '0', '2014-10-08 17:47:19', NULL),
-(40, 3, 'Energy &amp; Power - Industrial Automation', '1928', '1', '0', '2014-10-08 17:47:19', NULL),
+(40, 3, 'Energy &amp; Power - Industrial Automation', '1928', '1', '1', '2014-10-08 17:47:19', NULL),
 (41, 3, 'Energy &amp; Power - Renewable Energy', '1929', '1', '0', '2014-10-08 17:47:19', NULL),
 (42, 3, 'Energy &amp; Power - Non-Renewable Energy', '1930', '1', '0', '2014-10-08 17:47:19', NULL),
 (43, 3, 'Water and Sanitation', '20', '1', '0', '2014-10-08 17:47:19', NULL),
@@ -194,7 +177,7 @@ INSERT INTO `field_list_values` (`id`, `field_id`, `field_value_name`, `value`, 
 (55, 3, 'Consultancy', '28', '1', '0', '2014-10-08 17:47:19', NULL),
 (56, 3, 'Consultancy - Education', '2801', '1', '0', '2014-10-08 17:47:19', NULL),
 (57, 3, 'Consultancy - Engineering', '2802', '1', '0', '2014-10-08 17:47:19', NULL),
-(58, 3, 'Consultancy - Financial', '2803', '1', '0', '2014-10-08 17:47:19', NULL),
+(58, 3, 'Consultancy - Financial', '2803', '1', '1', '2014-10-08 17:47:19', NULL),
 (59, 3, 'Consultancy - Health', '2804', '1', '0', '2014-10-08 17:47:19', NULL),
 (60, 3, 'Consultancy - HR', '2805', '1', '0', '2014-10-08 17:47:19', NULL),
 (61, 3, 'Consultancy - IT', '2806', '1', '0', '2014-10-08 17:47:19', NULL),
@@ -220,7 +203,7 @@ INSERT INTO `field_list_values` (`id`, `field_id`, `field_value_name`, `value`, 
 (81, 3, 'Privatisation', '58', '1', '0', '2014-10-08 17:47:19', NULL),
 (82, 3, 'Rehabilitation', '60', '1', '0', '2014-10-08 17:47:19', NULL),
 (83, 3, 'Export and Trade', '63', '1', '0', '2014-10-08 17:47:19', NULL),
-(84, 4, 'All Region', '0', '1', '0', '2014-10-08 17:58:09', '2014-10-14 12:25:03'),
+(84, 4, 'All Region', '0', '1', '0', '2014-10-08 17:58:09', NULL),
 (85, 4, 'Africa Region', 'REG0100', '1', '0', '2014-10-08 17:58:09', NULL),
 (86, 4, 'Central Africa/Middle Africa Region', 'REG0101', '1', '0', '2014-10-08 17:58:09', NULL),
 (87, 4, 'East Africa/Eastern Africa Region', 'REG0102', '1', '0', '2014-10-08 17:58:09', NULL),
@@ -234,7 +217,7 @@ INSERT INTO `field_list_values` (`id`, `field_id`, `field_value_name`, `value`, 
 (95, 4, 'Northern America Region', 'REG0203', '1', '0', '2014-10-08 17:58:09', NULL),
 (96, 4, 'South America Region', 'REG0204', '1', '0', '2014-10-08 17:58:09', NULL),
 (97, 4, 'Latin America Region', 'REG0205', '1', '0', '2014-10-08 17:58:09', NULL),
-(98, 4, 'Asia Region', 'REG0300', '1', '1', '2014-10-08 17:58:09', '2014-10-14 14:45:29'),
+(98, 4, 'Asia Region', 'REG0300', '1', '0', '2014-10-08 17:58:09', NULL),
 (99, 4, 'Central Asia Region', 'REG0301', '1', '0', '2014-10-08 17:58:09', NULL),
 (100, 4, 'Eastern Asia Region', 'REG0302', '1', '0', '2014-10-08 17:58:09', NULL),
 (101, 4, 'Middle East Region', 'REG0303', '1', '0', '2014-10-08 17:58:09', NULL),
@@ -478,7 +461,7 @@ INSERT INTO `field_list_values` (`id`, `field_id`, `field_value_name`, `value`, 
 (339, 4, 'Tokelau', 'TK', '1', '0', '2014-10-08 17:58:09', NULL),
 (340, 4, 'Tonga', 'TO', '1', '0', '2014-10-08 17:58:09', NULL),
 (341, 4, 'Trinidad And Tobago', 'TT', '1', '0', '2014-10-08 17:58:09', NULL),
-(342, 4, 'Tunisia', 'TN', '1', '0', '2014-10-08 17:58:09', NULL),
+(342, 4, 'Tunisia', 'TN', '1', '1', '2014-10-08 17:58:09', NULL),
 (343, 4, 'Turkey', 'TR', '1', '0', '2014-10-08 17:58:09', NULL),
 (344, 4, 'Turkmenistan', 'TM', '1', '0', '2014-10-08 17:58:09', NULL),
 (345, 4, 'Turks And Caicos Islands', 'TC', '1', '0', '2014-10-08 17:58:09', NULL),
@@ -504,17 +487,17 @@ INSERT INTO `field_list_values` (`id`, `field_id`, `field_value_name`, `value`, 
 (365, 5, 'Select Competition', '2', '1', '0', '2014-10-08 18:01:31', NULL),
 (366, 5, 'Domestic Tenders', '0', '1', '0', '2014-10-08 18:01:31', NULL),
 (367, 5, 'Global Tenders', '1', '1', '0', '2014-10-08 18:01:31', NULL),
-(368, 5, 'Both Global and Domestic', '2', '1', '1', '2014-10-08 18:01:31', '2014-10-14 14:45:29'),
-(369, 8, 'All Time', 'select', '1', '1', '2014-10-08 18:02:31', '2014-10-14 14:45:29'),
+(368, 5, 'Both Global and Domestic', '2', '1', '1', '2014-10-08 18:01:31', NULL),
+(369, 8, 'All Time', 'select', '1', '0', '2014-10-08 18:02:31', NULL),
 (370, 8, 'Expiring Today', 'today', '1', '0', '2014-10-08 18:02:31', NULL),
-(371, 8, 'Expiring Tomorrow', 'tomorrow', '1', '0', '2014-10-08 18:02:31', NULL),
+(371, 8, 'Expiring Tomorrow', 'tomorrow', '1', '1', '2014-10-08 18:02:31', NULL),
 (372, 8, 'Expiring in Next 7 days', 'next7days', '1', '0', '2014-10-08 18:02:31', NULL),
 (373, 8, 'Expiring This Month', 'thismonth', '1', '0', '2014-10-08 18:02:31', NULL),
 (374, 8, 'Expiring Next Month', 'nextmonth', '1', '0', '2014-10-08 18:02:31', NULL),
-(375, 7, 't', 'Mobile', '1', '0', '2014-10-09 00:00:00', NULL),
-(376, 6, 'day', '10', '1', '1', '2014-10-09 00:00:00', '2014-10-14 14:45:29'),
-(377, 6, 'mon', '10', '1', '1', '2014-10-09 00:00:00', '2014-10-14 14:45:29'),
-(378, 6, 'year', '2014', '1', '1', '2014-10-09 00:00:00', '2014-10-14 14:45:29');
+(375, 7, 't', 'Mobile', '1', '1', '2014-10-09 00:00:00', NULL),
+(376, 6, 'day', '09', '1', '0', '2014-10-09 00:00:00', NULL),
+(377, 6, 'mon', '10', '1', '0', '2014-10-09 00:00:00', NULL),
+(378, 6, 'year', '2014', '1', '0', '2014-10-09 00:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -550,16 +533,16 @@ CREATE TABLE `selected_emails_list` (
   `configuration_id` int(11) NOT NULL,
   `created_date` datetime NOT NULL,
   `modified_date` datetime NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `selected_emails_list`
 --
 
 INSERT INTO `selected_emails_list` (`id`, `email_id`, `configuration_id`, `created_date`, `modified_date`) VALUES
-(3, 2, 2, '2014-10-10 00:00:00', '2014-10-10 00:00:00'),
-(66, 1, 1, '2014-10-13 15:25:30', '2014-10-13 15:25:30'),
-(67, 2, 1, '2014-10-13 15:25:30', '2014-10-13 15:25:30');
+(1, 1, 1, '2014-10-10 00:00:00', '2014-10-10 00:00:00'),
+(2, 2, 1, '2014-10-10 00:00:00', '2014-10-10 00:00:00'),
+(3, 2, 2, '2014-10-10 00:00:00', '2014-10-10 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -573,15 +556,15 @@ CREATE TABLE `selected_keywords_list` (
   `configuration_id` int(11) NOT NULL,
   `created_date` datetime NOT NULL,
   `modified_date` datetime NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `selected_keywords_list`
 --
 
 INSERT INTO `selected_keywords_list` (`id`, `keyword_id`, `configuration_id`, `created_date`, `modified_date`) VALUES
-(5, 1, 2, '2014-10-10 00:00:00', '2014-10-10 00:00:00'),
-(77, 1, 1, '2014-10-14 14:45:29', '2014-10-14 14:45:29');
+(4, 1, 1, '2014-10-10 00:00:00', '0000-00-00 00:00:00'),
+(5, 1, 2, '2014-10-10 00:00:00', '2014-10-10 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -605,7 +588,7 @@ CREATE TABLE `sites_list` (
 --
 
 INSERT INTO `sites_list` (`id`, `configuration_name`, `configuration_url`, `configuration_page`, `status`, `selected_status`, `created_date`, `updated_date`) VALUES
-(1, 'global tenders', '', 'global_tenders', '1', '1', '2014-10-08 00:00:00', '2014-10-10 15:04:54'),
+(1, 'global trends', '', 'global_tenders', '1', '1', '2014-10-08 00:00:00', '2014-10-10 15:04:54'),
 (2, 'ABC Tenders', '', 'abc_tenders', '1', '0', '2014-10-10 00:00:00', '2014-10-10 13:53:16'),
 (3, 'XYZ Tenders', '', 'xyz_tenders', '1', '0', '2014-10-10 00:00:00', '2014-10-10 15:04:45');
 
@@ -640,12 +623,6 @@ INSERT INTO `user` (`id`, `email`, `password`, `created_date`, `updated_date`) V
 --
 ALTER TABLE `ci_sessions`
  ADD PRIMARY KEY (`session_id`), ADD KEY `last_activity_idx` (`last_activity`);
-
---
--- Indexes for table `cronjob_settings`
---
-ALTER TABLE `cronjob_settings`
- ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `emails_list`
@@ -700,11 +677,6 @@ ALTER TABLE `user`
 --
 
 --
--- AUTO_INCREMENT for table `cronjob_settings`
---
-ALTER TABLE `cronjob_settings`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
 -- AUTO_INCREMENT for table `emails_list`
 --
 ALTER TABLE `emails_list`
@@ -728,12 +700,12 @@ MODIFY `id` int(7) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 -- AUTO_INCREMENT for table `selected_emails_list`
 --
 ALTER TABLE `selected_emails_list`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=68;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `selected_keywords_list`
 --
 ALTER TABLE `selected_keywords_list`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=78;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `sites_list`
 --

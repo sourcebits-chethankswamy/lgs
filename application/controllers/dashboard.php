@@ -33,7 +33,7 @@ class Dashboard extends MY_Controller {
 
                 $output = shell_exec('/usr/bin/crontab -l');
 
-                $remove_cron = str_replace("$min $hour $day $month $week /Applications/MAMP/bin/php/php5.5.10/bin/php /Applications/MAMP/htdocs/lgs/index.php crawl/testruncronjob > /Users/chethan/lgscronlogs.log", "", $output);
+                $remove_cron = str_replace("*/$min $hour $day $month $week /Applications/MAMP/bin/php/php5.5.10/bin/php /Applications/MAMP/htdocs/lgs/index.php crawl/testruncronjob > /Users/chethan/lgscronlogs.log", "", $output);
 
                 file_put_contents('/tmp/crontab.txt', $remove_cron);
                 echo exec('/usr/bin/crontab /tmp/crontab.txt', $output);
@@ -77,7 +77,7 @@ class Dashboard extends MY_Controller {
                 //exit;
 
 
-                file_put_contents('/tmp/crontab.txt', $output . "$min $hour $day $month $week /Applications/MAMP/bin/php/php5.5.10/bin/php /Applications/MAMP/htdocs/lgs/index.php crawl/testruncronjob > /Users/chethan/lgscronlogs.log" . PHP_EOL);
+                file_put_contents('/tmp/crontab.txt', $output . "*/$min $hour $day $month $week /Applications/MAMP/bin/php/php5.5.10/bin/php /Applications/MAMP/htdocs/lgs/index.php crawl/testruncronjob > /Users/chethan/lgscronlogs.log" . PHP_EOL);
 
                 echo exec('/usr/bin/crontab /tmp/crontab.txt', $output);
             } else {
@@ -176,15 +176,19 @@ class Dashboard extends MY_Controller {
                 $this->dashboard_model->reset_selected_status($config_id);
 
                 $email_list = isset($_POST['emails']) ? $_POST['emails'] : '';
-                $email_activation_list = $this->email_model->email_list($email_list);
-                if (!empty($email_activation_list)) {
-                    $update_email_list = $this->email_model->update_email_configuration($email_activation_list, $config_id);
+                if ($email_list != '') {
+                    $email_activation_list = $this->email_model->email_list($email_list);
+                    if (!empty($email_activation_list)) {
+                        $update_email_list = $this->email_model->update_email_configuration($email_activation_list, $config_id);
+                    }
                 }
 
                 $keyword_list = isset($_POST['keywords']) ? $_POST['keywords'] : '';
-                $keyword_activation_list = $this->keywords_model->keyword_list($keyword_list);
-                if (!empty($keyword_activation_list)) {
-                    $update_keyword_list = $this->keywords_model->update_keyword_configuration($keyword_activation_list, $config_id);
+                if ($keyword_list != '') {
+                    $keyword_activation_list = $this->keywords_model->keyword_list($keyword_list);
+                    if (!empty($keyword_activation_list)) {
+                        $update_keyword_list = $this->keywords_model->update_keyword_configuration($keyword_activation_list, $config_id);
+                    }
                 }
 
                 if (isset($_POST['set']) && !empty($_POST['set'])) {
@@ -224,8 +228,8 @@ class Dashboard extends MY_Controller {
                     }
                 }
                 $message = 'Settings successfully changed!!!';
-                $this->session->set_flashdata ( "message", $message );
-                
+                $this->session->set_flashdata("message", $message);
+
                 redirect('/dashboard');
 
                 /*

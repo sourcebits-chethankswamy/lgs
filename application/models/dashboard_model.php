@@ -37,6 +37,13 @@ class Dashboard_model extends MY_Model {
         foreach ($fields_list_sql as $filedvalue) {
             $this->db->query('update field_list_values set selected_status="0" where field_id="' . $filedvalue['id'] . '"');
         }
+
+        $delete_existing_email_configs = "DELETE FROM selected_emails_list WHERE configuration_id = " . $this->db->escape($config_id) . "";
+        $this->db->query($delete_existing_email_configs);
+        
+        $delete_existing_keyword_configs = "DELETE FROM selected_keywords_list WHERE configuration_id = " . $this->db->escape($config_id) . "";
+        $this->db->query($delete_existing_keyword_configs);
+
         return true;
     }
 
