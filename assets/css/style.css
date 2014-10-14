@@ -146,6 +146,7 @@ body{
 .search_results{
     margin-top:30px;
     font-size: 14px;
+    margin-bottom: 20px;
 }
 .config-blk-header select {
     text-transform: uppercase;

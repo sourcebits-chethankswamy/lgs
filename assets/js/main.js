@@ -2,11 +2,14 @@ function closeMessage() {
     $('.message').slideUp('slow');
     $('.message span').html("");
 }
+function openMessage() {
+	 $('.message').slideDown('slow', function() {
+		 window.setTimeout('closeMessage()', 2000);
+	 });
+}
 $(function() {
     if ($('.message span').text().length) {
-        $('.message').slideDown('slow', function() {
-            window.setTimeout('closeMessage()', 2000);
-        });
+    	openMessage();
     }
     var height_of_page = $(document).height() - 82;
     $('.well.sidebar-nav').css('height', height_of_page + 'px');
@@ -110,7 +113,15 @@ $(function() {
             url: url,
             data: 'id=' + id,
             success: function(r) {
-                location.reload(true);
+        	r = JSON.parse(r);
+	            if (r['error'] == '1') {
+	                $('.message span').html(r['message']);
+	                openMessage();
+	            } else {
+	            	$('.message span').html(r['message']);
+	            	openMessage();
+	            	setTimeout(function(){location.reload(true);},500);                    
+	            }   
             }
         });
     });
@@ -132,13 +143,16 @@ $(function() {
             type: 'POST',
             url: url,
             data: data,
-            success: function(r) {
+            success: function(r) {        		
                 r = JSON.parse(r);
-                if (r['error'] == '-1') {
-                    $('.error_block').show();
+                if (r['error'] == '1') {
+                    $('.message span').html(r['message']);
+                    openMessage();
                 } else {
-                    location.reload(true);
-                }
+                	$('.message span').html(r['message']);
+                	openMessage();
+                	setTimeout(function(){location.reload(true);},500);                    
+                }   
             }
         });
     });

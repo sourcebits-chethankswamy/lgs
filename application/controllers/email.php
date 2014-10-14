@@ -36,28 +36,39 @@ class Email extends MY_Controller {
     public function modify_email() {
         if (!empty($_POST)) {
             if ($this->email_model->email_check($_POST)) {
-                echo json_encode(array('error' => -1));
-                die;
+            	$error = 1;
+            	$message = 'Email already exists';
             }
             $response = $this->email_model->modify_email($_POST);
-            if ($_POST['id'] == '0') {
-                echo json_encode(array('error' => 0, 'id' => $response));
-                die;
+            if($response){
+            	$error = 0;
+            	$message = 'Email successfully saved!!!';
             } else {
-                echo json_encode(array('error' => 0));
-                die;
-            }
+            	$error = 1;
+            	$message = 'Error while saving email, please try again';
+            }               
+        } else {
+        	$error = 1;
+        	$message = 'No Email provided';        
         }
+        die(json_encode(array('error'=> $error, 'message' => $message)));        
     }
 
     public function delete_email() {
         if (!empty($_POST)) {
             $response = $this->email_model->delete_email($_POST);
-            echo json_encode(array('error' => 0));
-            die;
+            if($response){
+            	$error=0;
+            	$message = 'Email successfully removed!!!';
+            } else {
+            	$error=1;
+            	$message = 'Error while deleting email, please try again';
+            } 
+        } else {
+        	$error=1;
+        	$message = 'No Email provided';         	   
         }
+        die(json_encode(array('error'=> $error, 'message' => $message)));
     }
-
 }
-
 ?>

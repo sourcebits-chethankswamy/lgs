@@ -36,28 +36,39 @@ class Keywords extends MY_Controller {
     public function modify_keyword() {
         if (!empty($_POST)) {
             if ($this->keywords_model->keyword_check($_POST)) {
-                echo json_encode(array('error' => -1));
-                die;
+                $error = 1;
+            	$message = 'Keyword already exists';
             }
             $response = $this->keywords_model->modify_keyword($_POST);
-            if ($_POST['id'] == '0') {
-                echo json_encode(array('error' => 0, 'id' => $response));
-                die;
+            if($response){
+            	$error = 0;
+            	$message = 'Keyword successfully saved!!!';
             } else {
-                echo json_encode(array('error' => 0));
-                die;
-            }
+            	$error = 1;
+            	$message = 'Error while saving keyword, please try again';
+            }     
+        } else {
+        	$error = 1;
+        	$message = 'No keyword provided';        
         }
+        die(json_encode(array('error'=> $error, 'message' => $message)));     
     }
 
     public function delete_keyword() {
         if (!empty($_POST)) {
             $response = $this->keywords_model->delete_keyword($_POST);
-            echo json_encode(array('error' => 0));
-            die;
+             if($response){
+            	$error = 0;
+            	$message = 'Keyword successfully deleted!!!';
+            } else {
+            	$error = 1;
+            	$message = 'Error while deleting keyword, please try again';
+            }     
+        } else {
+        	$error = 1;
+        	$message = 'No keyword provided';        
         }
+        die(json_encode(array('error'=> $error, 'message' => $message)));     
     }
-
 }
-
 ?>
