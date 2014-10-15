@@ -68,7 +68,16 @@ class User_model extends CI_Model {
         $result_set = $this->db->query($sql);
         return true;
     }
-
+    
+    public function register_user($email, $password){
+    	if($this->check_user_email($email)){	// already exist
+    		return false;
+    	} else {
+			$insert_email = "INSERT INTO user VALUES(NULL," . $this->db->escape($email) . ", MD5(" . $password . ") ,NOW(), NOW())";
+            $this->db->query($insert_email);
+        	return true;    		
+    	}
+    }
 }
 
 ?>

@@ -19,7 +19,8 @@
 				<?php } ?>
 				<div class="form-group">
 					<input type="submit" value='Sign In' class="btn btn-primary btn-lg btn-block" />
-					<span class="pull-right margin-top-12"><a href="<?php echo site_url('user/forgotpassword') ?>">Forgot password?</a></span>
+					<span class="pull-left margin-top-12"><a href="<?php echo site_url('user/user_registration') ?>">New user?</a></span>
+					<span class="pull-right margin-top-12"><a href="<?php echo site_url('user/forgotpassword') ?>">Forgot password</a></span>
 				</div>
 			<?php echo form_close(); ?>
 			</div>

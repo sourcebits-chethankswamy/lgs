@@ -98,6 +98,40 @@ class User extends CI_Controller {
         $this->load->view('forgetpassword', $data);
         $this->load->view('footer');
     }
+    
+    public function user_registration(){
+    	$data['title'] = 'User Registration';
+        $this->load->view('header');
+        $this->load->view('registeruser', $data);
+        $this->load->view('footer');
+        
+    }
+    
+	public function register(){
+    	$email 				= $_POST['email'];
+    	$password 			= $_POST['new_password'];
+    	$status				= $this->user_model->register_user($email, $password);
+    	if(isset($status) && $status == true){
+    		$subject 			= 'LGS - New user registration';
+	        $email_body 		= "Hello Admin,
+	        						<br/><br/>
+	        						You are successfully signed up for LGS account. Here are your account details.
+	        						<br/><br/>
+	        						Email: ".$email.
+	        						"<br/><br/>
+	        						Regards,
+	        						Team LGS";
+													
+	        $this->sendMail($email, $subject, $email_body);
+	    	$message = "User Registered Successfully";
+	        $this->session->set_flashdata("message", $message);
+			redirect('/');		
+    	} else {
+    		$message = "Email already exist";
+            $this->session->set_flashdata("message", $message);
+            redirect('/user/user_registration');
+    	}
+    }
 
     public function doforget() {
         $this->load->helper('url');
