@@ -18,16 +18,22 @@ $(function() {
     var height_of_page = $(document).height() - 82;
     $('.well.sidebar-nav').css('height', height_of_page + 'px');
     $('.well.sidebar-nav ul .active').removeClass('active');
-    if (location.href.indexOf('configsettings') != -1) {
+    $('.main-tab, .main-tab1').css('cssText','margin-bottom:0px !important');
+    if (location.href.indexOf('dashboard/configsettings') != -1) { // configuration settings
+    	$('.well.sidebar-nav ul li:nth-child(3)').addClass('active');
+    } else if (location.href.indexOf('dashboard/changepassword') != -1 || location.href.indexOf('keywords') != -1 || location.href.indexOf('email') != -1) {	// General settings subtabs
+    	$('.well.sidebar-nav ul li:nth-child(4)').addClass('active');
+    	$('.arrow').css('border-top','8px solid #fafafa');
+    	$('.main-tab').css('cssText','margin-bottom:10px !important');
+    } else if (location.href.indexOf('site') != -1) {	// Site subtabs
+    	$('.well.sidebar-nav ul li:nth-child(8)').addClass('active');
+    	$('.arrow').css('border-top','8px solid #fafafa');
+    	$('.main-tab1').css('cssText','margin-bottom:10px !important');
+    } else { // Email settings
         $('.well.sidebar-nav ul li:nth-child(2)').addClass('active');
-    } else if (location.href.indexOf('dashboard') != -1) {
-        $('.well.sidebar-nav ul li:nth-child(3)').addClass('active');
-    } else if (location.href.indexOf('keywords') != -1) {
-        $('.well.sidebar-nav ul li:nth-child(5)').addClass('active');
-    } else {
-        $('.well.sidebar-nav ul li:nth-child(4)').addClass('active');
     }
-
+    
+    
     $('#sel_keywords').val(keywords);
     $('#sel_emails').val(emails);
 

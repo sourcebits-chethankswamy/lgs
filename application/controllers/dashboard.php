@@ -22,9 +22,10 @@ class Dashboard extends MY_Controller {
 
     public function changepassword() {
         $data['title'] = 'LGS - Change password';
-
-        $this->load->view('header');
+		$this->load->view('header');
+		$this->load->view('navigation_header');
         $this->load->view('changepassword', $data);
+        $this->load->view('navigation_footer');
         $this->load->view('footer');
     }
 

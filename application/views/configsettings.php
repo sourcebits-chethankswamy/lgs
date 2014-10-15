@@ -1,5 +1,5 @@
 <div class="main_content">
-    <div class='content_settings'>
+    <div class='content_settings' style='padding-top:40px;'>
         <form method="post" action="<?php echo site_url('dashboard/saveconfigsettings'); ?>">             
             <legend class="config-blk-settings">               
                 <?php
