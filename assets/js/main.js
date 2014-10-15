@@ -3,13 +3,17 @@ function closeMessage() {
     $('.message span').html("");
 }
 function openMessage() {
-	 $('.message').slideDown('slow', function() {
-		 window.setTimeout('closeMessage()', 2000);
-	 });
+    $('.message').slideDown('slow', function() {
+        window.setTimeout('closeMessage()', 2000);
+    });
 }
+function validateEmail(email) { 
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+} 
 $(function() {
     if ($('.message span').text().length) {
-    	openMessage();
+        openMessage();
     }
     var height_of_page = $(document).height() - 82;
     $('.well.sidebar-nav').css('height', height_of_page + 'px');
@@ -102,6 +106,11 @@ $(function() {
             });
 
     $(document).on("click", ".delete", function() {
+        var r = confirm("Are you sure, you want to delete?");
+        if (r == false) {
+            return false;
+        }
+        
         var type = $(this).attr('data-type');
         var id = $(this).attr('data-id');
         var url = '';
@@ -115,26 +124,38 @@ $(function() {
             url: url,
             data: 'id=' + id,
             success: function(r) {
-        	r = JSON.parse(r);
-	            if (r['error'] == '1') {
-	                $('.message span').html(r['message']);
-	                openMessage();
-	            } else {
-	            	$('.message span').html(r['message']);
-	            	openMessage();
-	            	setTimeout(function(){location.reload(true);},500);                    
-	            }   
+                r = JSON.parse(r);
+                if (r['error'] == '1') {
+                    $('.message span').html(r['message']);
+                    openMessage();
+                } else {
+                    $('.message span').html(r['message']);
+                    openMessage();
+                    setTimeout(function() {
+                        location.reload(true);
+                    }, 500);
+                }
             }
         });
     });
 
     $(document).on("click", ".edit", function() {
+        var input_data = $(this).parent().find('input').val();
+        if(input_data == ''){
+            alert('No data provided');
+            return false;
+        }
+        
         var type = $(this).attr('data-type');
         var id = $(this).attr('data-id');
         var url, email, data = '';
         if (type == 'email') {
-            url = 'email/modify_email';
             email = $(this).parent().find('input').val();
+            if(!validateEmail(email)) {
+                alert('Invalid email provided');
+                return false;
+            }
+            url = 'email/modify_email';            
             data = 'id=' + id + '&email=' + email;
         } else {
             url = 'keywords/modify_keyword';
@@ -145,16 +166,18 @@ $(function() {
             type: 'POST',
             url: url,
             data: data,
-            success: function(r) {        		
+            success: function(r) {
                 r = JSON.parse(r);
                 if (r['error'] == '1') {
                     $('.message span').html(r['message']);
                     openMessage();
                 } else {
-                	$('.message span').html(r['message']);
-                	openMessage();
-                	setTimeout(function(){location.reload(true);},500);                    
-                }   
+                    $('.message span').html(r['message']);
+                    openMessage();
+                    setTimeout(function() {
+                        location.reload(true);
+                    }, 500);
+                }
             }
         });
     });
@@ -171,8 +194,44 @@ $(function() {
             }
         });
     });
+
+    $(document).on("click", ".delete_config", function(e) {
+        var r = confirm("Are you sure to delete?, It cannot be undone");
+        if (r == false) {
+            e.preventDefault();
+        }
+    });
+
+    $(document).on("click", ".status_config", function(e) {
+        var r = confirm("Are you sure you want to make this configuration \"" + $(this).attr('data-message') + "\"?");
+        if (r == false) {
+            e.preventDefault();
+        }
+    });
+
     $(window).resize(function() {
         var height_of_page = $(document).height() - 82;
         $('.well.sidebar-nav').css('height', height_of_page + 'px');
+    });
+
+
+    $(document).on("click", "#search_conf", function(e) {
+        $('#output').html('');
+        $('html, body').animate({
+            scrollTop: $(".ajx-loading").offset().top
+        }, 2000);
+        $('.ajx-loading').show();
+        var formURL = site_url + 'dashboard/search';
+        var postData = $('#submit_config_form').serialize();
+        var jqxhr = $.post(formURL, postData, function(data) {
+            $('#output').html(data).show();
+            $('html, body').animate({
+                scrollTop: $("#output").offset().top
+            }, 2000);
+        }).done(function() {
+            $('.ajx-loading').hide();
+        }).fail(function() {
+            $('#output').html('Sorry, Error encountered while fetching the data!! Please reload the page and try again');
+        });
     });
 });

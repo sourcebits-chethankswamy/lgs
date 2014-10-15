@@ -81,15 +81,13 @@
     ?>
     <div class='outer_tab'>
         <input type="hidden" name="site_id" value="<?php echo $selected_site_id; ?>" />
-        <button class="btn right width-100 btn-success" onclick="$('form').attr('action','<?php echo site_url('dashboard/save');?>');" type="submit" name='save'>Add</button>
-        <button class="btn right width-100 btn-primary" onclick="$('form').attr('action','<?php echo site_url('dashboard/search');?>');" type="submit" name='search'>Test Search</button>                
+        <button class="btn right width-100 btn-success" type="submit" name='save' id="save_conf">Add</button>
+        <button class="btn right width-100 btn-primary" type="button" name='search' id="search_conf">Test Search</button>                  
     </div> 
     
 </form>
 
-<?php if(isset($search_view)) {?>
-<div class='search_results'>
-    <hr/>
-    <?php echo $search_view;?>
+<div class="ajx-loading">
+    <img src="/assets/images/load.gif" alt="loading..." title="loading.." />
 </div>
-<?php }?>
+<div class='search_results' id="output"></div>

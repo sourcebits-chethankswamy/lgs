@@ -1,7 +1,14 @@
-<form method="post" action="<?php echo site_url('dashboard/save');?>">
+<form method="post" action="<?php echo site_url('dashboard/save');?>" id="submit_config_form">
     <?php
     //print_r($field_details);exit;
     if (isset($field_details)) {
+        echo "<div class='outer_tab'>
+                <label>Configuration name</label>
+                <div class='outer_tab-values'>
+                    <input type='text' name='config_name' value='".$configuration_name."' />
+                </div>
+             </div>";
+        
         $month_arr = array('january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december');
         foreach ($field_details as $key => $each_field) {
             echo "<div class='outer_tab'>
@@ -86,15 +93,12 @@
     <div class='outer_tab'>
         <input type="hidden" name="site_id" value="<?php echo $selected_site_id; ?>" />
         <input type="hidden" name="configuration_id" value="<?php echo $selected_configuration_id; ?>" />
-        <button class="btn right width-100 btn-success" onclick="$('form').attr('action','<?php echo site_url('dashboard/save');?>');" type="submit" name='save'>Save</button>
-        <button class="btn right width-100 btn-primary" onclick="$('form').attr('action','<?php echo site_url('dashboard/search');?>');" type="submit" name='search'>Test Search</button>                
-    </div> 
-    
+        <button class="btn right width-100 btn-success" type="submit" name='save' id="save_conf">Save</button>
+        <button class="btn right width-100 btn-primary" type="button" name='search' id="search_conf">Test Search</button>                
+    </div>     
 </form>
 
-<?php if(isset($search_view)) {?>
-<div class='search_results'>
-    <hr/>
-    <?php echo $search_view;?>
+<div class="ajx-loading">
+    <img src="/assets/images/load.gif" alt="loading..." title="loading.." />
 </div>
-<?php }?>
+<div class='search_results' id="output"></div>

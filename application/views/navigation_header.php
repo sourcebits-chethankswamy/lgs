@@ -22,6 +22,7 @@
               <li class="active"><a class='pad10 navigation_sidebar' href="<?php echo site_url('/dashboard');?>">Search Settings</a></li>
               <li><a class='pad10 navigation_sidebar' href="<?php echo site_url('/email');?>">Email List</a></li>
               <li><a class='pad10 navigation_sidebar' href="<?php echo site_url('/keywords');?>">Keywords List</a></li>
+              <li><a class='pad10 navigation_sidebar' href="<?php echo site_url('dashboard/changepassword');?>">Reset password</a></li>
             </ul>
           </div>
         </div>

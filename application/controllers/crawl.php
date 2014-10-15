@@ -19,80 +19,52 @@ class Crawl extends CI_Controller {
         $this->load->model('email_model');
     }
 
-    
     public function testcron() {
-        echo 'HELLO WORLD'. PHP_EOL;
+        echo 'HELLO WORLD' . PHP_EOL;
     }
-    
-    public function testruncronjob() {            
+
+    public function testruncronjob() {
         $url_params = $this->config->item('url_params');
         $config = '1';
-        $config_name = 'Global Tenders';
-        $response = $this->dashboard_model->get_config_params($config);
-        $post_data = "";
+        $site_name = 'Global Tenders';
 
-        //echo "<pre>";print_r($response);
-        //$old_id = -1; $date = array();
+        //$config_det = array();
 
-        if (isset($response) && !empty($response)) {
+        $site_configurations_list = $this->dashboard_model->get_site_configuration_lists(1, 1);
+        foreach ($site_configurations_list as $site_list_key => $site_list) {
+            $config_name = $site_list['configuration_name'];
+            $post_data = '';
+            //$config_det[$site_list['configuration_name']]['configuration_id'] = $site_list['id'];
+            //$config_det[$site_list['configuration_name']]['configuration_status'] = $site_list['status'];
 
-            foreach ($response as $key => $each) {
+            $config_det = $this->dashboard_model->get_configuration($site_list['id']);
+
+            foreach ($config_det as $key => $config) {
+                //foreach ($site_config['configuration_values'] as $key => $config) {
                 $bracket = '';
 
-                if ($each['field_id'] == '1' || $each['field_id'] == '4') {
+                if ($config['field_id'] == '1' || $config['field_id'] == '4') {
                     $bracket = '[]';
                 }
 
-                if ($each['field_id'] == '6') {
-                    $post_data .= '&' . $each['field_value_name'] . $bracket . '=' . urlencode(sprintf("%02d", $each['value']));
+                if ($config['field_id'] == '6') {
+                    if ($config['field_value_slv'] != 'NULL') {
+                        $post_data .= '&' . $config['field_value_name'] . $bracket . '=' . urlencode(sprintf("%02d", $config['field_value_slv']));
+                    }
                 } else {
-                    $post_data .= '&' . $url_params[$each['field_id']] . $bracket . '=' . urlencode($each['value']);
+                    $post_data .= '&' . $url_params[$config['field_id']] . $bracket . '=' . urlencode($config['field_value']);
                 }
+                //}
 
-                /*
-                  if ($each['field_id'] == '6') {
-                  $date[] = $each;
-                  continue;
-                  }
+                $selected_site_keywords = $this->keywords_model->get_keywords($config['configuration_id']);
 
-                  if ($each['field_id'] == '1' || $each['field_id'] == '4') {
-                  $bracket = '[]';
-                  }
-
-                  if ($old_id != $each['field_id']) {
-                  $old_id = $each['field_id'];
-
-                  if ($old_id != '1') {
-                  $post_data .= '&' . $config_file[$old_id] . '=';
-                  } else {
-                  $post_data .= $config_file[$old_id] . '=';
-                  }
-                  $post_data .= $each['value'];
-                  } else {
-                  $post_data .= ',' . $each['value'];
-                  }
-                 * 
-                 */
-            }
-            /*
-              if (!empty($date)) {
-              $id = 9;
-              foreach ($date as $item) {
-              $post_data .= '&' . $config_file[$id++] . '=';
-              $post_data .= $item['value'];
-              }
-              }
-             * 
-             */
-
-            $selected_site_keywords = $this->keywords_model->get_keywords($config);
-
-            if (isset($selected_site_keywords) && !empty($selected_site_keywords)) {
-                $key_arr = array();
-                foreach ($selected_site_keywords as $keys) {
-                    array_push($key_arr, $keys['keyword']);
+                if (isset($selected_site_keywords) && !empty($selected_site_keywords)) {
+                    $key_arr = array();
+                    foreach ($selected_site_keywords as $keys) {
+                        array_push($key_arr, $keys['keyword']);
+                    }
+                    $post_data .= '&t=' . urlencode(implode(',', $key_arr));
                 }
-                $post_data .= '&t=' . urlencode(implode(',', $key_arr));
             }
 
             //$params = ltrim($post_data, '&');
@@ -105,19 +77,125 @@ class Crawl extends CI_Controller {
             $result = $this->send_request($request_url);
 
             if ($result) {
-                $selected_site_emails = $this->email_model->get_emails($config);
+                $selected_site_emails = $this->email_model->get_emails(1);
                 if (isset($selected_site_emails) && !empty($selected_site_emails)) {
                     $email_arr = array();
                     foreach ($selected_site_emails as $emails) {
                         array_push($email_arr, $emails['email']);
                     }
                     $to_email = implode(',', $email_arr);
-                    $subject = 'Search results for ' . strtoupper($config_name);
-                    $this->sendMail($to_email, $subject, $result);
+
+                    //$subject = 'Search results for Site: ' . strtoupper($config_name);
+                    $subject = "Search results for Site: " . strtoupper($site_name);
+
+                    $email_body = '<h2>Search results for Site: <i>"' . strtoupper($site_name) . '"</i> and Configuration: <i>"' . $config_name . '"</i></h2>' . $result;
+
+                    $this->sendMail($to_email, $subject, $email_body);
                 }
             }
         }
 
+        /*
+
+          exit;
+
+
+
+
+          //$response = $this->dashboard_model->get_config_params($config);
+          $post_data = "";
+
+          //echo "<pre>";print_r($response);
+          //$old_id = -1; $date = array();
+
+          if (!empty($config_det)) {
+
+          echo $post_data;
+          exit;
+
+          foreach ($config_det as $key => $each) {
+          $bracket = '';
+
+          if ($each['field_id'] == '1' || $each['field_id'] == '4') {
+          $bracket = '[]';
+          }
+
+          if ($each['field_id'] == '6') {
+          $post_data .= '&' . $each['field_value_name'] . $bracket . '=' . urlencode(sprintf("%02d", $each['value']));
+          } else {
+          $post_data .= '&' . $url_params[$each['field_id']] . $bracket . '=' . urlencode($each['value']);
+          }
+
+          /*
+          if ($each['field_id'] == '6') {
+          $date[] = $each;
+          continue;
+          }
+
+          if ($each['field_id'] == '1' || $each['field_id'] == '4') {
+          $bracket = '[]';
+          }
+
+          if ($old_id != $each['field_id']) {
+          $old_id = $each['field_id'];
+
+          if ($old_id != '1') {
+          $post_data .= '&' . $config_file[$old_id] . '=';
+          } else {
+          $post_data .= $config_file[$old_id] . '=';
+          }
+          $post_data .= $each['value'];
+          } else {
+          $post_data .= ',' . $each['value'];
+          }
+         * 
+         */
+        //}
+        /*
+          if (!empty($date)) {
+          $id = 9;
+          foreach ($date as $item) {
+          $post_data .= '&' . $config_file[$id++] . '=';
+          $post_data .= $item['value'];
+          }
+          }
+         * 
+         */
+
+        /*
+          $selected_site_keywords = $this->keywords_model->get_keywords($config);
+
+          if (isset($selected_site_keywords) && !empty($selected_site_keywords)) {
+          $key_arr = array();
+          foreach ($selected_site_keywords as $keys) {
+          array_push($key_arr, $keys['keyword']);
+          }
+          $post_data .= '&t=' . urlencode(implode(',', $key_arr));
+          }
+
+          //$params = ltrim($post_data, '&');
+          $params = $post_data;
+
+          $global_url = $this->config->item('global_url');
+
+          $request_url = $global_url . '?limit=100' . $params;
+
+          $result = $this->send_request($request_url);
+
+          if ($result) {
+          $selected_site_emails = $this->email_model->get_emails($config);
+          if (isset($selected_site_emails) && !empty($selected_site_emails)) {
+          $email_arr = array();
+          foreach ($selected_site_emails as $emails) {
+          array_push($email_arr, $emails['email']);
+          }
+          $to_email = implode(',', $email_arr);
+          $subject = 'Search results for ' . strtoupper($config_name);
+          $this->sendMail($to_email, $subject, $result);
+          }
+          }
+          }
+         */
         echo 'Last executed on ' . date('F d, Y H:i:s') . PHP_EOL;
     }
 

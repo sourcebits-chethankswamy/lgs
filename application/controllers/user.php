@@ -91,6 +91,71 @@ class User extends CI_Controller {
         }
     }
 
+    public function forgotpassword() {
+        $data['title'] = 'LGS - Forgot password';
+
+        $this->load->view('header');
+        $this->load->view('forgetpassword', $data);
+        $this->load->view('footer');
+    }
+
+    public function doforget() {
+        $this->load->helper('url');
+        $email = $_POST['email'];
+
+        $check_email = $this->user_model->check_user_email($email);
+        if ($check_email) {
+            $user = $check_email[0];
+            $this->resetpassword($user);
+
+            $message = "Password has been reset and has been sent to email id: " . $email;
+            $this->session->set_flashdata("message", $message);
+
+            redirect('/');
+        } else {
+            $message = "The email id you entered is not found on our database";
+            $this->session->set_flashdata("message", $message);
+
+            redirect('/user/forgotpassword');
+        }
+    }
+
+    private function resetpassword($user) {
+        date_default_timezone_set('GMT');
+        $this->load->helper('string');
+        $password = random_string('alnum', 16);
+
+        $this->user_model->reset_password($user['id'], $password);
+
+        $subject = 'LGS - Password reset';
+        $email_body = 'You have requested the new password, Here is you new password:' . $password;
+        $this->sendMail($user['email'], $subject, $email_body);
+    }
+
+    public function sendMail($to, $sub, $message) {
+        $config = Array(
+            'protocol' => 'smtp',
+            'smtp_host' => 'ssl://smtp.googlemail.com',
+            'smtp_port' => 465,
+            'smtp_user' => $this->config->item('FROM_EMAIL_ADDRESS'),
+            'smtp_pass' => $this->config->item('FROM_EMAIL_PASSWORD'),
+            'mailtype' => 'html',
+            'charset' => 'iso-8859-1',
+            'wordwrap' => TRUE
+        );
+        $this->load->library('email', $config);
+        $this->email->set_newline("\r\n");
+        $this->email->set_crlf("\r\n");
+        $this->email->from($this->config->item('FROM_EMAIL_ADDRESS'));
+        $this->email->to($to);
+        $this->email->subject($sub);
+        $this->email->message($message);
+        if ($this->email->send()) {
+            // Do nothing. Email is sent.
+        } else {
+            show_error($this->email->print_debugger());
+        }
+    }
 }
 
 ?>

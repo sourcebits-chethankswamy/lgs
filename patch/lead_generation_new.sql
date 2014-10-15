@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.8
+-- version 4.2.9.1
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:8889
--- Generation Time: Oct 14, 2014 at 06:12 PM
--- Server version: 5.5.34
--- PHP Version: 5.5.10
+-- Generation Time: Oct 15, 2014 at 01:23 AM
+-- Server version: 5.5.38
+-- PHP Version: 5.5.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -39,7 +39,7 @@ CREATE TABLE `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('ba0ad2dbdad5eab0226e80af13dcf402', '192.168.16.121', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:32.0) Gecko/20100101 Firefox/32.0', 1413302869, 'a:4:{s:9:"user_data";s:0:"";s:7:"user_id";s:1:"2";s:10:"user_email";s:20:"admin@sourcebits.com";s:9:"logged_in";b:1;}');
+('627822e1e8a4c7e8f6916036e521aad5', '::1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:32.0) Gecko/20100101 Firefox/32.0', 1413328791, 'a:4:{s:9:"user_data";s:0:"";s:7:"user_id";s:1:"2";s:10:"user_email";s:20:"admin@sourcebits.com";s:9:"logged_in";b:1;}');
 
 -- --------------------------------------------------------
 
@@ -98,7 +98,7 @@ INSERT INTO `emails_list` (`id`, `email`, `status`, `created_date`, `updated_dat
 
 CREATE TABLE `fields_list` (
 `id` int(7) NOT NULL,
-  `configuration_id` int(7) NOT NULL,
+  `site_id` int(7) NOT NULL,
   `field_name` varchar(100) NOT NULL,
   `field_type` enum('0','1','2','3') NOT NULL COMMENT '''0'' - input field, ''1'' - dropdown, ''2'' - checkbox, ''3'' - Multiselect Dropdown',
   `field_status` enum('0','1','2') NOT NULL COMMENT '''0'' - inactive, ''1'' - active, ''2'' - deleted',
@@ -110,7 +110,7 @@ CREATE TABLE `fields_list` (
 -- Dumping data for table `fields_list`
 --
 
-INSERT INTO `fields_list` (`id`, `configuration_id`, `field_name`, `field_type`, `field_status`, `created_date`, `updated_date`) VALUES
+INSERT INTO `fields_list` (`id`, `site_id`, `field_name`, `field_type`, `field_status`, `created_date`, `updated_date`) VALUES
 (1, 1, 'Notice Type', '1', '1', '2014-10-08 17:32:58', NULL),
 (2, 1, 'Multi Funding Agencies', '2', '1', '2014-10-08 17:34:01', NULL),
 (3, 1, 'Sector', '1', '1', '2014-10-08 17:34:01', NULL),
@@ -574,29 +574,38 @@ CREATE TABLE `selected_fields_list` (
   `selected_status` enum('0','1') NOT NULL DEFAULT '0',
   `created_date` datetime DEFAULT NULL,
   `modified_date` datetime DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=197 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `selected_fields_list`
 --
 
 INSERT INTO `selected_fields_list` (`id`, `field_list_values_id`, `configuration_id`, `value`, `selected_status`, `created_date`, `modified_date`) VALUES
-(72, 12, 1, 'NULL', '1', '2014-10-14 21:25:07', NULL),
-(73, 13, 1, 'NULL', '1', '2014-10-14 21:25:07', NULL),
-(74, 84, 1, 'NULL', '1', '2014-10-14 21:25:07', NULL),
-(75, 368, 1, 'NULL', '1', '2014-10-14 21:25:07', NULL),
-(76, 369, 1, 'NULL', '1', '2014-10-14 21:25:07', NULL),
-(77, 376, 1, '10', '1', '2014-10-14 21:25:07', NULL),
-(78, 377, 1, '10', '1', '2014-10-14 21:25:07', NULL),
-(79, 378, 1, '2014', '1', '2014-10-14 21:25:07', NULL),
-(80, 7, 3, 'NULL', '1', '2014-10-14 21:39:47', NULL),
-(81, 13, 3, 'NULL', '1', '2014-10-14 21:39:47', NULL),
-(82, 84, 3, 'NULL', '1', '2014-10-14 21:39:47', NULL),
-(83, 366, 3, 'NULL', '1', '2014-10-14 21:39:47', NULL),
-(84, 369, 3, 'NULL', '1', '2014-10-14 21:39:47', NULL),
-(85, 376, 3, 'NULL', '1', '2014-10-14 21:39:47', NULL),
-(86, 377, 3, 'NULL', '1', '2014-10-14 21:39:47', NULL),
-(87, 378, 3, 'NULL', '1', '2014-10-14 21:39:47', NULL);
+(164, 11, 4, 'NULL', '1', '2014-10-15 03:46:57', NULL),
+(165, 8, 4, 'NULL', '1', '2014-10-15 03:46:57', NULL),
+(166, 13, 4, 'NULL', '1', '2014-10-15 03:46:57', NULL),
+(167, 86, 4, 'NULL', '1', '2014-10-15 03:46:57', NULL),
+(168, 365, 4, 'NULL', '1', '2014-10-15 03:46:57', NULL),
+(169, 369, 4, 'NULL', '1', '2014-10-15 03:46:57', NULL),
+(170, 376, 4, 'NULL', '1', '2014-10-15 03:46:57', NULL),
+(171, 377, 4, 'NULL', '1', '2014-10-15 03:46:57', NULL),
+(172, 378, 4, 'NULL', '1', '2014-10-15 03:46:57', NULL),
+(181, 12, 1, 'NULL', '1', '2014-10-15 04:18:30', NULL),
+(182, 13, 1, 'NULL', '1', '2014-10-15 04:18:30', NULL),
+(183, 84, 1, 'NULL', '1', '2014-10-15 04:18:30', NULL),
+(184, 368, 1, 'NULL', '1', '2014-10-15 04:18:30', NULL),
+(185, 369, 1, 'NULL', '1', '2014-10-15 04:18:30', NULL),
+(186, 376, 1, '06', '1', '2014-10-15 04:18:30', NULL),
+(187, 377, 1, '10', '1', '2014-10-15 04:18:30', NULL),
+(188, 378, 1, '2014', '1', '2014-10-15 04:18:30', NULL),
+(189, 11, 5, 'NULL', '1', '2014-10-15 04:50:14', NULL),
+(190, 17, 5, 'NULL', '1', '2014-10-15 04:50:14', NULL),
+(191, 87, 5, 'NULL', '1', '2014-10-15 04:50:14', NULL),
+(192, 367, 5, 'NULL', '1', '2014-10-15 04:50:14', NULL),
+(193, 369, 5, 'NULL', '1', '2014-10-15 04:50:14', NULL),
+(194, 376, 5, 'NULL', '1', '2014-10-15 04:50:14', NULL),
+(195, 377, 5, 'NULL', '1', '2014-10-15 04:50:14', NULL),
+(196, 378, 5, 'NULL', '1', '2014-10-15 04:50:14', NULL);
 
 -- --------------------------------------------------------
 
@@ -610,18 +619,16 @@ CREATE TABLE `selected_keywords_list` (
   `configuration_id` int(11) NOT NULL,
   `created_date` datetime NOT NULL,
   `modified_date` datetime NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `selected_keywords_list`
 --
 
 INSERT INTO `selected_keywords_list` (`id`, `keyword_id`, `configuration_id`, `created_date`, `modified_date`) VALUES
-(87, 1, 1, '2014-10-14 21:25:07', '2014-10-14 21:25:07'),
 (88, 3, 2, '2014-10-14 21:38:08', '2014-10-14 21:38:08'),
 (89, 4, 2, '2014-10-14 21:38:08', '2014-10-14 21:38:08'),
-(90, 3, 3, '2014-10-14 21:39:47', '2014-10-14 21:39:47'),
-(91, 4, 3, '2014-10-14 21:39:47', '2014-10-14 21:39:47');
+(103, 1, 1, '2014-10-15 04:18:30', '2014-10-15 04:18:30');
 
 -- --------------------------------------------------------
 
@@ -662,15 +669,16 @@ CREATE TABLE `site_configurations` (
   `status` enum('0','1') NOT NULL DEFAULT '0',
   `created_date` datetime DEFAULT NULL,
   `modified_date` datetime DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `site_configurations`
 --
 
 INSERT INTO `site_configurations` (`id`, `site_id`, `configuration_name`, `status`, `created_date`, `modified_date`) VALUES
-(1, 1, 'Config 1', '1', '2014-10-14 00:00:00', NULL),
-(3, 1, 'Test config', '1', '2014-10-14 21:39:47', NULL);
+(1, 1, 'Config 1', '1', '2014-10-14 00:00:00', '2014-10-15 04:18:30'),
+(4, 1, 'New config', '1', '2014-10-15 02:56:46', '2014-10-15 03:46:57'),
+(5, 1, 'hello conf', '1', '2014-10-15 04:50:14', '2014-10-15 04:50:14');
 
 -- --------------------------------------------------------
 
@@ -808,12 +816,12 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=75;
 -- AUTO_INCREMENT for table `selected_fields_list`
 --
 ALTER TABLE `selected_fields_list`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=88;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=197;
 --
 -- AUTO_INCREMENT for table `selected_keywords_list`
 --
 ALTER TABLE `selected_keywords_list`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=92;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=104;
 --
 -- AUTO_INCREMENT for table `sites_list`
 --
@@ -823,7 +831,7 @@ MODIFY `id` int(7) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 -- AUTO_INCREMENT for table `site_configurations`
 --
 ALTER TABLE `site_configurations`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `user`
 --

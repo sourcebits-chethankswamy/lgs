@@ -13,11 +13,55 @@ class Dashboard extends MY_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->library('session');
+        //$this->load->library('session');
 
         $this->load->model('dashboard_model');
         $this->load->model('keywords_model');
         $this->load->model('email_model');
+    }
+
+    public function changepassword() {
+        $data['title'] = 'LGS - Change password';
+
+        $this->load->view('header');
+        $this->load->view('changepassword', $data);
+        $this->load->view('footer');
+    }
+
+    public function dochangepassword() {
+        $user_id = $this->session->userdata('user_id');
+        $check_user = $this->dashboard_model->check_user($user_id, $_POST['old_password']);
+        
+        if ($check_user) {            
+            $new_password = $_POST['new_password'];
+            $confirm_password = $_POST['confirm_password'];
+
+            if (strcmp($new_password, $confirm_password) !== 0) {
+                $message = "The new password and confirm password do not match, please try again";
+                $this->session->set_flashdata("message", $message);
+
+                redirect('/dashboard/changepassword');
+            } else {
+                $change = $this->dashboard_model->change_password($user_id, $confirm_password);
+
+                if ($change) {
+                    $message = "Password successfully changed, please login again with new password";
+                    $this->session->set_flashdata("message", $message);
+
+                    redirect('/dashboard');
+                } else {
+                    $message = "Error while updating password, please try again";
+                    $this->session->set_flashdata("message", $message);
+
+                    redirect('/dashboard/changepassword');
+                }
+            }
+        } else {
+            $message = "The password you provided is incorrect, please enter your current password";
+            $this->session->set_flashdata("message", $message);
+
+            redirect('/dashboard/changepassword');
+        }
     }
 
     function removecron($config_id) {
@@ -95,7 +139,7 @@ class Dashboard extends MY_Controller {
             $data['title'] = 'LGS - Add New Configuration';
             //$data['site_configurations'] = $this->dashboard_model->get_site_configurations($config_id, 1);
 
-            $fetch_field_details = $this->dashboard_model->get_site_configurations($config_id, 1);
+            $fetch_field_details = $this->dashboard_model->get_all_configuration($config_id);
 
             if (!empty($fetch_field_details)) {
                 $fetch_field_details = $this->format_result_set($fetch_field_details);
@@ -130,12 +174,14 @@ class Dashboard extends MY_Controller {
             $data['title'] = 'LGS - Edit Configuration';
             //$data['site_configurations'] = $this->dashboard_model->get_site_configurations($config_id, 1);
 
-            $fetch_field_details = $this->dashboard_model->get_site_configurations($config_id, 1);
+            $fetch_field_details = $this->dashboard_model->get_all_configuration($config_id);
             //print_r($fetch_field_details);exit;
             if (!empty($fetch_field_details)) {
                 $fetch_field_details = $this->format_result_set($fetch_field_details);
             }
+            $configuration_details = $this->dashboard_model->get_configuration_details($config_id);
 
+            $data ['configuration_name'] = $configuration_details[0]['configuration_name'];
             $data['keywords_list'] = $this->keywords_model->get_keywords();
             $data['emails_list'] = $this->email_model->get_emails();
             $data['field_details'] = $fetch_field_details;
@@ -159,6 +205,50 @@ class Dashboard extends MY_Controller {
         }
     }
 
+    public function deleteconfiguration($config_id) {
+        if ($config_id != '') {
+            $selected_site = $this->get_site();
+
+            $delete = $this->dashboard_model->delete_configuration_details($config_id, $selected_site[0]['id']);
+            if ($delete) {
+                $message = 'Configuration successfully deleted!!!';
+            } else {
+                $message = 'Configuration could be deleted, please try again';
+            }
+            $this->session->set_flashdata("message", $message);
+
+            redirect('/dashboard');
+        } else {
+            $message = 'Invalid Configuration';
+            $this->session->set_flashdata("message", $message);
+
+            redirect('/dashboard');
+        }
+    }
+
+    public function changeconfigurationstatus($config_id, $status) {
+        if ($config_id != '' && $status != '') {
+            $selected_site = $this->get_site();
+
+            $change = $this->dashboard_model->change_configuration_status($status, $config_id, $selected_site[0]['id']);
+
+            $active_status = ($status) ? "Active" : "In-Active";
+            if ($change) {
+                $message = 'Configuration successfully made ' . $active_status . '!!!';
+            } else {
+                $message = 'Configuration make it ' . $active_status . ', please try again';
+            }
+            $this->session->set_flashdata("message", $message);
+
+            redirect('/dashboard');
+        } else {
+            $message = 'Invalid Configuration';
+            $this->session->set_flashdata("message", $message);
+
+            redirect('/dashboard');
+        }
+    }
+
     /**
      * @Access		:	public
      * @Function	:	index
@@ -170,9 +260,16 @@ class Dashboard extends MY_Controller {
         $selected_site_page = $selected_site[0]['configuration_page'];
         $data['title'] = 'LGS - Dashboard';
 
+        $config_det = array();
         $site_configurations_list = $this->dashboard_model->get_site_configuration_lists($selected_site[0]['id']);
-        $data['site_configurations_list'] = $site_configurations_list;
-        $data['site_configurations'] = $this->dashboard_model->get_site_configurations($site_configurations_list[0]['id']);
+        foreach ($site_configurations_list as $site_list_key => $site_list) {
+            $config_det[$site_list['configuration_name']]['configuration_id'] = $site_list['id'];
+            $config_det[$site_list['configuration_name']]['configuration_status'] = $site_list['status'];
+            $config_det[$site_list['configuration_name']]['configuration_values'] = $this->dashboard_model->get_configuration($site_list['id']);
+        }
+
+        $data['config_det'] = $config_det;
+        //$data['site_configurations'] = $this->dashboard_model->get_site_configurations($site_configurations_list[0]['id']);
 
         $data['site_lists'] = $this->dashboard_model->get_site_lists();
         $data['selected_site_id'] = $selected_site[0]['id'];
@@ -212,6 +309,7 @@ class Dashboard extends MY_Controller {
     }
 
     public function format_result_set($data) {
+        //print_r($data);exit;
         $old_id = -1;
         $new_id = 0;
         $prerare_data = array();
@@ -221,16 +319,30 @@ class Dashboard extends MY_Controller {
                 $new_id = $each_field['field_id'];
                 $prepare_data[$new_id]['field_name'] = $each_field['field_name'];
                 $prepare_data[$new_id]['field_type'] = $each_field['field_type'];
+                $result_array['configuration_id'] = $each_field['configuration_id'];
                 $result_array['field_value_id'] = $each_field['field_value_id'];
                 $result_array['field_value_name'] = $each_field['field_value_name'];
-                $result_array['value'] = $each_field['field_value'];
+
+                if ($each_field['field_id'] == '6') {
+                    $result_array['value'] = $each_field['field_value_slv'];
+                } else {
+                    $result_array['value'] = $each_field['field_value'];
+                }
+
                 $result_array['selected_status'] = $each_field['selected_status'];
                 $prepare_data[$new_id]['result_set'][] = $result_array;
                 $old_id = $each_field['field_id'];
             } else {
+                $result_array['configuration_id'] = $each_field['configuration_id'];
                 $result_array['field_value_id'] = $each_field['field_value_id'];
                 $result_array['field_value_name'] = $each_field['field_value_name'];
-                $result_array['value'] = $each_field['field_value'];
+
+                if ($each_field['field_id'] == '6') {
+                    $result_array['value'] = $each_field['field_value_slv'];
+                } else {
+                    $result_array['value'] = $each_field['field_value'];
+                }
+
                 $result_array['selected_status'] = $each_field['selected_status'];
                 $prepare_data[$old_id]['result_set'][] = $result_array;
             }
@@ -278,6 +390,10 @@ class Dashboard extends MY_Controller {
                   }
                  */
 
+                $config_name = isset($_POST['config_name']) ? $_POST['config_name'] : '';
+                if ($config_name != '') {
+                    $this->dashboard_model->update_config_name($config_name, $config_id);
+                }
 
                 $keyword_list = isset($_POST['keywords']) ? $_POST['keywords'] : '';
                 if ($keyword_list != '') {
@@ -422,16 +538,20 @@ class Dashboard extends MY_Controller {
     }
 
     public function search() {
-        if (isset($_POST['search'])) {
+        if (isset($_POST)) {
             $request_url = $this->generate_url($_POST);
             $result = $this->send_request($request_url);
+            echo $result;
         } else {
-            redirect('/dashboard');
+            echo 'Invalid input';
         }
+
+        exit;
+
 
         $selected_site = $this->get_site();
         $selected_site_page = $selected_site[0]['configuration_page'];
-        $data['title'] = 'Home';
+        $data['title'] = 'LGS - Search results';
         if (isset($result) && $result != '') {
             /*
               if (isset($_POST['emails'])) {
@@ -476,32 +596,34 @@ class Dashboard extends MY_Controller {
         $url_params = $this->config->item('url_params');
         $post_data = "";
 
-        foreach ($post_vars['set'] as $key => $val) {
-            $bracket = '';
-            if (strpos($key, '_')) {
-                $field_id = substr($key, 0, strpos($key, '_'));
-                $field_value_id = substr($val, 0, strpos($val, '_'));
-                $value = substr($val, strpos($val, '_') + 1);
+        if (isset($post_vars['set'])) {
+            foreach ($post_vars['set'] as $key => $val) {
+                $bracket = '';
+                if (strpos($key, '_')) {
+                    $field_id = substr($key, 0, strpos($key, '_'));
+                    $field_value_id = substr($val, 0, strpos($val, '_'));
+                    $value = substr($val, strpos($val, '_') + 1);
 
-                $config_val = $this->dashboard_model->get_config_values($field_id, $field_value_id);
-                //echo $config_val[0]['field_name'].'--'.$config_val[0]['field_type'].'--'.$config_val[0]['field_value_name'].'--'. $value .'<br />';
-                $post_data .= '&' . $config_val[0]['field_value_name'] . '=' . urlencode($value);
-            } else {
-                if ($key == 1 || $key == 4) {
-                    $bracket = '[]';
-                }
+                    $config_val = $this->dashboard_model->get_config_values($field_id, $field_value_id);
+                    //echo $config_val[0]['field_name'].'--'.$config_val[0]['field_type'].'--'.$config_val[0]['field_value_name'].'--'. $value .'<br />';
+                    $post_data .= '&' . $config_val[0]['field_value_name'] . '=' . urlencode($value);
+                } else {
+                    if ($key == 1 || $key == 4) {
+                        $bracket = '[]';
+                    }
 
-                if (is_array($val)) {
-                    foreach ($val as $multivalue) {
-                        $config_val = $this->dashboard_model->get_config_values($key, $multivalue);
+                    if (is_array($val)) {
+                        foreach ($val as $multivalue) {
+                            $config_val = $this->dashboard_model->get_config_values($key, $multivalue);
+                            $post_data .= '&' . $url_params[$key] . $bracket . '=' . urlencode($config_val[0]['value']);
+                        }
+                    } else {
+                        $config_val = $this->dashboard_model->get_config_values($key, $val);
                         $post_data .= '&' . $url_params[$key] . $bracket . '=' . urlencode($config_val[0]['value']);
                     }
-                } else {
-                    $config_val = $this->dashboard_model->get_config_values($key, $val);
-                    $post_data .= '&' . $url_params[$key] . $bracket . '=' . urlencode($config_val[0]['value']);
+                    //echo $config_val[0]['field_name'].'--'.$config_val[0]['field_type'].'--'.$config_val[0]['field_value_name'].'--'. $config_val[0]['value'] .'<br />';
+                    //echo '<hr>';
                 }
-                //echo $config_val[0]['field_name'].'--'.$config_val[0]['field_type'].'--'.$config_val[0]['field_value_name'].'--'. $config_val[0]['value'] .'<br />';
-                //echo '<hr>';
             }
         }
 

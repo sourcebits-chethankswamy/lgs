@@ -12,6 +12,8 @@
         <link href="<?php echo site_url('/assets/css/bootstrap.min.css');?>" rel="stylesheet" type="text/css" />
         <link href="<?php echo site_url('/assets/css/bootstrap-responsive.min.css');?>" rel="stylesheet" type="text/css" />
         <link href="<?php echo site_url('/assets/css/jquery-ui.css');?>" rel="stylesheet" type="text/css" />    
+        
+        <script src="<?php echo site_url('/assets/js/jquery.js'); ?>"></script>
     </head>
 <body>
     <div class="message">

@@ -15,13 +15,29 @@ class Dashboard_model extends MY_Model {
         parent::__construct();
     }
 
+    public function check_user($user_id, $password) {
+        $q = $this->db->query("select * from user where id='" . $user_id . "' AND password = MD5('" . $password . "')");
+        if ($q->num_rows > 0) {
+            return $q->result_array();
+        } else {
+            return false;
+        }
+    }
+
+    public function change_password($user_id, $password) {
+        $sql = 'UPDATE user set password = MD5("' . $password . '"), updated_date = NOW() WHERE id = "' . $user_id . '"';
+
+        $result_set = $this->db->query($sql);
+        return true;
+    }
+
     public function get_site_lists() {
         $site_list_query = "SELECT * FROM sites_list WHERE status='1'";
         $result_set = $this->db->query($site_list_query)->result_array();
         return $result_set;
     }
 
-    public function fetch_data($config = '1') {
+    public function fetch_data($config) {
         $fetch_data = "SELECT fl.id as field_id,fl.*, flv.id as field_value_id, flv.* FROM
                         fields_list fl, field_list_values flv
                         WHERE fl.configuration_id = " . $this->db->escape($config) . "
@@ -32,11 +48,68 @@ class Dashboard_model extends MY_Model {
         return $result_set;
     }
 
-    public function get_site_configuration_lists($site_id) {
+    public function get_configuration_details($config_id) {
+        $sql = 'SELECT * from site_configurations WHERE id="' . $config_id . '"';
+
+        $result_set = $this->db->query($sql)->result_array();
+        return $result_set;
+    }
+
+    public function update_config_name($config_name, $config_id) {
+        $sql = 'Update site_configurations SET configuration_name = "' . $config_name . '", modified_date = NOW() WHERE id = ' . $config_id;
+
+        $result_set = $this->db->query($sql);
+        return true;
+    }
+
+    public function get_site_configuration_lists($site_id, $status = 0) {
+        $active_cond = ($status != 0) ? " AND status = '1'" : "";
+
         $sql = 'SELECT * from site_configurations
                 WHERE 
-                site_id = "' . $site_id . '"';
+                site_id = "' . $site_id . '"' . $active_cond;
 
+        $result_set = $this->db->query($sql)->result_array();
+        return $result_set;
+    }
+
+    public function get_all_configuration($config_id) {
+        $sql = 'SELECT sfl.configuration_id, fl.id as field_id, fl.field_name, fl.field_type, flv.field_value_name, flv.id as field_value_id, flv.value as field_value, sfl.value as field_value_slv, sfl.selected_status
+                FROM field_list_values flv
+                LEFT JOIN selected_fields_list sfl on sfl.field_list_values_id = flv.id and sfl.configuration_id = ' . $config_id . '
+                JOIN fields_list fl on fl.id = flv.field_id';
+        //echo $sql;
+        $result_set = $this->db->query($sql)->result_array();
+        return $result_set;
+    }
+
+    public function delete_configuration_details($config_id, $site_id) {
+        $sql = "DELETE FROM site_configurations WHERE id = " . $this->db->escape($config_id) . " AND site_id = " . $site_id;
+        $this->db->query($sql);
+
+        $sql1 = "DELETE FROM selected_keywords_list WHERE configuration_id = " . $this->db->escape($config_id);
+        $this->db->query($sql1);
+
+        $sql2 = "DELETE FROM selected_fields_list WHERE configuration_id = " . $this->db->escape($config_id);
+        $this->db->query($sql2);
+
+        return true;
+    }
+
+    public function change_configuration_status($status, $config_id, $site_id) {
+        $sql = "update site_configurations set status = '" . $status . "' where id = " . $this->db->escape($config_id) . " AND site_id = " . $site_id;
+        $this->db->query($sql);
+
+        return true;
+    }
+
+    public function get_configuration($config_id) {
+        $sql = 'SELECT sfl.configuration_id, fl.id as field_id, fl.field_name, fl.field_type, flv.field_value_name, flv.id as field_value_id, flv.value as field_value, sfl.value as field_value_slv, sfl.selected_status
+                FROM field_list_values flv
+                LEFT JOIN selected_fields_list sfl on sfl.field_list_values_id = flv.id
+                JOIN fields_list fl on fl.id = flv.field_id
+                WHERE sfl.configuration_id = ' . $config_id;
+        //echo $sql.'<br />';exit;
         $result_set = $this->db->query($sql)->result_array();
         return $result_set;
     }
@@ -51,7 +124,7 @@ class Dashboard_model extends MY_Model {
                 LEFT JOIN selected_fields_list sfl on sfl.field_list_values_id = flv.id
                 WHERE 
                 sc.site_id = "' . $config_id . '" ' . $selected_cond;
-        //echo $sql; exit;
+        //echo $sql;
         $result_set = $this->db->query($sql)->result_array();
         return $result_set;
     }

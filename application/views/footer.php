@@ -45,6 +45,7 @@
         }
         ?>
         <script type='text/javascript'>
+            var site_url = '<?php echo site_url(); ?>';
             var keywords = '<?php echo $keyword_id_details; ?>';
             var emails = '<?php echo $email_id_details; ?>';
             var sel_keywords = '<?php echo $sel_keywords; ?>';
@@ -54,11 +55,12 @@
             var emailTags = [<?php echo $email_details; ?>];
         </script>
         
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="<?php echo site_url('/assets/js/jquery.js'); ?>"></script>
+        <!-- Placed at the end of the document so the pages load faster -->        
         <script src="<?php echo site_url('/assets/js/jquery-ui.min.js'); ?>"></script>
         <script src="<?php echo site_url('/assets/js/jquery.autocomplete.multiselect.js'); ?>"></script>
         <script src="<?php echo site_url('/assets/js/bootstrap.min.js'); ?>"></script>  
+        <script src="<?php echo site_url('/assets/js/jquery.validate.js'); ?>"></script>
+
         <script src="<?php echo site_url('/assets/js/main.js'); ?>"></script>        
     </body>
 </html>

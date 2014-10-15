@@ -49,8 +49,24 @@ class User_model extends CI_Model {
                                       WHERE fl.id=fvl.configuration_id
                                       AND fvl.selected_status = '1'
                                       ORDER BY fl.id, fvl.id";
-        
+
         $q = $this->db->query($fetch_config_params_query);
+    }
+
+    public function check_user_email($email) {
+        $q = $this->db->query("select * from user where email='" . $email . "'");
+        if ($q->num_rows > 0) {
+            return $q->result_array();
+        } else {
+            return false;
+        }
+    }
+
+    public function reset_password($user_id, $password) {
+        $sql = 'UPDATE user set password = MD5("' . $password . '"), updated_date = NOW() WHERE id = "' . $user_id . '"';
+        
+        $result_set = $this->db->query($sql);
+        return true;
     }
 
 }
