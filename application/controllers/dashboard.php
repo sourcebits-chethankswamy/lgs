@@ -153,7 +153,7 @@ class Dashboard extends MY_Controller {
             $data['selected_site_id'] = $selected_site[0]['id'];
             $data['selected_configuration_id'] = $config_id;
 
-            $data['site_page'] = $this->load->view('sites/' . $selected_site_page . '/add', $data, TRUE);
+            $data['site_page'] = $this->load->view('sites_configuration/' . $selected_site_page . '/add', $data, TRUE);
 
             $this->load->view('header');
             $this->load->view('navigation_header');
@@ -191,7 +191,7 @@ class Dashboard extends MY_Controller {
             $data['selected_configuration_id'] = $config_id;
             $data['selected_site_keywords'] = $this->keywords_model->get_keywords($config_id);
 
-            $data['site_page'] = $this->load->view('sites/' . $selected_site_page . '/edit', $data, TRUE);
+            $data['site_page'] = $this->load->view('sites_configuration/' . $selected_site_page . '/edit', $data, TRUE);
 
             $this->load->view('header');
             $this->load->view('navigation_header');
@@ -237,7 +237,7 @@ class Dashboard extends MY_Controller {
             if ($change) {
                 $message = 'Configuration successfully made ' . $active_status . '!!!';
             } else {
-                $message = 'Configuration make it ' . $active_status . ', please try again';
+                $message = 'Could no make configuration ' . $active_status . ', please try again';
             }
             $this->session->set_flashdata("message", $message);
 
@@ -275,7 +275,7 @@ class Dashboard extends MY_Controller {
         $data['site_lists'] = $this->dashboard_model->get_site_lists();
         $data['selected_site_id'] = $selected_site[0]['id'];
 
-        $data['site_page'] = $this->load->view('sites/' . $selected_site_page . '/list', $data, TRUE);
+        $data['site_page'] = $this->load->view('sites_configuration/' . $selected_site_page . '/list', $data, TRUE);
 
         $this->load->view('header');
         $this->load->view('navigation_header');
@@ -470,7 +470,7 @@ class Dashboard extends MY_Controller {
                   $data['selected_site_keywords'] = $selected_site_keywords;
                   $data['selected_site_emails'] = $selected_site_emails;
 
-                  $data['site_page'] = $this->load->view('sites/' . $selected_site_page, $data, TRUE);
+                  $data['site_page'] = $this->load->view('sites_configuration/' . $selected_site_page, $data, TRUE);
 
                   $this->load->view('header');
                   $this->load->view('navigation_header');
@@ -584,7 +584,7 @@ class Dashboard extends MY_Controller {
         $data['field_details'] = $fetch_field_details;
         $data['selected_site_keywords'] = $selected_site_keywords;
         $data['selected_site_emails'] = $selected_site_emails;
-        $data['site_page'] = $this->load->view('sites/' . $selected_site_page, $data, TRUE);
+        $data['site_page'] = $this->load->view('sites_configuration/' . $selected_site_page, $data, TRUE);
 
         $this->load->view('header');
         $this->load->view('navigation_header');

@@ -209,7 +209,7 @@ $(function() {
     });
 
     $(document).on("click", ".status_config", function(e) {
-        var r = confirm("Are you sure you want to make this configuration \"" + $(this).attr('data-message') + "\"?");
+        var r = confirm("Are you sure you want to make this \"" + $(this).attr('data-message') + "\"?");
         if (r == false) {
             e.preventDefault();
         }

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:8889
--- Generation Time: Oct 15, 2014 at 11:34 AM
+-- Generation Time: Oct 15, 2014 at 05:34 PM
 -- Server version: 5.5.34
 -- PHP Version: 5.5.10
 
@@ -39,9 +39,7 @@ CREATE TABLE `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('197803b2070b92176e77624e7283993d', '192.168.16.121', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:32.0) Gecko/20100101 Firefox/32.0', 1413362331, ''),
-('55326dfe07eb2e70dc6f1391f688701d', '192.168.16.121', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:32.0) Gecko/20100101 Firefox/32.0', 1413361989, 'a:4:{s:9:"user_data";s:0:"";s:7:"user_id";s:1:"2";s:10:"user_email";s:20:"admin@sourcebits.com";s:9:"logged_in";b:1;}'),
-('9412c22aa9bb44c10003451540f1540a', '192.168.16.121', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:32.0) Gecko/20100101 Firefox/32.0', 1413365206, 'a:4:{s:9:"user_data";s:0:"";s:7:"user_id";s:1:"2";s:10:"user_email";s:20:"admin@sourcebits.com";s:9:"logged_in";b:1;}');
+('9e76f38205ef4f19fa547cd3c4697f02', '192.168.16.121', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:32.0) Gecko/20100101 Firefox/32.0', 1413387048, 'a:4:{s:9:"user_data";s:0:"";s:7:"user_id";s:1:"2";s:10:"user_email";s:20:"admin@sourcebits.com";s:9:"logged_in";b:1;}');
 
 -- --------------------------------------------------------
 
@@ -107,7 +105,7 @@ CREATE TABLE `fields_list` (
   `field_status` enum('0','1','2') NOT NULL COMMENT '''0'' - inactive, ''1'' - active, ''2'' - deleted',
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `fields_list`
@@ -137,7 +135,7 @@ CREATE TABLE `field_list_values` (
   `status` enum('0','1','2') NOT NULL DEFAULT '1' COMMENT '''0'' - inactive, ''1'' - active, ''2'' - deleted',
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=379 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=382 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `field_list_values`
@@ -658,16 +656,14 @@ CREATE TABLE `sites_list` (
   `selected_status` enum('0','1') NOT NULL,
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `sites_list`
 --
 
 INSERT INTO `sites_list` (`id`, `configuration_name`, `configuration_url`, `configuration_page`, `status`, `selected_status`, `created_date`, `updated_date`) VALUES
-(1, 'global tenders', '', 'global_tenders', '1', '1', '2014-10-08 00:00:00', '2014-10-15 14:59:18'),
-(2, 'ABC Tenders', '', 'abc_tenders', '1', '0', '2014-10-10 00:00:00', '2014-10-15 14:59:08'),
-(3, 'XYZ Tenders', '', 'xyz_tenders', '1', '0', '2014-10-10 00:00:00', '2014-10-15 13:58:58');
+(1, 'global tenders', '', 'global_tenders', '1', '1', '2014-10-08 00:00:00', '2014-10-15 21:01:08');
 
 -- --------------------------------------------------------
 
@@ -810,12 +806,12 @@ MODIFY `id` int(7) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 -- AUTO_INCREMENT for table `fields_list`
 --
 ALTER TABLE `fields_list`
-MODIFY `id` int(7) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+MODIFY `id` int(7) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `field_list_values`
 --
 ALTER TABLE `field_list_values`
-MODIFY `id` int(7) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=379;
+MODIFY `id` int(7) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=382;
 --
 -- AUTO_INCREMENT for table `keywords_list`
 --
@@ -840,7 +836,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=105;
 -- AUTO_INCREMENT for table `sites_list`
 --
 ALTER TABLE `sites_list`
-MODIFY `id` int(7) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `id` int(7) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `site_configurations`
 --

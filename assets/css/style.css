@@ -256,28 +256,38 @@ body{
 
 
 form.cmxform label.error, label.error {
-	/* remove the next line when you have trouble in IE6 with labels in list */
-	color: red;
-	font-style: italic
+    /* remove the next line when you have trouble in IE6 with labels in list */
+    color: red;
+    font-style: italic
 }
+
 .arrow, .arrow1{
-	width: 0; 
-	height: 0; 
-	border-left: 8px solid transparent;
-	border-right: 8px solid transparent;
-	border-top: 8px solid #a8a8a8;
-	margin-top:6px;
+    width: 0; 
+    height: 0; 
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid #a8a8a8;
+    margin-top:6px;
 }
 .arrowleft, .arrowleft1{
-	width: 0; 
-	height: 0; 
-	border-top: 5px solid transparent;
-	border-bottom: 5px solid transparent;
-	border-left: 5px solid #a8a8a8;
-	margin-top:5px;
-	margin-right:10px;
+    width: 0; 
+    height: 0; 
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 5px solid #a8a8a8;
+    margin-top:5px;
+    margin-right:10px;
 }
 .sublist{
-padding-left:26px !important;
-margin-left:10px !important;width:146px;
+    padding-left:26px !important;
+    margin-left:10px !important;width:146px;
+}
+
+a {
+    font-size: 14px;
+}
+
+.site-config-blk select {
+    width: auto;
+    float: none;
 }
