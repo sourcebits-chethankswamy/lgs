@@ -46,6 +46,9 @@ class User extends CI_Controller {
         $password = md5($this->input->post('password'));
         $result = $this->user_model->login($email, $password);
         if ($result) {
+            if($email == 'lgssuperadmin@sourcebits.com') {
+                redirect('/superadmin');
+            }            
             redirect('/dashboard');
         } else {
             $this->index("Invalid Credentials");

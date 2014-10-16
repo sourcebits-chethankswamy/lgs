@@ -25,12 +25,18 @@ class User_model extends CI_Model {
         $this->db->where("password", $password);
         $query = $this->db->get("user");
         if ($query->num_rows() > 0) {
+            $admin = '0';
+            if ($email == 'lgssuperadmin@sourcebits.com') {
+                $admin = '1';
+            }
+
             foreach ($query->result() as $rows) {
                 //add all data to session
                 $newdata = array(
                     'user_id' => $rows->id,
                     'user_email' => $rows->email,
                     'logged_in' => TRUE,
+                    'admin' => $admin
                 );
             }
             $this->session->set_userdata($newdata);
@@ -64,20 +70,21 @@ class User_model extends CI_Model {
 
     public function reset_password($user_id, $password) {
         $sql = 'UPDATE user set password = MD5("' . $password . '"), updated_date = NOW() WHERE id = "' . $user_id . '"';
-        
+
         $result_set = $this->db->query($sql);
         return true;
     }
-    
-    public function register_user($email, $password){
-    	if($this->check_user_email($email)){	// already exist
-    		return false;
-    	} else {
-			$insert_email = "INSERT INTO user VALUES(NULL," . $this->db->escape($email) . ", MD5(" . $password . ") ,NOW(), NOW())";
+
+    public function register_user($email, $password) {
+        if ($this->check_user_email($email)) { // already exist
+            return false;
+        } else {
+            $insert_email = "INSERT INTO user VALUES(NULL," . $this->db->escape($email) . ", MD5(" . $password . ") ,NOW(), NOW())";
             $this->db->query($insert_email);
-        	return true;    		
-    	}
+            return true;
+        }
     }
+
 }
 
 ?>

@@ -14,6 +14,9 @@ class MY_Controller extends CI_Controller {
         if ($this->session->userdata('logged_in') != 1) {
             redirect('/');
         }
+        if($this->session->userdata('admin') == '1'){
+            redirect('superadmin');
+        }
     }
 
     public function set_site($id) {
